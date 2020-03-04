@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Watch</string>
+    <string name="your_nickname_signout">Your nickname</string>
+    <string name="your_e_mail_signout">Your e-mail</string>
+</resources>
