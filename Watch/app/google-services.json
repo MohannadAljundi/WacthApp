@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "815923749772",
+    "firebase_url": "https://watch-1be07.firebaseio.com",
+    "project_id": "watch-1be07",
+    "storage_bucket": "watch-1be07.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:815923749772:android:97aaeea402f7e879362ca9",
+        "android_client_info": {
+          "package_name": "com.example.watch"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "815923749772-6u1lsqemhkp7n4hbafcd4u1ei0i31hlm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.watch",
+            "certificate_hash": "37fd3c850f0e70f9f474c69b38478aa80a96ebfe"
+          }
+        },
+        {
+          "client_id": "815923749772-en4bcvkhif83v8rnsu9729djjhep1lqf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAh-d7xrYkCuuEHC8MU1uTe-oXUMulVAK4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "815923749772-en4bcvkhif83v8rnsu9729djjhep1lqf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

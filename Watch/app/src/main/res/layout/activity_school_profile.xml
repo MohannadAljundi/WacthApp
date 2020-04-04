@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SchoolProfileActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:orientation="vertical"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="10dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/imageButton3"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="20dp"
+                app:srcCompat="@drawable/ic_allarm_profile"
+                tools:ignore="VectorDrawableCompat" />
+
+            <TextView
+                android:id="@+id/textView9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="220px"
+                android:layout_marginTop="15px"
+                android:text="School"
+                android:textColor="#05738c"
+                android:textSize="25sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/profil_section"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@+id/view01"
+            tools:layout_editor_absoluteX="20dp"
+            tools:layout_editor_absoluteY="20dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="160dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/profile_img"
+                    android:layout_width="320dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    app:srcCompat="@drawable/school_icon" />
+
+                <LinearLayout
+                    android:layout_width="450dp"
+                    android:layout_height="163dp"
+                    android:layout_margin="10dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/txtname_profil"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:drawableLeft="@drawable/ic_person_24dp"
+                            android:drawablePadding="10dp"
+                            android:text="Name" />
+
+                        <TextView
+                            android:id="@+id/txtemail_profil"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:drawableLeft="@drawable/ic_email_24dp"
+                            android:drawablePadding="10dp"
+                            android:text="@string/email_profil" />
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+
+
+                        <Button
+                            android:id="@+id/btn_setting_profile"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@drawable/btn_shape"
+                            android:drawableLeft="@drawable/ic_settings_black_24dp"
+                            android:text="@string/setting_profile" />
+
+                        <View
+                            android:layout_width="16dp"
+                            android:layout_height="42dp" />
+
+                        <Button
+                            android:id="@+id/btn_edit_profile"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@drawable/btn_shape"
+                            android:drawableLeft="@drawable/ic_edit_24dp"
+                            android:text="@string/edit_setting" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/add_new_butt"
+                android:layout_width="386dp"
+                android:layout_height="47dp"
+                android:layout_marginTop="20px"
+                android:background="@drawable/profil_mrni_01" />
+
+            <ImageView
+                android:id="@+id/health_butt"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:layout_marginTop="20px"
+                android:layout_marginRight="25px"
+                app:srcCompat="@drawable/profil_mrni_01" />
+
+            <Button
+                android:id="@+id/st_location_butt"
+                android:layout_width="386dp"
+                android:layout_height="47dp"
+                android:layout_marginTop="20px"
+                android:background="@drawable/profil_mrni_01"
+                android:text="" />
+
+            <Button
+                android:id="@+id/button8"
+                android:layout_width="386dp"
+                android:layout_height="47dp"
+                android:layout_marginTop="20px"
+                android:background="@drawable/profil_mrni_01"
+                android:text="" />
+
+            <Button
+                android:id="@+id/Attendence_butt"
+                android:layout_width="386dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="20px"
+                android:background="@drawable/profil_mrni_01"
+                android:text="" />
+        </LinearLayout>
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
