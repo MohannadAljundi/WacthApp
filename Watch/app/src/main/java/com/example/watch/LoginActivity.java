@@ -33,6 +33,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         mAuth = FirebaseAuth.getInstance();
         Email = findViewById(R.id.txtEmail);
         Pass = findViewById(R.id.txtPass);
+        findViewById(R.id.twits_img).setOnClickListener(this);
 
         login = findViewById(R.id.buttonLogin);
 
@@ -81,6 +82,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.twits_img :{
+                Intent i = new Intent(LoginActivity.this,ProfileActivity.class);
+                startActivity(i);
+            }break;
             case R.id.buttonLogin: {
                 Intent i = new Intent(getApplicationContext(), ProfileActivity.class);
                 startActivity(i);

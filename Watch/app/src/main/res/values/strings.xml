@@ -31,4 +31,17 @@
     <string name="select_date_please">Select Date Please</string>
     <string name="write_cause_of_non_attendence">Write cause of Non -Attendence</string>
     <string name="confirm">Confirm</string>
+    <string name="add_new_member_re">Add New Member</string>
+    <string name="student_add_member">Student</string>
+    <string name="add_new_student_res">Add New Student</string>
+    <string name="user_id_add_student_res">User ID</string>
+    <string name="name_add_student_res">Full Name</string>
+    <string name="bus_number_add_student_res">Bus Number</string>
+    <string name="age_add_student_res">Age</string>
+    <string name="class_add_student">Class No</string>
+    <string name="blood_type_add_student_res">Blood Type</string>
+    <string name="generate_qr_code_add_student_res">Generate QR Code</string>
+    <string name="add_new_bus_add_bus_res">Add New Bus</string>
+    <string name="bus_add_bus_res">Bus</string>
+    <string name="plate_number_add_bus">Plate Number</string>
 </resources>

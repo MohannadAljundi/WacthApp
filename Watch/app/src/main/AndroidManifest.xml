@@ -18,7 +18,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".SchoolProfileActivity"></activity>
+        <activity android:name=".AttendanceActivity"></activity>
+        <activity android:name=".HealthStateActivity" />
+        <activity android:name=".AddNewBusActivity" />
+        <activity android:name=".AddNewStudentActivity" />
+        <activity android:name=".AddNewMemberActivity" />
+        <activity android:name=".SchoolProfileActivity" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".NonAttendanceActivity" />
         <activity android:name=".ViewMapActivity" />

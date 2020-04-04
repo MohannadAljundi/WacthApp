@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".HealthStateActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/helth_logo_hrad"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@drawable/ic_heart" />
+
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <SearchView
+                android:id="@+id/search_nav_to"
+                style="@style/MySearchView"
+                android:layout_width="300dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/shape_search"
+                android:pointerIcon="alias" />
+
+
+            <Button
+                android:id="@+id/imageView6"
+                android:layout_width="316dp"
+                android:layout_height="150dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/student_list"
+                android:text="Name 1"
+                android:textColor="#f2f2f2"/>
+
+            <Button
+                android:id="@+id/graph2"
+                android:layout_width="263dp"
+                android:layout_height="33dp"
+                android:background="@drawable/orange_list"
+                android:text="Name 2"
+                android:textColor="#f2f2f2" />
+
+            <Button
+                android:id="@+id/graph3"
+                android:layout_width="264dp"
+                android:layout_height="36dp"
+                android:background="@drawable/orange_list"
+                android:text="Name 3"
+                android:textColor="#f2f2f2" />
+
+            <Button
+                android:id="@+id/Graph1"
+                android:layout_width="260dp"
+                android:layout_height="32dp"
+                android:background="@drawable/orange_list"
+                android:text="Name 1"
+                android:textColor="#f2f2f2" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"></LinearLayout>
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
