@@ -5,10 +5,8 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.IntentSender;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
@@ -19,20 +17,17 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.UUID;
 
-public class ProfileActivity extends AppCompatActivity implements View.OnClickListener  {
+public class StudentProfileActivity extends AppCompatActivity implements View.OnClickListener  {
 
     private static final int PICK_IMAGE_REQUEST = 71 ;
     private ImageView navigate_to , heath , bus_map , non_atnd , view_loc , go_back_nav_to ;
@@ -45,7 +40,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile);
+        setContentView(R.layout.activity_studen_profile);
 
         // set On Click Listener nav
         findViewById(R.id.navigate_profile).setOnClickListener(this);

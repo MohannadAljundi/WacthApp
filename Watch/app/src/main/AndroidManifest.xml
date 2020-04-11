@@ -18,13 +18,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".AttendanceActivity"></activity>
+        <activity android:name=".BusTrafficActivity"></activity>
+        <activity android:name=".BusLoginActivity" />
+        <activity android:name=".StudenLoginActivity" />
+        <activity android:name=".BusProfileActivity" />
+        <activity android:name=".AttendanceActivity" />
         <activity android:name=".HealthStateActivity" />
         <activity android:name=".AddNewBusActivity" />
         <activity android:name=".AddNewStudentActivity" />
         <activity android:name=".AddNewMemberActivity" />
         <activity android:name=".SchoolProfileActivity" />
-        <activity android:name=".LoginActivity" />
+        <activity android:name=".SchoolLoginActivity" />
         <activity android:name=".NonAttendanceActivity" />
         <activity android:name=".ViewMapActivity" />
         <activity
@@ -43,7 +47,7 @@
             android:name=".MapsActivity"
             android:label="@string/title_activity_maps" />
         <activity android:name=".NavigateTo" />
-        <activity android:name=".ProfileActivity" />
+        <activity android:name=".StudentProfileActivity" />
         <activity android:name=".Splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

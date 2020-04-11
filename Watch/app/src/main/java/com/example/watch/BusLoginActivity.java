@@ -15,21 +15,21 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
-public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
+public class BusLoginActivity extends AppCompatActivity implements View.OnClickListener  {
 
     private Button login;
     private TextView Signup;
     private FirebaseAuth mAuth;
     private EditText Email , Pass ;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
-        findViewById(R.id.buttonLogin).setOnClickListener(this);
-        findViewById(R.id.textViewSignup).setOnClickListener(this);
+        setContentView(R.layout.activity_bus_login);
+
+
         mAuth = FirebaseAuth.getInstance();
         Email = findViewById(R.id.txtEmail);
         Pass = findViewById(R.id.txtPass);
@@ -55,10 +55,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 LoginSoGood(email,pass);
             }
         });
+
     }
 
     private void LoginSoGood(final String email, String pass){
-        mAuth.signInWithEmailAndPassword(email,pass).addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
+        mAuth.signInWithEmailAndPassword(email,pass).addOnCompleteListener(BusLoginActivity.this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(!task.isSuccessful()){
@@ -66,8 +67,21 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 }
                 else {
                     Toast.makeText(getApplicationContext(),"Welcome " + email,Toast.LENGTH_LONG).show();
-                    Intent i = new Intent(LoginActivity.this,ProfileActivity.class);
-                    startActivity(i);
+                    if(email.contains("adm")){
+                        Intent i = new Intent(BusLoginActivity.this,SchoolProfileActivity.class);
+                        startActivity(i);
+                    }
+
+                    if(email.contains("stu")){
+                        Intent i = new Intent(BusLoginActivity.this, StudentProfileActivity.class);
+                        startActivity(i);
+                    }
+
+                    if(email.contains("bus")){
+                        Intent i = new Intent(BusLoginActivity.this,BusProfileActivity.class);
+                        startActivity(i);
+                    }
+
                 }
             }
         });
@@ -83,21 +97,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.twits_img :{
-                Intent i = new Intent(LoginActivity.this,ProfileActivity.class);
+                Intent i = new Intent(BusLoginActivity.this, BusProfileActivity.class);
                 startActivity(i);
             }break;
-            case R.id.buttonLogin: {
-                Intent i = new Intent(getApplicationContext(), ProfileActivity.class);
-                startActivity(i);
-            }
-            break;
 
-            case R.id.textViewSignup: {
-                Intent i = new Intent(getApplicationContext(), LogUp.class);
-                startActivity(i);
 
-            }
-            break;
         }
     }
 }

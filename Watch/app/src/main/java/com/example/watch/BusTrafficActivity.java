@@ -1,6 +1,5 @@
 package com.example.watch;
 
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -18,8 +17,6 @@ import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
-//import android.location.LocationListener;
-import com.google.android.gms.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -36,6 +33,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
+import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationSettingsRequest;
@@ -54,12 +52,11 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
-public class ViewMapActivity extends AppCompatActivity implements
+public class BusTrafficActivity extends AppCompatActivity implements
         OnMapReadyCallback, LoaderManager.LoaderCallbacks<Object>,
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
-        LocationListener , View.OnClickListener {
-
+        LocationListener, View.OnClickListener {
 
     private static final String TAG = BusMapActivity.class.getSimpleName();
 
@@ -80,11 +77,11 @@ public class ViewMapActivity extends AppCompatActivity implements
 
     private TextView current_location ;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_view_map);
+        setContentView(R.layout.activity_bus_traffic);
+
 
         mapFragment = (MapFragment) getFragmentManager()
                 .findFragmentById( R.id.map );
@@ -93,9 +90,10 @@ public class ViewMapActivity extends AppCompatActivity implements
         CheckMapPermission();
 
         current_location = findViewById(R.id.current_location_txt);
-        findViewById(R.id.go_back_profile_to2).setOnClickListener(this);
+        findViewById(R.id.go_back_profile_to).setOnClickListener(this);
 
     }
+
 
     @Override
     protected void onStart() {
@@ -136,21 +134,6 @@ public class ViewMapActivity extends AppCompatActivity implements
         }
     }
 
-
-
-
-
-
-//        public void myLocation(View view) {
-//        Intent intent = new Intent( BusMapActivity.this, LocationAutoActivity.class );
-//        startActivityForResult(intent,GET_MY_LOCATION_PLACES);
-//        }
-//
-//
-//        public void destination(View view) {
-//        Intent intent = new Intent( BusMapActivity.this, LocationAutoActivity.class );
-//        startActivityForResult( intent , GET_DROP_LOCATION_PLACES );
-//        }
 
 
 
@@ -229,7 +212,7 @@ public class ViewMapActivity extends AppCompatActivity implements
                         try {
 
                             status.startResolutionForResult(
-                                    ViewMapActivity.this,
+                                    BusTrafficActivity.this,
                                     REQUEST_CHECK_SETTINGS );
                         } catch (IntentSender.SendIntentException e) {
                             // Ignore the error.
@@ -262,12 +245,12 @@ public class ViewMapActivity extends AppCompatActivity implements
 
                             setInitialLocation();
 
-                            Toast.makeText(ViewMapActivity.this, "Location enabled", Toast.LENGTH_LONG).show();
+                            Toast.makeText(BusTrafficActivity.this, "Location enabled", Toast.LENGTH_LONG).show();
                             mRequestingLocationUpdates = true;
                             break;
                         }
                         case Activity.RESULT_CANCELED: {
-                            Toast.makeText(ViewMapActivity.this, "Location not enabled", Toast.LENGTH_LONG).show();
+                            Toast.makeText(BusTrafficActivity.this, "Location not enabled", Toast.LENGTH_LONG).show();
                             mRequestingLocationUpdates = false;
                             break;
                         }
@@ -291,9 +274,9 @@ public class ViewMapActivity extends AppCompatActivity implements
     private void setInitialLocation() {
 
 
-        if (ActivityCompat.checkSelfPermission( ViewMapActivity.this, android.Manifest.permission.ACCESS_FINE_LOCATION )
+        if (ActivityCompat.checkSelfPermission( BusTrafficActivity.this, android.Manifest.permission.ACCESS_FINE_LOCATION )
                 != PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission( ViewMapActivity.this, android.Manifest.permission.ACCESS_COARSE_LOCATION )
+                ActivityCompat.checkSelfPermission( BusTrafficActivity.this, android.Manifest.permission.ACCESS_COARSE_LOCATION )
                         != PackageManager.PERMISSION_GRANTED) {
             return;
         }
@@ -305,15 +288,15 @@ public class ViewMapActivity extends AppCompatActivity implements
                 double lat=location.getLatitude();
                 double lng=location.getLongitude();
 
-                ViewMapActivity.this.latitude=lat;
-                ViewMapActivity.this.longitude=lng;
+                BusTrafficActivity.this.latitude=lat;
+                BusTrafficActivity.this.longitude=lng;
 
 
                 try {
                     if(now !=null){
                         now.remove();
                     }
-                    LatLng positionUpdate = new LatLng( ViewMapActivity.this.latitude,ViewMapActivity.this.longitude );
+                    LatLng positionUpdate = new LatLng( BusTrafficActivity.this.latitude,BusTrafficActivity.this.longitude );
                     CameraUpdate update = CameraUpdateFactory.newLatLngZoom( positionUpdate, 15 );
                     now=mMap.addMarker(new MarkerOptions().position(positionUpdate)
                             .title("Your Location"));
@@ -328,7 +311,7 @@ public class ViewMapActivity extends AppCompatActivity implements
                 }
 
                 try {
-                    geocoder = new Geocoder(ViewMapActivity.this, Locale.ENGLISH);
+                    geocoder = new Geocoder(BusTrafficActivity.this, Locale.ENGLISH);
                     addresses = geocoder.getFromLocation(latitude, longitude, 1);
                     if (Geocoder.isPresent()) {
 
@@ -363,9 +346,9 @@ public class ViewMapActivity extends AppCompatActivity implements
 
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
 
-            if (ActivityCompat.checkSelfPermission( ViewMapActivity.this, android.Manifest.permission.ACCESS_FINE_LOCATION ) != PackageManager.PERMISSION_GRANTED &&
-                    ActivityCompat.checkSelfPermission( ViewMapActivity.this, android.Manifest.permission.ACCESS_COARSE_LOCATION ) != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions( ViewMapActivity.this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 1002 );
+            if (ActivityCompat.checkSelfPermission( BusTrafficActivity.this, android.Manifest.permission.ACCESS_FINE_LOCATION ) != PackageManager.PERMISSION_GRANTED &&
+                    ActivityCompat.checkSelfPermission( BusTrafficActivity.this, android.Manifest.permission.ACCESS_COARSE_LOCATION ) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions( BusTrafficActivity.this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 1002 );
             } else {
 
                 setupLocationManager();
@@ -397,7 +380,7 @@ public class ViewMapActivity extends AppCompatActivity implements
                     }
                 } else {
 
-                    Toast.makeText( ViewMapActivity.this, "Permission Denied", Toast.LENGTH_SHORT ).show();
+                    Toast.makeText( BusTrafficActivity.this, "Permission Denied", Toast.LENGTH_SHORT ).show();
                 }
             }
             break;
@@ -470,6 +453,8 @@ public class ViewMapActivity extends AppCompatActivity implements
     }
 
 
+
+
     protected void buildAlertMessageNoGps() {
 
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -491,16 +476,18 @@ public class ViewMapActivity extends AppCompatActivity implements
     }
 
 
+
+
+
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
     }
 
-
     @Override
     public void onClick(View v) {
         switch(v.getId()){
-            case R.id.go_back_profile_to2:{
+            case R.id.go_back_profile_to:{
                 Intent i = new Intent(getApplicationContext(), StudentProfileActivity.class);
                 startActivity(i);
             }break;

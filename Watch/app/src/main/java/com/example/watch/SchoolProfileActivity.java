@@ -22,6 +22,14 @@ public class SchoolProfileActivity extends AppCompatActivity implements View.OnC
 
         findViewById(R.id.health_butt).setOnClickListener(this);
 
+        findViewById(R.id.go_back_AllUser).setOnClickListener(this);
+
+        findViewById(R.id.btn_setting_profile).setOnClickListener(this);
+
+        findViewById(R.id.st_location_butt).setOnClickListener(this);
+
+
+
     }
 
     @Override
@@ -29,17 +37,32 @@ public class SchoolProfileActivity extends AppCompatActivity implements View.OnC
         switch (v.getId()){
             case R.id.add_new_butt :{
                 Intent go = new Intent(SchoolProfileActivity.this, AddNewMemberActivity.class);  //link two screens.
-                startActivity(go);          // start excution.
+                startActivity(go);
             }break;
 
             case R.id.health_butt :{
-                Intent go = new Intent(SchoolProfileActivity.this, HealthStateActivity.class);  //link two screens.
+                Intent go = new Intent(SchoolProfileActivity.this, HealthStateActivity.class);
                 startActivity(go);
             }break;
 
             case R.id.Attendence_butt:{
-                Intent go = new Intent(SchoolProfileActivity.this, AttendanceActivity.class);  //link two screens.
-                startActivity(go);          // start excution.
+                Intent go = new Intent(SchoolProfileActivity.this, AttendanceActivity.class);
+                startActivity(go);
+            }break;
+
+            case R.id.go_back_AllUser:{
+                Intent go = new Intent(SchoolProfileActivity.this, MainActivity.class);
+                startActivity(go);
+            }break;
+
+            case R.id.btn_setting_profile:{
+                Intent go = new Intent(SchoolProfileActivity.this, SettingsActivity.class);
+                startActivity(go);
+            }break;
+
+            case R.id.st_location_butt:{
+                Intent go = new Intent(SchoolProfileActivity.this, BusTrafficActivity.class);
+                startActivity(go);
             }break;
         }
 

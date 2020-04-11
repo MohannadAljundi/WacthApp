@@ -13,7 +13,7 @@ public class AddNewMemberActivity extends AppCompatActivity implements View.OnCl
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_new_member);
 
-        this.setTitle("Add New Member"); //change screen title.
+        //this.setTitle("Add New Member"); //change screen title.
         findViewById(R.id.User_button).setOnClickListener(this);
         findViewById(R.id.Bus_button).setOnClickListener(this);
         findViewById(R.id.go_back_school_profile).setOnClickListener(this);

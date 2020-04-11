@@ -44,4 +44,6 @@
     <string name="add_new_bus_add_bus_res">Add New Bus</string>
     <string name="bus_add_bus_res">Bus</string>
     <string name="plate_number_add_bus">Plate Number</string>
+    <string name="emergency_att_res">Emergency</string>
+
 </resources>

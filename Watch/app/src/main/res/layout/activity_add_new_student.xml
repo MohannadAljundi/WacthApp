@@ -87,9 +87,9 @@
                 android:layout_marginBottom="7dp"
                 android:background="@drawable/btn_shape2"
                 android:hint="@string/user_id_add_student_res"
+                android:inputType="textPersonName"
                 android:paddingLeft="20dp"
-                android:textSize="18sp"
-                android:inputType="textPersonName" />
+                android:textSize="18sp" />
 
             <EditText
                 android:id="@+id/name_add_student"
@@ -98,9 +98,10 @@
                 android:layout_marginBottom="7dp"
                 android:background="@drawable/btn_shape2"
                 android:hint="@string/name_add_student_res"
-                android:paddingLeft="20dp"
                 android:inputType="textPersonName"
+                android:paddingLeft="20dp"
                 android:textSize="18sp" />
+
             <EditText
                 android:id="@+id/bus_number_add_student"
                 android:layout_width="220dp"
@@ -108,8 +109,8 @@
                 android:layout_marginBottom="10dp"
                 android:background="@drawable/btn_shape2"
                 android:hint="@string/bus_number_add_student_res"
-                android:paddingLeft="20dp"
                 android:inputType="textPersonName"
+                android:paddingLeft="20dp"
                 android:textSize="18sp" />
 
             <EditText
@@ -119,8 +120,8 @@
                 android:layout_marginBottom="7dp"
                 android:background="@drawable/btn_shape2"
                 android:hint="@string/age_add_student_res"
-                android:paddingLeft="20dp"
                 android:inputType="textPersonName"
+                android:paddingLeft="20dp"
                 android:textSize="18sp" />
 
             <EditText
@@ -130,8 +131,8 @@
                 android:layout_marginBottom="7dp"
                 android:background="@drawable/btn_shape2"
                 android:hint="@string/class_add_student"
-                android:paddingLeft="20dp"
                 android:inputType="textPersonName"
+                android:paddingLeft="20dp"
                 android:textSize="18sp" />
 
             <EditText
@@ -141,8 +142,8 @@
                 android:layout_marginBottom="7dp"
                 android:background="@drawable/btn_shape2"
                 android:hint="@string/blood_type_add_student_res"
-                android:paddingLeft="20dp"
                 android:inputType="textPersonName"
+                android:paddingLeft="20dp"
                 android:textSize="18sp" />
 
             <Button
@@ -151,10 +152,10 @@
                 android:layout_height="40dp"
                 android:layout_marginBottom="7dp"
                 android:background="@drawable/btn_shape2"
-                android:hint="@string/generate_qr_code_add_student_res"
-                android:paddingLeft="20dp"
                 android:drawableRight="@drawable/ic_qr"
+                android:hint="@string/generate_qr_code_add_student_res"
                 android:inputType="textPersonName"
+                android:paddingLeft="20dp"
                 android:textSize="18sp" />
 
         </LinearLayout>

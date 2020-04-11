@@ -25,10 +25,7 @@ import android.provider.Settings;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.RelativeLayout;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -50,7 +47,6 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.model.Polyline;
 
 import java.io.IOException;
 import java.util.List;
@@ -507,7 +503,7 @@ public class BusMapActivity extends AppCompatActivity implements
     public void onClick(View v) {
        switch(v.getId()){
            case R.id.go_back_profile_to:{
-               Intent i = new Intent(getApplicationContext(), ProfileActivity.class);
+               Intent i = new Intent(getApplicationContext(), StudentProfileActivity.class);
                startActivity(i);
            }break;
        }
