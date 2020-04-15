@@ -28,6 +28,8 @@ public class SchoolProfileActivity extends AppCompatActivity implements View.OnC
 
         findViewById(R.id.st_location_butt).setOnClickListener(this);
 
+        findViewById(R.id.student_location).setOnClickListener(this);
+
 
 
     }
@@ -62,6 +64,11 @@ public class SchoolProfileActivity extends AppCompatActivity implements View.OnC
 
             case R.id.st_location_butt:{
                 Intent go = new Intent(SchoolProfileActivity.this, BusTrafficActivity.class);
+                startActivity(go);
+            }break;
+
+            case R.id.student_location:{
+                Intent go = new Intent(SchoolProfileActivity.this, StudentLocationActivity.class);
                 startActivity(go);
             }break;
         }

@@ -5,8 +5,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Patterns;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -21,6 +23,7 @@ public class LogUp extends AppCompatActivity implements View.OnClickListener {
     private FirebaseAuth mAuth;
     private EditText Email , Pass , Name ;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +36,11 @@ public class LogUp extends AppCompatActivity implements View.OnClickListener {
         findViewById(R.id.move_on_create_account).setOnClickListener(this);
         Name = findViewById(R.id.txtNicName);
         mAuth = FirebaseAuth.getInstance();
+
+
+
+
+
 
     }
 
@@ -68,21 +76,38 @@ public class LogUp extends AppCompatActivity implements View.OnClickListener {
         mAuth.createUserWithEmailAndPassword(email,pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
-                if(task.isSuccessful()){
-                    Intent i = new Intent(LogUp.this, SchoolLoginActivity.class);
-                    startActivity(i);
+                if(task.isSuccessful()) {
+                    mAuth.getCurrentUser().sendEmailVerification()
+                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (task.isSuccessful()) {
+                                        Toast.makeText(getApplicationContext(), "Registered Successfully ., Pleas Check Your Email For Verification .."
+                                                , Toast.LENGTH_LONG).show();
+                                        new Handler().postDelayed(new Runnable(){
+                                            @Override
+                                            public void run() {
+                                                /* Create an Intent that will start the Menu-Activity. */
+                                                Intent i = new Intent(LogUp.this, SchoolLoginActivity.class);
+                                                LogUp.this.startActivity(i);
+                                                LogUp.this.finish();
+                                            }
+                                        }, 3000);
+
+
+
+                                    } else {
+                                        Toast.makeText(getApplicationContext(), task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                                    }
+
+                                }
+                            });
                 }
                 else {
-                    if(task.getException() instanceof FirebaseAuthUserCollisionException){
-                        Toast.makeText(getApplicationContext(),"You Are already registered",Toast.LENGTH_LONG).show();
-                    }
-                    else {
-                        Toast.makeText(getApplicationContext(),task.getException().getMessage(),Toast.LENGTH_LONG).show();
-                    }
+                    Toast.makeText(getApplicationContext(),task.getException().getMessage(),Toast.LENGTH_LONG).show();
                 }
             }
         });
-
     }
 
     @Override

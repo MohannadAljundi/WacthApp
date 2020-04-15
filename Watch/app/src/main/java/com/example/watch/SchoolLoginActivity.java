@@ -33,6 +33,7 @@ public class SchoolLoginActivity extends AppCompatActivity implements View.OnCli
         Email = findViewById(R.id.txtEmail);
         Pass = findViewById(R.id.txtPass);
         findViewById(R.id.twits_img).setOnClickListener(this);
+        findViewById(R.id.textViewSignup).setOnClickListener(this);
 
         login = findViewById(R.id.buttonLogin);
 
@@ -52,36 +53,34 @@ public class SchoolLoginActivity extends AppCompatActivity implements View.OnCli
                 }
 
                 LoginSoGood(email,pass);
-            }
-        });
+
+
     }
 
+
+
     private void LoginSoGood(final String email, String pass){
-        mAuth.signInWithEmailAndPassword(email,pass).addOnCompleteListener(SchoolLoginActivity.this, new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if(!task.isSuccessful()){
-                    Toast.makeText(getApplicationContext(),"Login Error , Login Again .. ",Toast.LENGTH_LONG).show();
-                }
-                else {
-                    Toast.makeText(getApplicationContext(),"Welcome " + email,Toast.LENGTH_LONG).show();
-                    if(email.contains("adm")){
-                        Intent i = new Intent(SchoolLoginActivity.this,SchoolProfileActivity.class);
-                        startActivity(i);
-                    }
 
-                    if(email.contains("stu")){
-                        Intent i = new Intent(SchoolLoginActivity.this, StudentProfileActivity.class);
-                        startActivity(i);
+        mAuth.signInWithEmailAndPassword(email,pass)
+                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if(task.isSuccessful()){
+                            if(mAuth.getCurrentUser().isEmailVerified()){
+                                Toast.makeText(getApplicationContext(),"Welcome " + email,Toast.LENGTH_LONG).show();
+                                Intent i = new Intent(SchoolLoginActivity.this,SchoolProfileActivity.class);
+                                startActivity(i);
+                            }
+                            else {
+                                Toast.makeText(getApplicationContext(),"Please Verify Your Email.",Toast.LENGTH_LONG).show();
+                            }
+                        }
+                        else {
+                            Toast.makeText(getApplicationContext(),task.getException().getMessage(),Toast.LENGTH_LONG).show();
+                        }
                     }
-
-                    if(email.contains("bus")){
-                        Intent i = new Intent(SchoolLoginActivity.this,BusProfileActivity.class);
-                        startActivity(i);
-                    }
-
-                }
-            }
+                });
+    }
         });
     }
 
@@ -96,6 +95,11 @@ public class SchoolLoginActivity extends AppCompatActivity implements View.OnCli
         switch (v.getId()) {
             case R.id.twits_img :{
                 Intent i = new Intent(SchoolLoginActivity.this, SchoolProfileActivity.class);
+                startActivity(i);
+            }break;
+
+            case R.id.textViewSignup:{
+                Intent i = new Intent(SchoolLoginActivity.this, LogUp.class);
                 startActivity(i);
             }break;
 

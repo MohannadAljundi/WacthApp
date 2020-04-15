@@ -146,6 +146,22 @@
                 android:src="@drawable/facebook_48px" />
         </LinearLayout>
 
+        <TextView
+            android:id="@+id/textViewSignup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Don't have account? Sign Up"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="0dp"
+            android:textColor="@color/Black"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+            android:drawableLeft="@drawable/ic_person_24dp"
+            android:drawablePadding="6dp"
+            android:padding="4dp"/>
+
+
         <ProgressBar
             android:id="@+id/progressbar"
             android:layout_width="wrap_content"

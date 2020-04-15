@@ -45,5 +45,6 @@
     <string name="bus_add_bus_res">Bus</string>
     <string name="plate_number_add_bus">Plate Number</string>
     <string name="emergency_att_res">Emergency</string>
+    <string name="pleas_focus_on_qr_code_res">Pleas Focus on QR Code</string>
 
 </resources>

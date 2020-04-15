@@ -52,7 +52,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
-public class BusTrafficActivity extends AppCompatActivity implements
+public class StudentLocationActivity extends AppCompatActivity implements
         OnMapReadyCallback, LoaderManager.LoaderCallbacks<Object>,
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
@@ -82,7 +82,7 @@ public class BusTrafficActivity extends AppCompatActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_bus_traffic);
+        setContentView(R.layout.activity_student_location);
 
         mapFragment = (MapFragment) getFragmentManager()
                 .findFragmentById( R.id.map );
@@ -208,7 +208,7 @@ public class BusTrafficActivity extends AppCompatActivity implements
                         try {
 
                             status.startResolutionForResult(
-                                    BusTrafficActivity.this,
+                                    StudentLocationActivity.this,
                                     REQUEST_CHECK_SETTINGS );
                         } catch (IntentSender.SendIntentException e) {
                             // Ignore the error.
@@ -270,9 +270,9 @@ public class BusTrafficActivity extends AppCompatActivity implements
     private void setInitialLocation() {
 
 
-        if (ActivityCompat.checkSelfPermission( BusTrafficActivity.this, android.Manifest.permission.ACCESS_FINE_LOCATION )
+        if (ActivityCompat.checkSelfPermission( StudentLocationActivity.this, android.Manifest.permission.ACCESS_FINE_LOCATION )
                 != PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission( BusTrafficActivity.this, android.Manifest.permission.ACCESS_COARSE_LOCATION )
+                ActivityCompat.checkSelfPermission( StudentLocationActivity.this, android.Manifest.permission.ACCESS_COARSE_LOCATION )
                         != PackageManager.PERMISSION_GRANTED) {
             return;
         }
@@ -284,15 +284,15 @@ public class BusTrafficActivity extends AppCompatActivity implements
                 double lat=location.getLatitude();
                 double lng=location.getLongitude();
 
-                BusTrafficActivity.this.latitude=lat;
-                BusTrafficActivity.this.longitude=lng;
+                StudentLocationActivity.this.latitude=lat;
+                StudentLocationActivity.this.longitude=lng;
 
 
                 try {
                     if(now !=null){
                         now.remove();
                     }
-                    LatLng positionUpdate = new LatLng( BusTrafficActivity.this.latitude,BusTrafficActivity.this.longitude );
+                    LatLng positionUpdate = new LatLng( StudentLocationActivity.this.latitude,StudentLocationActivity.this.longitude );
                     CameraUpdate update = CameraUpdateFactory.newLatLngZoom( positionUpdate, 15 );
                     now=mMap.addMarker(new MarkerOptions().position(positionUpdate)
                             .title("Your Location"));
@@ -307,7 +307,7 @@ public class BusTrafficActivity extends AppCompatActivity implements
                 }
 
                 try {
-                    geocoder = new Geocoder(BusTrafficActivity.this, Locale.ENGLISH);
+                    geocoder = new Geocoder(StudentLocationActivity.this, Locale.ENGLISH);
                     addresses = geocoder.getFromLocation(latitude, longitude, 1);
                     if (Geocoder.isPresent()) {
 
@@ -342,9 +342,9 @@ public class BusTrafficActivity extends AppCompatActivity implements
 
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
 
-            if (ActivityCompat.checkSelfPermission( BusTrafficActivity.this, android.Manifest.permission.ACCESS_FINE_LOCATION ) != PackageManager.PERMISSION_GRANTED &&
-                    ActivityCompat.checkSelfPermission( BusTrafficActivity.this, android.Manifest.permission.ACCESS_COARSE_LOCATION ) != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions( BusTrafficActivity.this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 1002 );
+            if (ActivityCompat.checkSelfPermission( StudentLocationActivity.this, android.Manifest.permission.ACCESS_FINE_LOCATION ) != PackageManager.PERMISSION_GRANTED &&
+                    ActivityCompat.checkSelfPermission( StudentLocationActivity.this, android.Manifest.permission.ACCESS_COARSE_LOCATION ) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions( StudentLocationActivity.this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 1002 );
             } else {
 
                 setupLocationManager();

@@ -166,7 +166,7 @@
                 android:text="" />
 
             <Button
-                android:id="@+id/button8"
+                android:id="@+id/student_location"
                 android:layout_width="386dp"
                 android:layout_height="47dp"
                 android:layout_marginTop="20px"
