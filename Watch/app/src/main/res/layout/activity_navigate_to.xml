@@ -153,7 +153,7 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginLeft="30dp"
-
+             android:layout_marginTop="20dp"
             android:background="@drawable/ic_arrow_left"
             app:srcCompat="@drawable/ic_arrow_left"
             tools:ignore="VectorDrawableCompat" />

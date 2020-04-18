@@ -14,6 +14,14 @@
         android:orientation="vertical"
         app:layout_constraintTop_toTopOf="parent">
 
+
+
+        <ImageView
+            android:id="@+id/imageView5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            app:srcCompat="@drawable/qr_code_student3" />
     </LinearLayout>
 
     <LinearLayout
@@ -37,6 +45,13 @@
             android:text="@string/pleas_focus_on_qr_code_res"
             android:gravity="center"
             android:textSize="18dp"/>
+
+        <ImageView
+            android:id="@+id/back_to_bus_profile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="90dp"
+            app:srcCompat="@drawable/ic_arrow_left" />
 
     </LinearLayout>
 

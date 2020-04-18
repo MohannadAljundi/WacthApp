@@ -65,21 +65,8 @@ public class StudenLoginActivity extends AppCompatActivity implements View.OnCli
                 }
                 else {
                     Toast.makeText(getApplicationContext(),"Welcome " + email,Toast.LENGTH_LONG).show();
-                    if(email.contains("adm")){
-                        Intent i = new Intent(StudenLoginActivity.this,SchoolProfileActivity.class);
-                        startActivity(i);
-                    }
-
-                    if(email.contains("stu")){
-                        Intent i = new Intent(StudenLoginActivity.this, StudentProfileActivity.class);
-                        startActivity(i);
-                    }
-
-                    if(email.contains("bus")){
-                        Intent i = new Intent(StudenLoginActivity.this,BusProfileActivity.class);
-                        startActivity(i);
-                    }
-
+                    Intent i = new Intent(StudenLoginActivity.this,StudentProfileActivity.class);
+                    startActivity(i);
                 }
             }
         });

@@ -67,21 +67,8 @@ public class BusLoginActivity extends AppCompatActivity implements View.OnClickL
                 }
                 else {
                     Toast.makeText(getApplicationContext(),"Welcome " + email,Toast.LENGTH_LONG).show();
-                    if(email.contains("adm")){
-                        Intent i = new Intent(BusLoginActivity.this,SchoolProfileActivity.class);
-                        startActivity(i);
-                    }
-
-                    if(email.contains("stu")){
-                        Intent i = new Intent(BusLoginActivity.this, StudentProfileActivity.class);
-                        startActivity(i);
-                    }
-
-                    if(email.contains("bus")){
-                        Intent i = new Intent(BusLoginActivity.this,BusProfileActivity.class);
-                        startActivity(i);
-                    }
-
+                    Intent i = new Intent(BusLoginActivity.this,BusProfileActivity.class);
+                    startActivity(i);
                 }
             }
         });

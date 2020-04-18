@@ -32,6 +32,7 @@ public class SchoolProfileActivity extends AppCompatActivity implements View.OnC
 
 
 
+
     }
 
     @Override
@@ -71,6 +72,7 @@ public class SchoolProfileActivity extends AppCompatActivity implements View.OnC
                 Intent go = new Intent(SchoolProfileActivity.this, StudentLocationActivity.class);
                 startActivity(go);
             }break;
+
         }
 
 

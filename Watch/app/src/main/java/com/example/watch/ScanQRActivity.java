@@ -3,12 +3,15 @@ package com.example.watch;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Camera;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.util.SparseArray;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.gms.vision.CameraSource;
@@ -18,7 +21,7 @@ import com.google.android.gms.vision.barcode.BarcodeDetector;
 
 import java.io.IOException;
 
-public class ScanQRActivity extends AppCompatActivity {
+public class ScanQRActivity extends AppCompatActivity implements View.OnClickListener {
 
     private SurfaceView surfaceView ;
     private CameraSource cameraSource;
@@ -27,11 +30,12 @@ public class ScanQRActivity extends AppCompatActivity {
 
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scan_q_r);
-
+        findViewById(R.id.back_to_bus_profile).setOnClickListener(this);
         surfaceView = findViewById(R.id.scan_qr);
         msj = findViewById(R.id.qr_msj);
 
@@ -86,5 +90,18 @@ public class ScanQRActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.back_to_bus_profile:{
+                Intent go=new Intent(ScanQRActivity.this,BusProfileActivity.class);
+                startActivity(go);
+
+            }break;
+
+
+        }
     }
 }

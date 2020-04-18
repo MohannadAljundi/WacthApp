@@ -106,7 +106,7 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:id="@+id/imageView15"
+                    android:id="@+id/go_back_student_profile_3"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_weight="0.25"
