@@ -46,5 +46,6 @@
     <string name="plate_number_add_bus">Plate Number</string>
     <string name="emergency_att_res">Emergency</string>
     <string name="pleas_focus_on_qr_code_res">Pleas Focus on QR Code</string>
+    <string name="phone_add_new_student_res">Phone</string>
 
 </resources>

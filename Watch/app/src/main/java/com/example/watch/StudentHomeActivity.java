@@ -82,7 +82,7 @@ public class StudentHomeActivity extends AppCompatActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_student_location);
+        setContentView(R.layout.activity_student_home);
 
         mapFragment = (MapFragment) getFragmentManager()
                 .findFragmentById( R.id.map );

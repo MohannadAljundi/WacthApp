@@ -80,16 +80,7 @@
             android:gravity="center"
             android:orientation="vertical">
 
-            <EditText
-                android:id="@+id/user_id_add_student"
-                android:layout_width="220dp"
-                android:layout_height="40dp"
-                android:layout_marginBottom="7dp"
-                android:background="@drawable/btn_shape2"
-                android:hint="@string/user_id_add_student_res"
-                android:inputType="textPersonName"
-                android:paddingLeft="20dp"
-                android:textSize="18sp" />
+
 
             <EditText
                 android:id="@+id/name_add_student"
@@ -109,6 +100,17 @@
                 android:layout_marginBottom="10dp"
                 android:background="@drawable/btn_shape2"
                 android:hint="@string/bus_number_add_student_res"
+                android:inputType="textPersonName"
+                android:paddingLeft="20dp"
+                android:textSize="18sp" />
+
+            <EditText
+                android:id="@+id/user_phone_add_student"
+                android:layout_width="220dp"
+                android:layout_height="40dp"
+                android:layout_marginBottom="7dp"
+                android:background="@drawable/btn_shape2"
+                android:hint="@string/phone_add_new_student_res"
                 android:inputType="textPersonName"
                 android:paddingLeft="20dp"
                 android:textSize="18sp" />
@@ -136,7 +138,7 @@
                 android:textSize="18sp" />
 
             <EditText
-                android:id="@+id/blod_type_add_student"
+                android:id="@+id/blood_type_add_student"
                 android:layout_width="220dp"
                 android:layout_height="40dp"
                 android:layout_marginBottom="7dp"
@@ -184,6 +186,7 @@
                 android:layout_height="43dp"
                 android:background="@drawable/squar_shape02_circle"
                 android:text="Conform"
+                android:onClick="AddStudentToFirebase"
                 android:textAllCaps="false"
                 android:textColor="#ffffff"
                 android:textSize="20dp" />

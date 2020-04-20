@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Patterns;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -16,9 +15,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 
-public class LogUp extends AppCompatActivity implements View.OnClickListener {
+public class SignUPSchoolActivity extends AppCompatActivity implements View.OnClickListener {
 
     private FirebaseAuth mAuth;
     private EditText Email , Pass , Name ;
@@ -27,7 +25,7 @@ public class LogUp extends AppCompatActivity implements View.OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_log_up);
+        setContentView(R.layout.activity_sign_up_school);
         findViewById(R.id.go_back_nav_to).setOnClickListener(this);
 
 
@@ -88,9 +86,9 @@ public class LogUp extends AppCompatActivity implements View.OnClickListener {
                                             @Override
                                             public void run() {
                                                 /* Create an Intent that will start the Menu-Activity. */
-                                                Intent i = new Intent(LogUp.this, SchoolLoginActivity.class);
-                                                LogUp.this.startActivity(i);
-                                                LogUp.this.finish();
+                                                Intent i = new Intent(SignUPSchoolActivity.this, SchoolLoginActivity.class);
+                                                SignUPSchoolActivity.this.startActivity(i);
+                                                SignUPSchoolActivity.this.finish();
                                             }
                                         }, 3000);
 

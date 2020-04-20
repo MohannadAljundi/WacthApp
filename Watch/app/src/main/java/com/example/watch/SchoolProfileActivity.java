@@ -39,17 +39,17 @@ public class SchoolProfileActivity extends AppCompatActivity implements View.OnC
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.add_new_butt :{
-                Intent go = new Intent(SchoolProfileActivity.this, AddNewMemberActivity.class);  //link two screens.
+                Intent go = new Intent(SchoolProfileActivity.this, AddNewMemberSchoolActivity.class);  //link two screens.
                 startActivity(go);
             }break;
 
             case R.id.health_butt :{
-                Intent go = new Intent(SchoolProfileActivity.this, HealthStateActivity.class);
+                Intent go = new Intent(SchoolProfileActivity.this, HealthStateSchoolActivity.class);
                 startActivity(go);
             }break;
 
             case R.id.Attendence_butt:{
-                Intent go = new Intent(SchoolProfileActivity.this, AttendanceActivity.class);
+                Intent go = new Intent(SchoolProfileActivity.this, AttendanceSchoolActivity.class);
                 startActivity(go);
             }break;
 

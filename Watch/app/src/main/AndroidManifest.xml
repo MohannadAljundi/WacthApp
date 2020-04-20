@@ -29,15 +29,15 @@
         <activity android:name=".BusLoginActivity" />
         <activity android:name=".StudenLoginActivity" />
         <activity android:name=".BusProfileActivity" />
-        <activity android:name=".AttendanceActivity" />
-        <activity android:name=".HealthStateActivity" />
+        <activity android:name=".AttendanceSchoolActivity" />
+        <activity android:name=".HealthStateSchoolActivity" />
         <activity android:name=".AddNewBusActivity" />
         <activity android:name=".AddNewStudentActivity" />
-        <activity android:name=".AddNewMemberActivity" />
+        <activity android:name=".AddNewMemberSchoolActivity" />
         <activity android:name=".SchoolProfileActivity" />
         <activity android:name=".SchoolLoginActivity" />
-        <activity android:name=".NonAttendanceActivity" />
-        <activity android:name=".ViewMapActivity" />
+        <activity android:name=".NonAttendanceStudentActivity" />
+        <activity android:name=".ViewMapStudentActivity" />
         <activity
             android:name=".SettingsActivity"
             android:label="@string/title_activity_settings" />
@@ -56,7 +56,7 @@
         <activity
             android:name=".MapsActivity"
             android:label="@string/title_activity_maps" />
-        <activity android:name=".NavigateTo" />
+        <activity android:name=".NavigateToStudentActivity" />
         <activity android:name=".StudentProfileActivity" />
         <activity android:name=".Splash">
             <intent-filter>
@@ -65,7 +65,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".LogUp" />
+        <activity android:name=".SignUPSchoolActivity" />
         <activity android:name=".MainActivity" />
     </application>
 

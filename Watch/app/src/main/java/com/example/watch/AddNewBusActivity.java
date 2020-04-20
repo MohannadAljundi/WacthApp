@@ -20,7 +20,7 @@ public class AddNewBusActivity extends AppCompatActivity implements View.OnClick
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.bktomain:{
-                Intent go = new Intent(AddNewBusActivity.this, AddNewMemberActivity.class);
+                Intent go = new Intent(AddNewBusActivity.this, AddNewMemberSchoolActivity.class);
                 startActivity(go);
             }
         }

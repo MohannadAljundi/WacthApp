@@ -99,7 +99,7 @@ public class SchoolLoginActivity extends AppCompatActivity implements View.OnCli
             }break;
 
             case R.id.textViewSignup:{
-                Intent i = new Intent(SchoolLoginActivity.this, LogUp.class);
+                Intent i = new Intent(SchoolLoginActivity.this, SignUPSchoolActivity.class);
                 startActivity(i);
             }break;
 

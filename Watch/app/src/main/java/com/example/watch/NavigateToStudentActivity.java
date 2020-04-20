@@ -6,12 +6,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-public class NavigateTo extends AppCompatActivity implements View.OnClickListener {
+public class NavigateToStudentActivity extends AppCompatActivity implements View.OnClickListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_navigate_to);
+        setContentView(R.layout.activity_navigate_to_student);
         findViewById(R.id.go_back_nav_to).setOnClickListener(this);
     }
 
@@ -19,7 +19,7 @@ public class NavigateTo extends AppCompatActivity implements View.OnClickListene
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.go_back_nav_to:{
-                Intent go=new Intent(NavigateTo.this,StudentProfileActivity.class);
+                Intent go=new Intent(NavigateToStudentActivity.this,StudentProfileActivity.class);
                 startActivity(go);
 
         }break;

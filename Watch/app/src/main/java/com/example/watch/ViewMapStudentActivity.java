@@ -54,7 +54,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
-public class ViewMapActivity extends AppCompatActivity implements
+public class ViewMapStudentActivity extends AppCompatActivity implements
         OnMapReadyCallback, LoaderManager.LoaderCallbacks<Object>,
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
@@ -84,7 +84,7 @@ public class ViewMapActivity extends AppCompatActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_view_map);
+        setContentView(R.layout.activity_view_map_student);
 
         mapFragment = (MapFragment) getFragmentManager()
                 .findFragmentById( R.id.map );
@@ -229,7 +229,7 @@ public class ViewMapActivity extends AppCompatActivity implements
                         try {
 
                             status.startResolutionForResult(
-                                    ViewMapActivity.this,
+                                    ViewMapStudentActivity.this,
                                     REQUEST_CHECK_SETTINGS );
                         } catch (IntentSender.SendIntentException e) {
                             // Ignore the error.
@@ -262,12 +262,12 @@ public class ViewMapActivity extends AppCompatActivity implements
 
                             setInitialLocation();
 
-                            Toast.makeText(ViewMapActivity.this, "Location enabled", Toast.LENGTH_LONG).show();
+                            Toast.makeText(ViewMapStudentActivity.this, "Location enabled", Toast.LENGTH_LONG).show();
                             mRequestingLocationUpdates = true;
                             break;
                         }
                         case Activity.RESULT_CANCELED: {
-                            Toast.makeText(ViewMapActivity.this, "Location not enabled", Toast.LENGTH_LONG).show();
+                            Toast.makeText(ViewMapStudentActivity.this, "Location not enabled", Toast.LENGTH_LONG).show();
                             mRequestingLocationUpdates = false;
                             break;
                         }
@@ -291,9 +291,9 @@ public class ViewMapActivity extends AppCompatActivity implements
     private void setInitialLocation() {
 
 
-        if (ActivityCompat.checkSelfPermission( ViewMapActivity.this, android.Manifest.permission.ACCESS_FINE_LOCATION )
+        if (ActivityCompat.checkSelfPermission( ViewMapStudentActivity.this, android.Manifest.permission.ACCESS_FINE_LOCATION )
                 != PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission( ViewMapActivity.this, android.Manifest.permission.ACCESS_COARSE_LOCATION )
+                ActivityCompat.checkSelfPermission( ViewMapStudentActivity.this, android.Manifest.permission.ACCESS_COARSE_LOCATION )
                         != PackageManager.PERMISSION_GRANTED) {
             return;
         }
@@ -305,15 +305,15 @@ public class ViewMapActivity extends AppCompatActivity implements
                 double lat=location.getLatitude();
                 double lng=location.getLongitude();
 
-                ViewMapActivity.this.latitude=lat;
-                ViewMapActivity.this.longitude=lng;
+                ViewMapStudentActivity.this.latitude=lat;
+                ViewMapStudentActivity.this.longitude=lng;
 
 
                 try {
                     if(now !=null){
                         now.remove();
                     }
-                    LatLng positionUpdate = new LatLng( ViewMapActivity.this.latitude,ViewMapActivity.this.longitude );
+                    LatLng positionUpdate = new LatLng( ViewMapStudentActivity.this.latitude, ViewMapStudentActivity.this.longitude );
                     CameraUpdate update = CameraUpdateFactory.newLatLngZoom( positionUpdate, 15 );
                     now=mMap.addMarker(new MarkerOptions().position(positionUpdate)
                             .title("Your Location"));
@@ -328,7 +328,7 @@ public class ViewMapActivity extends AppCompatActivity implements
                 }
 
                 try {
-                    geocoder = new Geocoder(ViewMapActivity.this, Locale.ENGLISH);
+                    geocoder = new Geocoder(ViewMapStudentActivity.this, Locale.ENGLISH);
                     addresses = geocoder.getFromLocation(latitude, longitude, 1);
                     if (Geocoder.isPresent()) {
 
@@ -363,9 +363,9 @@ public class ViewMapActivity extends AppCompatActivity implements
 
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
 
-            if (ActivityCompat.checkSelfPermission( ViewMapActivity.this, android.Manifest.permission.ACCESS_FINE_LOCATION ) != PackageManager.PERMISSION_GRANTED &&
-                    ActivityCompat.checkSelfPermission( ViewMapActivity.this, android.Manifest.permission.ACCESS_COARSE_LOCATION ) != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions( ViewMapActivity.this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 1002 );
+            if (ActivityCompat.checkSelfPermission( ViewMapStudentActivity.this, android.Manifest.permission.ACCESS_FINE_LOCATION ) != PackageManager.PERMISSION_GRANTED &&
+                    ActivityCompat.checkSelfPermission( ViewMapStudentActivity.this, android.Manifest.permission.ACCESS_COARSE_LOCATION ) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions( ViewMapStudentActivity.this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 1002 );
             } else {
 
                 setupLocationManager();
@@ -397,7 +397,7 @@ public class ViewMapActivity extends AppCompatActivity implements
                     }
                 } else {
 
-                    Toast.makeText( ViewMapActivity.this, "Permission Denied", Toast.LENGTH_SHORT ).show();
+                    Toast.makeText( ViewMapStudentActivity.this, "Permission Denied", Toast.LENGTH_SHORT ).show();
                 }
             }
             break;

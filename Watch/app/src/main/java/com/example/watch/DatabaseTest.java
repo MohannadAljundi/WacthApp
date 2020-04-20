@@ -16,9 +16,6 @@ import com.google.firebase.database.ValueEventListener;
 
 public class DatabaseTest extends AppCompatActivity {
 
-//    private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-//    private DatabaseReference databaseReference = firebaseDatabase.getReference();
-//    private DatabaseReference mChildRef = databaseReference.child("message");
     private FirebaseDatabase firebaseInstance;
     private DatabaseReference firebaseDatabase;
     private TextView dbtext;
@@ -41,28 +38,7 @@ public class DatabaseTest extends AppCompatActivity {
         firebaseDatabase = firebaseInstance.getReference("DataUser");
         UserID = firebaseDatabase.push().getKey();
 
-        //        FirebaseDatabase database = FirebaseDatabase.getInstance();
-//        DatabaseReference myRef = database.getReference("message");
-//
-//        myRef.setValue("Hello, World!");
 
-        // Read from the database
-//        mChildRef.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                // This method is called once with the initial value and again
-//                // whenever data at this location is updated.
-//                String value = dataSnapshot.getValue(String.class);
-//                dbtext.setText(value);
-//                Log.d("TAG", "Value is: " + value);
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError error) {
-//                // Failed to read value
-//                Log.w("TAG", "Failed to read value.", error.toException());
-//            }
-//        });
     }
 
     public void addUser (String username , String email){

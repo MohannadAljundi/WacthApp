@@ -137,7 +137,7 @@ public class StudentProfileActivity extends AppCompatActivity implements View.On
         switch (v.getId()){
             case R.id.navigate_profile :{
 
-                Intent i = new Intent(getApplicationContext(), NavigateTo.class);
+                Intent i = new Intent(getApplicationContext(), NavigateToStudentActivity.class);
                 startActivity(i);
 
 
@@ -153,13 +153,13 @@ public class StudentProfileActivity extends AppCompatActivity implements View.On
 
             }break;
             case R.id.view_loc_profile :{
-                Intent i = new Intent(getApplicationContext(), ViewMapActivity.class);
+                Intent i = new Intent(getApplicationContext(), ViewMapStudentActivity.class);
                 startActivity(i);
 
 
             }break;
             case R.id.non_atn_profile :{
-                Intent i = new Intent(getApplicationContext(), NonAttendanceActivity.class);
+                Intent i = new Intent(getApplicationContext(), NonAttendanceStudentActivity.class);
                 startActivity(i);
 
             }break;
