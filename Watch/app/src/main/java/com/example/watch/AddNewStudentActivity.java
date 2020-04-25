@@ -64,13 +64,15 @@ public class AddNewStudentActivity extends AppCompatActivity implements View.OnC
                 + phone + " , " + age + " , " +
                 class_no + " , " + blood_type ;
 
-        new Handler().postDelayed(new Runnable(){
-            @Override
-            public void run() {
-                /* Create an Intent that will start the Menu-Activity. */
-                Toast.makeText(getApplicationContext(),"Generating ...",Toast.LENGTH_LONG).show();
-            }
-            }, 1000);
+//        new Handler().postDelayed(new Runnable(){
+//            @Override
+//            public void run() {
+//                /* Create an Intent that will start the Menu-Activity. */
+//                Toast.makeText(getApplicationContext(),"Generating ...",Toast.LENGTH_LONG).show();
+//                Log.d("Tag","Generating ....");
+//
+//            }
+//            }, 1000);
 
 
         Log.d("Content",Content);
@@ -83,18 +85,18 @@ public class AddNewStudentActivity extends AppCompatActivity implements View.OnC
 
     public void AddStudentToFirebase(View view){
 
-//        if(student_qr != null){
-//            studentInfo = new StudentInfo(Full_name,phone,bus_no,age
-//                    ,class_no,blood_type,student_qr);
-//        }else {
-//            Toast.makeText(getApplicationContext(),"Please Click On Generate QR ",Toast.LENGTH_LONG).show();
-//        }
-        Full_name = User_FullName.getText().toString();
-        bus_no = User_BusNo.getText().toString();
-        class_no = User_ClassNo.getText().toString();
-        blood_type = User_BloodType.getText().toString();
-        phone = User_Phone.getText().toString();
-        age = User_Age.getText().toString();
+        if(student_qr != null){
+            studentInfo = new StudentInfo(Full_name,phone,bus_no,age
+                    ,class_no,blood_type,student_qr);
+        }else {
+            Toast.makeText(getApplicationContext(),"Please Click On Generate QR ",Toast.LENGTH_LONG).show();
+        }
+//        Full_name = User_FullName.getText().toString();
+//        bus_no = User_BusNo.getText().toString();
+//        class_no = User_ClassNo.getText().toString();
+//        blood_type = User_BloodType.getText().toString();
+//        phone = User_Phone.getText().toString();
+//        age = User_Age.getText().toString();
         student_qr = null;
         studentInfo = new StudentInfo(Full_name,phone,bus_no,age
                     ,class_no,blood_type,student_qr);

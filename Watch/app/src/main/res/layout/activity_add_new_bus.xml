@@ -80,16 +80,6 @@
             android:gravity="center"
             android:orientation="vertical">
 
-            <EditText
-                android:id="@+id/user_id_add_bus"
-                android:layout_width="220dp"
-                android:layout_height="40dp"
-                android:layout_marginBottom="7dp"
-                android:background="@drawable/btn_shape2"
-                android:hint="@string/user_id_add_student_res"
-                android:paddingLeft="20dp"
-                android:textSize="18sp"
-                android:inputType="textPersonName" />
 
             <EditText
                 android:id="@+id/name_add_bus"
@@ -122,6 +112,17 @@
                 android:paddingLeft="20dp"
                 android:inputType="textPersonName"
                 android:textSize="18sp" />
+
+            <EditText
+                android:id="@+id/user_phone_add_bus"
+                android:layout_width="220dp"
+                android:layout_height="40dp"
+                android:layout_marginBottom="7dp"
+                android:background="@drawable/btn_shape2"
+                android:hint="@string/phone_add_bus_res"
+                android:paddingLeft="20dp"
+                android:textSize="18sp"
+                android:inputType="textPersonName" />
 
             <EditText
                 android:id="@+id/age_add_student"
