@@ -5,29 +5,28 @@ import android.graphics.Bitmap;
 import java.util.Random;
 
 public class StudentInfo {
-    private String ID;
-    private String FullName;
-    private String Phone;
-    private String BusNumber;
-    private String Age ;
-    private String ClassNo;
-    private String BloodType;
-    private Bitmap StudentQR;
+    public String ID;
+    public String FullName;
+    public String Phone;
+    public String BusNumber;
+    public String Age ;
+    public String ClassNo;
+    public String BloodType;
+    public Bitmap StudentQR;
 
     public StudentInfo(){
 
     }
 
     public StudentInfo(String fullName , String phone , String busNumber , String age ,
-                       String classNo , String bloodType , Bitmap studentQR){
-        ID = IDGenerator();
+                       String classNo , String bloodType ){
+        //ID = IDGenerator();
         this.FullName = fullName;
         this.Phone = phone;
         this.BusNumber = busNumber;
         this.Age = age ;
         this.ClassNo = classNo;
         this.BloodType = bloodType;
-        this.StudentQR = studentQR;
     }
 
 

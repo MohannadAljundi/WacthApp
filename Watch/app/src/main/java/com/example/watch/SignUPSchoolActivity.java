@@ -16,10 +16,13 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
+import javax.mail.MessagingException;
+
 public class SignUPSchoolActivity extends AppCompatActivity implements View.OnClickListener {
 
     private FirebaseAuth mAuth;
-    private EditText Email , Pass , Name ;
+    private EditText Email , Pass , Name , Phone;
+    private EmailSendingClass EmialS;
 
 
     @Override
@@ -33,16 +36,12 @@ public class SignUPSchoolActivity extends AppCompatActivity implements View.OnCl
         Pass = findViewById(R.id.txtPass);
         findViewById(R.id.move_on_create_account).setOnClickListener(this);
         Name = findViewById(R.id.txtNicName);
+        Phone = findViewById(R.id.txtphone);
         mAuth = FirebaseAuth.getInstance();
-
-
-
-
-
 
     }
 
-    private void RegisterUser(){
+    private void RegisterUser() throws MessagingException {
         String email = Email.getText().toString().trim();
         String pass = Pass.getText().toString().trim();
 
@@ -69,43 +68,9 @@ public class SignUPSchoolActivity extends AppCompatActivity implements View.OnCl
             return;
         }
 
+        EmialS = new EmailSendingClass();
+        EmialS.sendMail(Email.getText().toString(),Name.getText().toString());
 
-
-        mAuth.createUserWithEmailAndPassword(email,pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if(task.isSuccessful()) {
-                    mAuth.getCurrentUser().sendEmailVerification()
-                            .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    if (task.isSuccessful()) {
-                                        Toast.makeText(getApplicationContext(), "Registered Successfully ., Pleas Check Your Email For Verification .."
-                                                , Toast.LENGTH_LONG).show();
-                                        new Handler().postDelayed(new Runnable(){
-                                            @Override
-                                            public void run() {
-                                                /* Create an Intent that will start the Menu-Activity. */
-                                                Intent i = new Intent(SignUPSchoolActivity.this, SchoolLoginActivity.class);
-                                                SignUPSchoolActivity.this.startActivity(i);
-                                                SignUPSchoolActivity.this.finish();
-                                            }
-                                        }, 3000);
-
-
-
-                                    } else {
-                                        Toast.makeText(getApplicationContext(), task.getException().getMessage(), Toast.LENGTH_LONG).show();
-                                    }
-
-                                }
-                            });
-                }
-                else {
-                    Toast.makeText(getApplicationContext(),task.getException().getMessage(),Toast.LENGTH_LONG).show();
-                }
-            }
-        });
     }
 
     @Override
@@ -117,7 +82,11 @@ public class SignUPSchoolActivity extends AppCompatActivity implements View.OnCl
             }break;
 
             case R.id.move_on_create_account:{
-                RegisterUser();
+                try {
+                    RegisterUser();
+                } catch (MessagingException e) {
+                    e.printStackTrace();
+                }
             }break;
 
 

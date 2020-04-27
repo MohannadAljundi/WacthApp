@@ -1,7 +1,9 @@
 package com.example.watch;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -22,12 +24,14 @@ public class AddNewBusActivity extends AppCompatActivity implements View.OnClick
     private String  UserID , Full_name , Bus_number , Plate_number , phone_str , age_str;
     private EditText FullName , BusNumber , PlateNumber ,Phone , Age;
     private Button btnConform;
+    AlertDialog.Builder builder;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_new_bus);
 
         findViewById(R.id.bktomain).setOnClickListener(this);
+
 
         FullName = findViewById(R.id.name_add_bus);
         BusNumber = findViewById(R.id.bus_number_add_bus);
@@ -41,17 +45,24 @@ public class AddNewBusActivity extends AppCompatActivity implements View.OnClick
         UserID = firebaseDatabase.push().getKey();
 
         btnConform.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
+
                 AddStudentToFirebase();
-                Toast.makeText(getApplicationContext(),"Saving Data ..",Toast.LENGTH_LONG).show();
+
+                Toast.makeText(getApplicationContext(), "Saving Data ..", Toast.LENGTH_LONG).show();
                 FullName.setText("");
                 BusNumber.setText("");
                 PlateNumber.setText("");
                 Phone.setText("");
                 Age.setText("");
+
+
             }
+
         });
+
     }
 
     public void AddStudentToFirebase(){
@@ -74,9 +85,41 @@ public class AddNewBusActivity extends AppCompatActivity implements View.OnClick
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.bktomain:{
-                Intent go = new Intent(AddNewBusActivity.this, AddNewMemberSchoolActivity.class);
-                startActivity(go);
-            }
+
+                    builder = new AlertDialog.Builder(this);
+                    builder.setMessage("Welcome") .setTitle("Exit");
+                    //Setting message manually and performing action on button click
+                    builder.setMessage("Do you want to close this page ?")
+                            .setCancelable(false)
+                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    finish();
+                                    Toast.makeText(getApplicationContext(),"you choose ''Yes'' action for alertbox",
+                                            Toast.LENGTH_SHORT).show();
+
+                                    Intent go = new Intent(AddNewBusActivity.this, AddNewMemberSchoolActivity.class);
+                                    startActivity(go);
+                                }
+                            })
+                            .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    //  Action for 'NO' Button
+                                    dialog.cancel();
+                                    Toast.makeText(getApplicationContext(),"you choose ''No'' action for alertbox",
+                                            Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                    //Creating dialog box
+                    AlertDialog alert = builder.create();
+                    //Setting the title manually
+                    alert.setTitle("Exit Alert");
+                    alert.show();
+
+            }break;
+
+
         }
+
+
     }
 }

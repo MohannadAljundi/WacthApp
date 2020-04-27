@@ -26,7 +26,7 @@
             <ImageView
                 android:id="@+id/imageView3"
                 android:layout_width="195dp"
-                android:layout_height="139dp"
+                android:layout_height="130dp"
                 app:srcCompat="@drawable/create_account" />
 
         </LinearLayout>
@@ -35,14 +35,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="10dp"
             android:orientation="vertical">
 
             <EditText
             android:id="@+id/txtNicName"
-            android:layout_width="274dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+                android:layout_width="270dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="6dp"
             android:background="@drawable/txtbox_shape"
             android:drawableLeft="@drawable/ic_person_24dp"
             android:drawablePadding="10dp"
@@ -55,9 +55,9 @@
 
             <EditText
                 android:id="@+id/txtEmail"
-                android:layout_width="274dp"
+                android:layout_width="270dp"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_margin="6dp"
                 android:background="@drawable/txtbox_shape"
                 android:drawableLeft="@drawable/ic_email_24dp"
                 android:drawablePadding="10dp"
@@ -70,9 +70,9 @@
 
             <EditText
                 android:id="@+id/txtPass"
-                android:layout_width="274dp"
+                android:layout_width="270dp"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_margin="6dp"
                 android:background="@drawable/txtbox_shape"
                 android:drawableLeft="@drawable/ic_lock_24dp"
                 android:drawablePadding="10dp"
@@ -84,13 +84,28 @@
                 android:textColorHint="@color/BlueBo" />
             <EditText
                 android:id="@+id/txtRePass"
-                android:layout_width="274dp"
+                android:layout_width="270dp"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_margin="6dp"
                 android:background="@drawable/txtbox_shape"
                 android:drawableLeft="@drawable/ic_lock_24dp"
                 android:drawablePadding="10dp"
                 android:hint="Confirm Password"
+                android:inputType="textNoSuggestions"
+                android:padding="15dp"
+                android:textColor="@color/Black"
+                android:textColorHighlight="@color/BlueBo"
+                android:textColorHint="@color/BlueBo" />
+
+            <EditText
+                android:id="@+id/txtphone"
+                android:layout_width="270dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="6dp"
+                android:background="@drawable/txtbox_shape"
+                android:drawableLeft="@drawable/ic_phone_black_24dp"
+                android:drawablePadding="10dp"
+                android:hint="Phone Number"
                 android:inputType="textNoSuggestions"
                 android:padding="15dp"
                 android:textColor="@color/Black"

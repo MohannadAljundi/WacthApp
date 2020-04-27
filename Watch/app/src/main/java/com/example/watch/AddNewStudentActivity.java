@@ -23,7 +23,7 @@ public class AddNewStudentActivity extends AppCompatActivity implements View.OnC
     private EditText User_FullName , User_BusNo ,
             User_Age, User_ClassNo , User_BloodType , User_Phone ;
     private Button btnRQ , banConfirm ;
-    private String  UserID , Full_name , bus_no , class_no , blood_type , phone , age;
+    public String  UserID , Full_name , bus_no , class_no , blood_type , phone , age;
     private Bitmap student_qr;
     private StudentInfo studentInfo;
     private QRCodeHelper qrCodeHelper;
@@ -41,6 +41,7 @@ public class AddNewStudentActivity extends AppCompatActivity implements View.OnC
         User_ClassNo = findViewById(R.id.Class_add_student);
         User_BloodType = findViewById(R.id.blood_type_add_student);
         User_Phone = findViewById(R.id.user_phone_add_student);
+        banConfirm = findViewById(R.id.conf_butt);
 
 
 
@@ -49,9 +50,18 @@ public class AddNewStudentActivity extends AppCompatActivity implements View.OnC
         firebaseDatabase = firebaseInstance.getReference("StudentInfo");
         UserID = firebaseDatabase.push().getKey();
 
+        banConfirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                studentInfo = new StudentInfo(Full_name,phone,bus_no,age
+                        ,class_no,blood_type);
+                firebaseDatabase.child("Student").child(UserID).setValue(studentInfo);
+            }
+        });
+
     }
 
-    public void GenerateQR(View view){
+   /* public void GenerateQR(View view){
         final ProgressDialog progressDialog = new ProgressDialog(this);
         Full_name = User_FullName.getText().toString();
         bus_no = User_BusNo.getText().toString();
@@ -64,15 +74,6 @@ public class AddNewStudentActivity extends AppCompatActivity implements View.OnC
                 + phone + " , " + age + " , " +
                 class_no + " , " + blood_type ;
 
-//        new Handler().postDelayed(new Runnable(){
-//            @Override
-//            public void run() {
-//                /* Create an Intent that will start the Menu-Activity. */
-//                Toast.makeText(getApplicationContext(),"Generating ...",Toast.LENGTH_LONG).show();
-//                Log.d("Tag","Generating ....");
-//
-//            }
-//            }, 1000);
 
 
         Log.d("Content",Content);
@@ -81,27 +82,15 @@ public class AddNewStudentActivity extends AppCompatActivity implements View.OnC
         qrCodeHelper.setMargin(2);
         student_qr = qrCodeHelper.getQRCOde();
         Toast.makeText(getApplicationContext(),"QR is Generated ",Toast.LENGTH_LONG).show();
-    }
+    }*/
 
-    public void AddStudentToFirebase(View view){
+   /* public void AddStudentToFirebase(View view){
 
-        if(student_qr != null){
-            studentInfo = new StudentInfo(Full_name,phone,bus_no,age
-                    ,class_no,blood_type,student_qr);
-        }else {
-            Toast.makeText(getApplicationContext(),"Please Click On Generate QR ",Toast.LENGTH_LONG).show();
-        }
-//        Full_name = User_FullName.getText().toString();
-//        bus_no = User_BusNo.getText().toString();
-//        class_no = User_ClassNo.getText().toString();
-//        blood_type = User_BloodType.getText().toString();
-//        phone = User_Phone.getText().toString();
-//        age = User_Age.getText().toString();
-        student_qr = null;
+
         studentInfo = new StudentInfo(Full_name,phone,bus_no,age
-                    ,class_no,blood_type,student_qr);
+                    ,class_no,blood_type);
         firebaseDatabase.child("Student").child(UserID).setValue(studentInfo);
-    }
+    }*/
 
     @Override
     public void onClick(View v) {

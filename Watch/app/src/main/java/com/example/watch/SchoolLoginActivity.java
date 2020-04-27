@@ -22,6 +22,7 @@ public class SchoolLoginActivity extends AppCompatActivity implements View.OnCli
     private TextView Signup;
     private FirebaseAuth mAuth;
     private EditText Email , Pass ;
+    private String  Email_Str , Password_Str , Name_Str;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
