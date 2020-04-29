@@ -1,8 +1,5 @@
 package com.example.watch;
 
-
-import android.os.StrictMode;
-
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -12,7 +9,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 public class EmailSendingClass {
-    public  void sendMail(String recepint , String Name) throws MessagingException {
+    public  void sendMail(String receipt , String Name) throws MessagingException {
         System.out.println("Preparing to send Email");
 
 
@@ -36,7 +33,7 @@ public class EmailSendingClass {
 
         String StrName = Name;
 
-        Message message = MyMessage(session,MyEmil,recepint , StrName);
+        Message message = MyMessage(session,MyEmil,receipt , StrName);
 
 
         Transport.send(message);

@@ -6,8 +6,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -24,26 +26,42 @@ public class SignUPSchoolActivity extends AppCompatActivity implements View.OnCl
     private EditText Email , Pass , Name , Phone;
     private EmailSendingClass EmialS;
 
+    private Button conform ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up_school);
         findViewById(R.id.go_back_nav_to).setOnClickListener(this);
+        //findViewById(R.id.move_on_create_account).setOnClickListener(this);
+        conform = findViewById(R.id.move_on_create_account);
 
 
         Email = findViewById(R.id.txtEmail);
         Pass = findViewById(R.id.txtPass);
-        findViewById(R.id.move_on_create_account).setOnClickListener(this);
         Name = findViewById(R.id.txtNicName);
         Phone = findViewById(R.id.txtphone);
         mAuth = FirebaseAuth.getInstance();
 
+        conform.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    RegisterUser();
+                    Toast.makeText(getApplicationContext(),"Sendding an Email ...",Toast.LENGTH_LONG).show();
+                } catch (MessagingException e) {
+                    Log.d("Error" , " >> " + e.getMessage());
+                    e.printStackTrace();
+
+                }
+            }
+        });
+
     }
 
     private void RegisterUser() throws MessagingException {
-        String email = Email.getText().toString().trim();
-        String pass = Pass.getText().toString().trim();
+        String email = Email.getText().toString();
+        String pass = Pass.getText().toString();
 
         if(email.isEmpty()){
             Email.setError("Email is Required !!");
@@ -71,6 +89,7 @@ public class SignUPSchoolActivity extends AppCompatActivity implements View.OnCl
         EmialS = new EmailSendingClass();
         EmialS.sendMail(Email.getText().toString(),Name.getText().toString());
 
+
     }
 
     @Override
@@ -81,13 +100,13 @@ public class SignUPSchoolActivity extends AppCompatActivity implements View.OnCl
                 startActivity(i);
             }break;
 
-            case R.id.move_on_create_account:{
-                try {
-                    RegisterUser();
-                } catch (MessagingException e) {
-                    e.printStackTrace();
-                }
-            }break;
+//            case R.id.move_on_create_account:{
+//                try {
+//                    RegisterUser();
+//                } catch (MessagingException e) {
+//                    e.printStackTrace();
+//                }
+//            }break;
 
 
         }

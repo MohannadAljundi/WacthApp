@@ -25,7 +25,6 @@ public class AddNewStudentActivity extends AppCompatActivity implements View.OnC
     private Button btnRQ , banConfirm ;
     public String  UserID , Full_name , bus_no , class_no , blood_type , phone , age;
     private Bitmap student_qr;
-    private StudentInfo studentInfo;
     private QRCodeHelper qrCodeHelper;
     private String Content ;
     @Override
@@ -53,11 +52,26 @@ public class AddNewStudentActivity extends AppCompatActivity implements View.OnC
         banConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                studentInfo = new StudentInfo(Full_name,phone,bus_no,age
-                        ,class_no,blood_type);
-                firebaseDatabase.child("Student").child(UserID).setValue(studentInfo);
+                AddStudentToFirebase();
+                Toast.makeText(getApplicationContext(), "Saving Data ..", Toast.LENGTH_LONG).show();
             }
         });
+
+    }
+
+
+    public void AddStudentToFirebase(){
+        Full_name = User_FullName.getText().toString();
+        bus_no = User_BusNo.getText().toString();
+        class_no = User_ClassNo.getText().toString();
+        blood_type = User_BloodType.getText().toString();
+        phone = User_Phone.getText().toString();
+        age = User_Age.getText().toString();
+
+        StudentInfo studentInfo = new StudentInfo(Full_name,phone,bus_no,age
+                ,class_no,blood_type);
+        firebaseDatabase.child("Student").child(UserID).setValue(studentInfo);
+
 
     }
 
