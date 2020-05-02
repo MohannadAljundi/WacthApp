@@ -48,5 +48,6 @@
     <string name="pleas_focus_on_qr_code_res">Pleas Focus on QR Code</string>
     <string name="phone_add_new_student_res">Phone</string>
     <string name="phone_add_bus_res">Phone</string>
+    <string name="no_place_selected">No Place Selected</string>
 
 </resources>

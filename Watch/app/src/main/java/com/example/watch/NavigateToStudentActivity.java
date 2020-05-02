@@ -29,18 +29,22 @@ public class NavigateToStudentActivity  extends  AppCompatActivity implements Vi
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case  R.id.txt_add_place_nav_to:{
+            case  R.id.add_place_img_nav_to | R.id.txt_add_place_nav_to:{
                 Intent i = new Intent(getApplicationContext(), LocationSetAutoActivity.class);
                 startActivity(i);
             }break;
 
             case  R.id.home_txt_nav_to:{
-                Intent i = new Intent(getApplicationContext(),LocationSetAutoActivity.class );
-                startActivity(i);
+//                Intent i = new Intent(getApplicationContext(),LocationSetAutoActivity.class );
+//                startActivity(i);
             }break;
 
             case  R.id.txt_nav_to_school:{
-                Intent i = new Intent(getApplicationContext(),LocationSetAutoActivity.class );
+//                Intent i = new Intent(getApplicationContext(),LocationSetAutoActivity.class );
+//                startActivity(i);
+            }break;
+            case  R.id.go_back_nav_to:{
+                Intent i = new Intent(getApplicationContext(),StudentProfileActivity.class );
                 startActivity(i);
             }break;
         }

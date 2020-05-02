@@ -98,6 +98,8 @@ public class LocationSetAutoActivity extends AppCompatActivity implements
         findViewById(R.id.go_back_profile_to).setOnClickListener(this);
         findViewById(R.id.current_location_txt).setOnClickListener(this);
 
+
+
     }
 
     @Override
@@ -273,9 +275,8 @@ public class LocationSetAutoActivity extends AppCompatActivity implements
                     String address = data.getStringExtra("address");
 
 
-
+                    current_location.setText(address);
                     Log.e("add",address+"");
-
 
                     Toast.makeText(this,address,Toast.LENGTH_LONG).show();
                     CurrentMarker = mMap.addMarker(new MarkerOptions().position(new LatLng(lat,lng)).title("My Location"));
@@ -512,7 +513,7 @@ public class LocationSetAutoActivity extends AppCompatActivity implements
             }break;
 
             case R.id.current_location_txt:{
-                Intent i = new Intent(getApplicationContext(), NavigateToStudentActivity.class);
+                Intent i = new Intent(getApplicationContext(), LocationGetAutoActivity.class);
                 startActivity(i);
             }
         }
