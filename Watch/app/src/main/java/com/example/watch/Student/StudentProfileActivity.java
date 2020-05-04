@@ -1,4 +1,4 @@
-package com.example.watch;
+package com.example.watch.Student;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,6 +17,9 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.example.watch.MainActivity;
+import com.example.watch.R;
+import com.example.watch.SettingsActivity;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;

@@ -1,4 +1,4 @@
-package com.example.watch;
+package com.example.watch.School;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,6 +17,8 @@ import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+
+import com.example.watch.R;
 import com.google.android.gms.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Build;
@@ -47,6 +49,8 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.io.IOException;
 import java.util.List;
@@ -58,6 +62,10 @@ public class StudentLocationActivity extends AppCompatActivity implements
         GoogleApiClient.OnConnectionFailedListener,
         LocationListener , View.OnClickListener {
 
+
+    private FirebaseDatabase firebaseInstance;
+    private DatabaseReference firebaseDatabase;
+    private String UserID;
 
     private static final String TAG = BusTrafficActivity.class.getSimpleName();
 
@@ -296,8 +304,14 @@ public class StudentLocationActivity extends AppCompatActivity implements
                     CameraUpdate update = CameraUpdateFactory.newLatLngZoom( positionUpdate, 15 );
                     now=mMap.addMarker(new MarkerOptions().position(positionUpdate)
                             .title("Your Location"));
-
                     mMap.animateCamera( update );
+
+                    firebaseInstance = FirebaseDatabase.getInstance();
+                    firebaseDatabase = firebaseInstance.getReference("LocationRecords");
+                    UserID = firebaseDatabase.push().getKey();
+
+                    LocationInfo Linfo = new LocationInfo(positionUpdate);
+                    firebaseDatabase.child("CurrentLocationHistory").child(UserID).setValue(Linfo);
 
                 } catch (Exception ex) {
 

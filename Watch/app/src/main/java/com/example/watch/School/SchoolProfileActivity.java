@@ -1,10 +1,14 @@
-package com.example.watch;
+package com.example.watch.School;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+
+import com.example.watch.MainActivity;
+import com.example.watch.R;
+import com.example.watch.SettingsActivity;
 
 public class SchoolProfileActivity extends AppCompatActivity implements View.OnClickListener {
 

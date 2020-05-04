@@ -1,19 +1,18 @@
-package com.example.watch;
+package com.example.watch.Bus;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Camera;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.util.SparseArray;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.watch.R;
 import com.google.android.gms.vision.CameraSource;
 import com.google.android.gms.vision.Detector;
 import com.google.android.gms.vision.barcode.Barcode;
@@ -96,7 +95,7 @@ public class ScanQRActivity extends AppCompatActivity implements View.OnClickLis
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.back_to_bus_profile:{
-                Intent go=new Intent(ScanQRActivity.this,BusProfileActivity.class);
+                Intent go=new Intent(ScanQRActivity.this, BusProfileActivity.class);
                 startActivity(go);
 
             }break;

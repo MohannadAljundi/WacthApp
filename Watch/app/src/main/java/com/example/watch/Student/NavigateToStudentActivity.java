@@ -1,4 +1,4 @@
-package com.example.watch;
+package com.example.watch.Student;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -7,6 +7,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+
+import com.example.watch.LocationSetAutoActivity;
+import com.example.watch.R;
 
 
 public class NavigateToStudentActivity  extends  AppCompatActivity implements View.OnClickListener {
@@ -46,7 +49,7 @@ public class NavigateToStudentActivity  extends  AppCompatActivity implements Vi
 //                startActivity(i);
             }break;
             case  R.id.go_back_nav_to:{
-                Intent i = new Intent(getApplicationContext(),StudentProfileActivity.class );
+                Intent i = new Intent(getApplicationContext(), StudentProfileActivity.class );
                 startActivity(i);
             }break;
         }

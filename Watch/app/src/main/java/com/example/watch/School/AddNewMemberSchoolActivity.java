@@ -1,10 +1,12 @@
-package com.example.watch;
+package com.example.watch.School;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+
+import com.example.watch.R;
 
 public class AddNewMemberSchoolActivity extends AppCompatActivity implements View.OnClickListener {
 

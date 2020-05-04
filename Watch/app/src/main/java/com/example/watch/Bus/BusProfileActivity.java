@@ -1,12 +1,14 @@
-package com.example.watch;
+package com.example.watch.Bus;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ImageView;
+
+import com.example.watch.MainActivity;
+import com.example.watch.R;
+import com.example.watch.SettingsActivity;
 
 public class BusProfileActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -45,17 +47,17 @@ public class BusProfileActivity extends AppCompatActivity implements View.OnClic
             }
             break;
             case R.id.btn_setting_profile_bus:{
-                Intent i=new Intent(getApplicationContext(),SettingsActivity.class);
+                Intent i=new Intent(getApplicationContext(), SettingsActivity.class);
                 startActivity(i);
 
             }break;
             case R.id.student_home_profile_bus:{
-                Intent i=new Intent(getApplicationContext(),StudentHomeActivity.class);
+                Intent i=new Intent(getApplicationContext(), StudentHomeActivity.class);
                 startActivity(i);
 
             }break;
             case R.id.student_on_board_profile_bus:{
-                Intent i=new Intent(getApplicationContext(),StudentOnBoardActivity.class);
+                Intent i=new Intent(getApplicationContext(), StudentOnBoardActivity.class);
                 startActivity(i);
 
             }break;

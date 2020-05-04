@@ -1,4 +1,4 @@
-package com.example.watch;
+package com.example.watch.Bus;
 
 import androidx.annotation.NonNull;
         import androidx.annotation.Nullable;
@@ -17,7 +17,10 @@ import androidx.annotation.NonNull;
         import android.location.Address;
         import android.location.Geocoder;
         import android.location.Location;
-        import com.google.android.gms.location.LocationListener;
+
+import com.example.watch.R;
+import com.example.watch.School.BusTrafficActivity;
+import com.google.android.gms.location.LocationListener;
         import android.location.LocationManager;
         import android.os.Build;
         import android.os.Bundle;
@@ -484,7 +487,7 @@ public class StudentHomeActivity extends AppCompatActivity implements
     public void onClick(View v) {
         switch(v.getId()){
             case R.id.back_to_bus_profile2:{
-                Intent i=new Intent(getApplicationContext(),BusProfileActivity.class);
+                Intent i=new Intent(getApplicationContext(), BusProfileActivity.class);
                 startActivity(i);
 
             }break;

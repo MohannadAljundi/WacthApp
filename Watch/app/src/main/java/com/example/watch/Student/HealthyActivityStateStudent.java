@@ -1,10 +1,12 @@
-package com.example.watch;
+package com.example.watch.Student;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+
+import com.example.watch.R;
 
 public class HealthyActivityStateStudent extends AppCompatActivity implements View.OnClickListener {
 

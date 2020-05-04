@@ -1,4 +1,4 @@
-package com.example.watch;
+package com.example.watch.Student;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,6 +17,8 @@ import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+
+import com.example.watch.R;
 import com.google.android.gms.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Build;
@@ -52,14 +54,14 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
-public class BusTrafficActivity extends AppCompatActivity implements
+public class BusMapActivity extends AppCompatActivity implements
         OnMapReadyCallback, LoaderManager.LoaderCallbacks<Object>,
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
         LocationListener , View.OnClickListener {
 
 
-    private static final String TAG = BusTrafficActivity.class.getSimpleName();
+    private static final String TAG = BusMapActivity.class.getSimpleName();
 
     private static final int REQUEST_CHECK_SETTINGS = 1000;
     private MapFragment mapFragment;
@@ -82,7 +84,7 @@ public class BusTrafficActivity extends AppCompatActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_bus_traffic);
+        setContentView(R.layout.activity_bus_map);
 
         mapFragment = (MapFragment) getFragmentManager()
                 .findFragmentById( R.id.map );
@@ -95,16 +97,16 @@ public class BusTrafficActivity extends AppCompatActivity implements
 
     }
 
-    @Override
-    protected void onStart() {
+        @Override
+        protected void onStart() {
         super.onStart();
         googleApiClient.connect();
     }
 
 
 
-    @Override
-    protected void onResume() {
+        @Override
+        protected void onResume() {
         super.onResume();
 
 
@@ -121,13 +123,13 @@ public class BusTrafficActivity extends AppCompatActivity implements
     }
 
 
-    @Override
-    protected void onPause() {
+        @Override
+        protected void onPause() {
         super.onPause();
     }
 
-    @Override
-    protected void onDestroy() {
+        @Override
+        protected void onDestroy() {
         super.onDestroy();
         if (googleApiClient.isConnected()) {
             googleApiClient.disconnect();
@@ -135,7 +137,26 @@ public class BusTrafficActivity extends AppCompatActivity implements
     }
 
 
-    public void onExit() {
+
+
+
+
+//        public void myLocation(View view) {
+//        Intent intent = new Intent( BusMapActivity.this, LocationAutoActivity.class );
+//        startActivityForResult(intent,GET_MY_LOCATION_PLACES);
+//        }
+//
+//
+//        public void destination(View view) {
+//        Intent intent = new Intent( BusMapActivity.this, LocationAutoActivity.class );
+//        startActivityForResult( intent , GET_DROP_LOCATION_PLACES );
+//        }
+
+
+
+
+
+        public void onExit() {
         moveTaskToBack(true);
         android.os.Process.killProcess(android.os.Process.myPid());
         System.exit(1);
@@ -143,8 +164,8 @@ public class BusTrafficActivity extends AppCompatActivity implements
 
 
 
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
+        @Override
+        public void onMapReady(GoogleMap googleMap) {
 
         mMap = googleMap;
 
@@ -163,7 +184,7 @@ public class BusTrafficActivity extends AppCompatActivity implements
     }
 
 
-    private void setupLocationManager() {
+        private void setupLocationManager() {
         if (googleApiClient == null) {
 
             googleApiClient = new GoogleApiClient.Builder( this )
@@ -176,7 +197,7 @@ public class BusTrafficActivity extends AppCompatActivity implements
         createLocationRequest();
     }
 
-    protected void createLocationRequest() {
+        protected void createLocationRequest() {
 
         request = new LocationRequest();
         request.setSmallestDisplacement( 10 );
@@ -208,7 +229,7 @@ public class BusTrafficActivity extends AppCompatActivity implements
                         try {
 
                             status.startResolutionForResult(
-                                    BusTrafficActivity.this,
+                                    BusMapActivity.this,
                                     REQUEST_CHECK_SETTINGS );
                         } catch (IntentSender.SendIntentException e) {
                             // Ignore the error.
@@ -226,8 +247,8 @@ public class BusTrafficActivity extends AppCompatActivity implements
     }
 
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        @Override
+        protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         Log.d("onActivityResult()", Integer.toString(resultCode));
         Log.e("test",requestCode+","+resultCode);
@@ -241,12 +262,12 @@ public class BusTrafficActivity extends AppCompatActivity implements
 
                             setInitialLocation();
 
-                            Toast.makeText(getApplicationContext(), "Location enabled", Toast.LENGTH_LONG).show();
+                            Toast.makeText(BusMapActivity.this, "Location enabled", Toast.LENGTH_LONG).show();
                             mRequestingLocationUpdates = true;
                             break;
                         }
                         case Activity.RESULT_CANCELED: {
-                            Toast.makeText(getApplicationContext(), "Location not enabled", Toast.LENGTH_LONG).show();
+                            Toast.makeText(BusMapActivity.this, "Location not enabled", Toast.LENGTH_LONG).show();
                             mRequestingLocationUpdates = false;
                             break;
                         }
@@ -267,12 +288,12 @@ public class BusTrafficActivity extends AppCompatActivity implements
     }
 
 
-    private void setInitialLocation() {
+        private void setInitialLocation() {
 
 
-        if (ActivityCompat.checkSelfPermission( BusTrafficActivity.this, android.Manifest.permission.ACCESS_FINE_LOCATION )
+        if (ActivityCompat.checkSelfPermission( BusMapActivity.this, android.Manifest.permission.ACCESS_FINE_LOCATION )
                 != PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission( BusTrafficActivity.this, android.Manifest.permission.ACCESS_COARSE_LOCATION )
+                ActivityCompat.checkSelfPermission( BusMapActivity.this, android.Manifest.permission.ACCESS_COARSE_LOCATION )
                         != PackageManager.PERMISSION_GRANTED) {
             return;
         }
@@ -284,15 +305,15 @@ public class BusTrafficActivity extends AppCompatActivity implements
                 double lat=location.getLatitude();
                 double lng=location.getLongitude();
 
-                BusTrafficActivity.this.latitude=lat;
-                BusTrafficActivity.this.longitude=lng;
+                BusMapActivity.this.latitude=lat;
+                BusMapActivity.this.longitude=lng;
 
 
                 try {
                     if(now !=null){
                         now.remove();
                     }
-                    LatLng positionUpdate = new LatLng( BusTrafficActivity.this.latitude,BusTrafficActivity.this.longitude );
+                    LatLng positionUpdate = new LatLng( BusMapActivity.this.latitude,BusMapActivity.this.longitude );
                     CameraUpdate update = CameraUpdateFactory.newLatLngZoom( positionUpdate, 15 );
                     now=mMap.addMarker(new MarkerOptions().position(positionUpdate)
                             .title("Your Location"));
@@ -307,7 +328,7 @@ public class BusTrafficActivity extends AppCompatActivity implements
                 }
 
                 try {
-                    geocoder = new Geocoder(BusTrafficActivity.this, Locale.ENGLISH);
+                    geocoder = new Geocoder(BusMapActivity.this, Locale.ENGLISH);
                     addresses = geocoder.getFromLocation(latitude, longitude, 1);
                     if (Geocoder.isPresent()) {
 
@@ -337,14 +358,14 @@ public class BusTrafficActivity extends AppCompatActivity implements
     }
 
 
-    private void CheckMapPermission() {
+        private void CheckMapPermission() {
 
 
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
 
-            if (ActivityCompat.checkSelfPermission( BusTrafficActivity.this, android.Manifest.permission.ACCESS_FINE_LOCATION ) != PackageManager.PERMISSION_GRANTED &&
-                    ActivityCompat.checkSelfPermission( BusTrafficActivity.this, android.Manifest.permission.ACCESS_COARSE_LOCATION ) != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions( BusTrafficActivity.this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 1002 );
+            if (ActivityCompat.checkSelfPermission( BusMapActivity.this, android.Manifest.permission.ACCESS_FINE_LOCATION ) != PackageManager.PERMISSION_GRANTED &&
+                    ActivityCompat.checkSelfPermission( BusMapActivity.this, android.Manifest.permission.ACCESS_COARSE_LOCATION ) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions( BusMapActivity.this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 1002 );
             } else {
 
                 setupLocationManager();
@@ -356,8 +377,8 @@ public class BusTrafficActivity extends AppCompatActivity implements
     }
 
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        @Override
+        public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult( requestCode, permissions, grantResults );
 
 
@@ -376,7 +397,7 @@ public class BusTrafficActivity extends AppCompatActivity implements
                     }
                 } else {
 
-                    Toast.makeText( getApplicationContext(), "Permission Denied", Toast.LENGTH_SHORT ).show();
+                    Toast.makeText( BusMapActivity.this, "Permission Denied", Toast.LENGTH_SHORT ).show();
                 }
             }
             break;
@@ -386,20 +407,20 @@ public class BusTrafficActivity extends AppCompatActivity implements
 
 
 
-    @Override
-    public void onConnected(@Nullable Bundle bundle) {
+        @Override
+        public void onConnected(@Nullable Bundle bundle) {
 
     }
 
 
-    @Override
-    public void onConnectionSuspended(int i) {
+        @Override
+        public void onConnectionSuspended(int i) {
     }
 
 
 
-    @Override
-    public void onLocationChanged(Location location) {
+        @Override
+        public void onLocationChanged(Location location) {
 
 
     }
@@ -408,27 +429,27 @@ public class BusTrafficActivity extends AppCompatActivity implements
 
 
     @Override
-    public void onPointerCaptureChanged(boolean hasCapture) {
+        public void onPointerCaptureChanged(boolean hasCapture) {
 
     }
 
 
-    @Override
-    public Loader<Object> onCreateLoader(int i, Bundle bundle) {
+        @Override
+        public Loader<Object> onCreateLoader(int i, Bundle bundle) {
         return null;
     }
 
-    @Override
-    public void onLoadFinished(Loader<Object> loader, Object o) {
+        @Override
+        public void onLoadFinished(Loader<Object> loader, Object o) {
 
     }
 
-    @Override
-    public void onLoaderReset(Loader<Object> loader) {
+        @Override
+        public void onLoaderReset(Loader<Object> loader) {
 
     }
 
-    private void locationButton() {
+        private void locationButton() {
 
         MapFragment mapFragment = (MapFragment) getFragmentManager()
                 .findFragmentById(R.id.map);
@@ -451,7 +472,7 @@ public class BusTrafficActivity extends AppCompatActivity implements
 
 
 
-    protected void buildAlertMessageNoGps() {
+        protected void buildAlertMessageNoGps() {
 
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("Please Turn ON your GPS Connection")
@@ -482,11 +503,11 @@ public class BusTrafficActivity extends AppCompatActivity implements
 
     @Override
     public void onClick(View v) {
-        switch(v.getId()){
-            case R.id.go_back_profile_to:{
-                Intent i = new Intent(getApplicationContext(), SchoolProfileActivity.class);
-                startActivity(i);
-            }break;
-        }
+       switch(v.getId()){
+           case R.id.go_back_profile_to:{
+               Intent i = new Intent(getApplicationContext(), StudentProfileActivity.class);
+               startActivity(i);
+           }break;
+       }
     }
 }

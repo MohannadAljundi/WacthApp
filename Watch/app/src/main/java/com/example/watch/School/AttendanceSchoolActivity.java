@@ -1,8 +1,10 @@
-package com.example.watch;
+package com.example.watch.School;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import com.example.watch.R;
 
 public class AttendanceSchoolActivity extends AppCompatActivity {
 

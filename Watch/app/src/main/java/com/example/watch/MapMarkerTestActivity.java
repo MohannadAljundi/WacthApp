@@ -18,8 +18,8 @@ import androidx.annotation.NonNull;
         import android.location.Geocoder;
         import android.location.Location;
 
-import com.example.watch.Student.BusMapActivity;
-import com.example.watch.Student.NavigateToStudentActivity;
+        import com.example.watch.R;
+import com.example.watch.School.SchoolProfileActivity;
 import com.google.android.gms.location.LocationListener;
         import android.location.LocationManager;
         import android.os.Build;
@@ -50,19 +50,28 @@ import com.google.android.gms.location.LocationListener;
         import com.google.android.gms.maps.model.LatLng;
         import com.google.android.gms.maps.model.Marker;
         import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+        import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
-        import java.io.IOException;
+import java.io.IOException;
         import java.util.List;
         import java.util.Locale;
 
-public class LocationSetAutoActivity extends AppCompatActivity implements
+public class MapMarkerTestActivity extends AppCompatActivity implements
         OnMapReadyCallback, LoaderManager.LoaderCallbacks<Object>,
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
         LocationListener, View.OnClickListener {
 
 
-    private static final String TAG = BusMapActivity.class.getSimpleName();
+    private FirebaseDatabase firebaseInstance;
+    private DatabaseReference firebaseDatabase;
+    private String UserID;
+
+    private static final String TAG = MapMarkerTestActivity.class.getSimpleName();
 
     private static final int REQUEST_CHECK_SETTINGS = 1000;
     private MapFragment mapFragment;
@@ -80,16 +89,12 @@ public class LocationSetAutoActivity extends AppCompatActivity implements
     List<Address> addresses;
 
     private TextView current_location ;
-    private Marker CurrentMarker;
-
-    private static final int GET_MY_LOCATION_PLACES = 3;
-    private static final int GET_DROP_LOCATION_PLACES = 4;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_location_set_auto_actinity);
+        setContentView(R.layout.activity_map_marker_test);
 
         mapFragment = (MapFragment) getFragmentManager()
                 .findFragmentById( R.id.map );
@@ -99,9 +104,6 @@ public class LocationSetAutoActivity extends AppCompatActivity implements
 
         current_location = findViewById(R.id.current_location_txt);
         findViewById(R.id.go_back_profile_to).setOnClickListener(this);
-        findViewById(R.id.current_location_txt).setOnClickListener(this);
-
-
 
     }
 
@@ -143,8 +145,6 @@ public class LocationSetAutoActivity extends AppCompatActivity implements
             googleApiClient.disconnect();
         }
     }
-
-
 
 
     public void onExit() {
@@ -220,7 +220,7 @@ public class LocationSetAutoActivity extends AppCompatActivity implements
                         try {
 
                             status.startResolutionForResult(
-                                    LocationSetAutoActivity.this,
+                                    com.example.watch.MapMarkerTestActivity.this,
                                     REQUEST_CHECK_SETTINGS );
                         } catch (IntentSender.SendIntentException e) {
                             // Ignore the error.
@@ -253,12 +253,12 @@ public class LocationSetAutoActivity extends AppCompatActivity implements
 
                             setInitialLocation();
 
-                            Toast.makeText(LocationSetAutoActivity.this, "Location enabled", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), "Location enabled", Toast.LENGTH_LONG).show();
                             mRequestingLocationUpdates = true;
                             break;
                         }
                         case Activity.RESULT_CANCELED: {
-                            Toast.makeText(LocationSetAutoActivity.this, "Location not enabled", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), "Location not enabled", Toast.LENGTH_LONG).show();
                             mRequestingLocationUpdates = false;
                             break;
                         }
@@ -268,38 +268,23 @@ public class LocationSetAutoActivity extends AppCompatActivity implements
                     }
                     break;
                 case RESULT_OK: {
-                    String returnString = data.getStringExtra(Intent.EXTRA_TEXT);
+                    String returnString = data.getStringExtra(android.content.Intent.EXTRA_TEXT);
+                    current_location.setText(returnString);
+                    Log.e("C_Loc","Did not set Location text");
+
                 } break;
 
-                case GET_MY_LOCATION_PLACES:{
-
-                    double lat = data.getDoubleExtra("lat",-1);
-                    double lng = data.getDoubleExtra("lng",-1);
-                    String address = data.getStringExtra("address");
-
-
-                    current_location.setText(address);
-                    Log.e("add",address+"");
-
-                    Toast.makeText(this,address,Toast.LENGTH_LONG).show();
-                    CurrentMarker = mMap.addMarker(new MarkerOptions().position(new LatLng(lat,lng)).title("My Location"));
-                    mMap.moveCamera( CameraUpdateFactory.newLatLngZoom(new LatLng(lat,lng),18));
-
-                }
-                break;
 
             }
     }
 
 
-
-
     private void setInitialLocation() {
 
 
-        if (ActivityCompat.checkSelfPermission( LocationSetAutoActivity.this, android.Manifest.permission.ACCESS_FINE_LOCATION )
+        if (ActivityCompat.checkSelfPermission( MapMarkerTestActivity.this, android.Manifest.permission.ACCESS_FINE_LOCATION )
                 != PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission( LocationSetAutoActivity.this, android.Manifest.permission.ACCESS_COARSE_LOCATION )
+                ActivityCompat.checkSelfPermission( MapMarkerTestActivity.this, android.Manifest.permission.ACCESS_COARSE_LOCATION )
                         != PackageManager.PERMISSION_GRANTED) {
             return;
         }
@@ -311,20 +296,44 @@ public class LocationSetAutoActivity extends AppCompatActivity implements
                 double lat=location.getLatitude();
                 double lng=location.getLongitude();
 
-                LocationSetAutoActivity.this.latitude=lat;
-                LocationSetAutoActivity.this.longitude=lng;
+                MapMarkerTestActivity.this.latitude=lat;
+                MapMarkerTestActivity.this.longitude=lng;
 
 
                 try {
                     if(now !=null){
                         now.remove();
                     }
-                    LatLng positionUpdate = new LatLng( LocationSetAutoActivity.this.latitude,LocationSetAutoActivity.this.longitude );
+                    LatLng positionUpdate = new LatLng( MapMarkerTestActivity.this.latitude, MapMarkerTestActivity.this.longitude );
                     CameraUpdate update = CameraUpdateFactory.newLatLngZoom( positionUpdate, 15 );
+
+                    firebaseDatabase.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()){  // row read
+                                for(DataSnapshot dataSnapshot2 : dataSnapshot1.getChildren()){ // column read
+                                    double lat = dataSnapshot2.child("latitude").getValue(Double.class);
+                                    double lng = dataSnapshot2.child("longitude").getValue(Double.class);
+                                    LatLng OtherPositions  = new LatLng(lat , lng);
+                                    now=mMap.addMarker(new MarkerOptions().position(OtherPositions)
+                                            .title("Your Location"));
+                                    Log.d("TAGdb", String.valueOf(OtherPositions));
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError error) {
+                            // Failed to read value
+                            Log.w("TAG", "Failed to read value.", error.toException());
+                        }
+                    });
+
                     now=mMap.addMarker(new MarkerOptions().position(positionUpdate)
                             .title("Your Location"));
-
                     mMap.animateCamera( update );
+
+
 
                 } catch (Exception ex) {
 
@@ -334,7 +343,7 @@ public class LocationSetAutoActivity extends AppCompatActivity implements
                 }
 
                 try {
-                    geocoder = new Geocoder(LocationSetAutoActivity.this, Locale.ENGLISH);
+                    geocoder = new Geocoder(MapMarkerTestActivity.this, Locale.ENGLISH);
                     addresses = geocoder.getFromLocation(latitude, longitude, 1);
                     if (Geocoder.isPresent()) {
 
@@ -369,9 +378,9 @@ public class LocationSetAutoActivity extends AppCompatActivity implements
 
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
 
-            if (ActivityCompat.checkSelfPermission( LocationSetAutoActivity.this, android.Manifest.permission.ACCESS_FINE_LOCATION ) != PackageManager.PERMISSION_GRANTED &&
-                    ActivityCompat.checkSelfPermission( LocationSetAutoActivity.this, android.Manifest.permission.ACCESS_COARSE_LOCATION ) != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions( LocationSetAutoActivity.this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 1002 );
+            if (ActivityCompat.checkSelfPermission( MapMarkerTestActivity.this, android.Manifest.permission.ACCESS_FINE_LOCATION ) != PackageManager.PERMISSION_GRANTED &&
+                    ActivityCompat.checkSelfPermission( MapMarkerTestActivity.this, android.Manifest.permission.ACCESS_COARSE_LOCATION ) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions( MapMarkerTestActivity.this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 1002 );
             } else {
 
                 setupLocationManager();
@@ -403,7 +412,7 @@ public class LocationSetAutoActivity extends AppCompatActivity implements
                     }
                 } else {
 
-                    Toast.makeText( LocationSetAutoActivity.this, "Permission Denied", Toast.LENGTH_SHORT ).show();
+                    Toast.makeText( getApplicationContext(), "Permission Denied", Toast.LENGTH_SHORT ).show();
                 }
             }
             break;
@@ -511,14 +520,9 @@ public class LocationSetAutoActivity extends AppCompatActivity implements
     public void onClick(View v) {
         switch(v.getId()){
             case R.id.go_back_profile_to:{
-                Intent i = new Intent(getApplicationContext(), NavigateToStudentActivity.class);
+                Intent i = new Intent(getApplicationContext(), SchoolProfileActivity.class);
                 startActivity(i);
             }break;
-
-            case R.id.current_location_txt:{
-                Intent i = new Intent(getApplicationContext(), LocationGetAutoActivity.class);
-                startActivity(i);
-            }
         }
     }
 }

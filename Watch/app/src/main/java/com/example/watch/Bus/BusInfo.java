@@ -1,4 +1,4 @@
-package com.example.watch;
+package com.example.watch.Bus;
 
 import java.util.Random;
 

@@ -21,31 +21,32 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".HealthyActivityStateStudent"></activity>
+        <activity android:name=".MapMarkerTestActivity"></activity>
+        <activity android:name=".Student.HealthyActivityStateStudent" />
         <activity android:name=".LocationGetAutoActivity" />
         <activity android:name=".LocationSetAutoActivity" />
         <activity android:name=".DatabaseTest" />
-        <activity android:name=".StudentHomeActivity" />
-        <activity android:name=".StudentOnBoardActivity" />
-        <activity android:name=".ScanQRActivity" />
-        <activity android:name=".StudentLocationActivity" />
-        <activity android:name=".BusTrafficActivity" />
-        <activity android:name=".BusLoginActivity" />
-        <activity android:name=".StudenLoginActivity" />
-        <activity android:name=".BusProfileActivity" />
-        <activity android:name=".AttendanceSchoolActivity" />
-        <activity android:name=".HealthStateSchoolActivity" />
-        <activity android:name=".AddNewBusActivity" />
-        <activity android:name=".AddNewStudentActivity" />
-        <activity android:name=".AddNewMemberSchoolActivity" />
-        <activity android:name=".SchoolProfileActivity" />
-        <activity android:name=".SchoolLoginActivity" />
-        <activity android:name=".NonAttendanceStudentActivity" />
-        <activity android:name=".ViewMapStudentActivity" />
+        <activity android:name=".Bus.StudentHomeActivity" />
+        <activity android:name=".Bus.StudentOnBoardActivity" />
+        <activity android:name=".Bus.ScanQRActivity" />
+        <activity android:name=".School.StudentLocationActivity" />
+        <activity android:name=".School.BusTrafficActivity" />
+        <activity android:name=".Bus.BusLoginActivity" />
+        <activity android:name=".Student.StudenLoginActivity" />
+        <activity android:name=".Bus.BusProfileActivity" />
+        <activity android:name=".School.AttendanceSchoolActivity" />
+        <activity android:name=".School.HealthStateSchoolActivity" />
+        <activity android:name=".School.AddNewBusActivity" />
+        <activity android:name=".School.AddNewStudentActivity" />
+        <activity android:name=".School.AddNewMemberSchoolActivity" />
+        <activity android:name=".School.SchoolProfileActivity" />
+        <activity android:name=".School.SchoolLoginActivity" />
+        <activity android:name=".Student.NonAttendanceStudentActivity" />
+        <activity android:name=".Student.ViewMapStudentActivity" />
         <activity
             android:name=".SettingsActivity"
             android:label="@string/title_activity_settings" />
-        <activity android:name=".BusMapActivity" />
+        <activity android:name=".Student.BusMapActivity" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -60,8 +61,8 @@
         <activity
             android:name=".MapsActivity"
             android:label="@string/title_activity_maps" />
-        <activity android:name=".NavigateToStudentActivity" />
-        <activity android:name=".StudentProfileActivity" />
+        <activity android:name=".Student.NavigateToStudentActivity" />
+        <activity android:name=".Student.StudentProfileActivity" />
         <activity android:name=".Splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -69,7 +70,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SignUPSchoolActivity" />
+        <activity android:name=".School.SignUPSchoolActivity" />
         <activity android:name=".MainActivity" />
     </application>
 

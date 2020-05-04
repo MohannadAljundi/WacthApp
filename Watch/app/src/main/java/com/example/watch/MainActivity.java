@@ -6,6 +6,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import com.example.watch.Bus.BusLoginActivity;
+import com.example.watch.School.SchoolLoginActivity;
+import com.example.watch.Student.StudenLoginActivity;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     @Override

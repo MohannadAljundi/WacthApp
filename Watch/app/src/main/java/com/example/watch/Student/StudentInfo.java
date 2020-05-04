@@ -1,4 +1,4 @@
-package com.example.watch;
+package com.example.watch.Student;
 
 import android.graphics.Bitmap;
 

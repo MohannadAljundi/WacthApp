@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".School.BusTrafficActivity">
+    tools:context=".MapMarkerTestActivity">
 
 
     <fragment
@@ -12,7 +12,7 @@
         android:name="com.google.android.gms.maps.MapFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:layout="@layout/activity_bus_traffic"/>
+        tools:layout="@layout/activity_map_marker_test"/>
 
 
     <LinearLayout
@@ -32,7 +32,7 @@
                 android:layout_height="66dp"
                 android:layout_gravity="center"
                 android:layout_marginTop="15dp"
-                app:srcCompat="@drawable/bus_traffic" />
+                app:srcCompat="@drawable/student_location" />
         </LinearLayout>
 
         <LinearLayout
@@ -99,6 +99,5 @@
         </LinearLayout>
 
     </LinearLayout>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

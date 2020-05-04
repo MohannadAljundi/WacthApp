@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:background="@drawable/ic_background"
     android:layout_height="match_parent"
-    tools:context=".SchoolLoginActivity">
+    tools:context=".School.SchoolLoginActivity">
 
     <LinearLayout
         android:layout_width="match_parent"

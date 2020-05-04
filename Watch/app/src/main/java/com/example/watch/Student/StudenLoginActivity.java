@@ -1,4 +1,4 @@
-package com.example.watch;
+package com.example.watch.Student;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,24 +11,23 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.watch.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
-public class BusLoginActivity extends AppCompatActivity implements View.OnClickListener  {
+public class StudenLoginActivity extends AppCompatActivity implements View.OnClickListener {
 
     private Button login;
     private TextView Signup;
     private FirebaseAuth mAuth;
     private EditText Email , Pass ;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_bus_login);
-
+        setContentView(R.layout.activity_studen_login);
 
         mAuth = FirebaseAuth.getInstance();
         Email = findViewById(R.id.txtEmail);
@@ -55,11 +54,10 @@ public class BusLoginActivity extends AppCompatActivity implements View.OnClickL
                 LoginSoGood(email,pass);
             }
         });
-
     }
 
     private void LoginSoGood(final String email, String pass){
-        mAuth.signInWithEmailAndPassword(email,pass).addOnCompleteListener(BusLoginActivity.this, new OnCompleteListener<AuthResult>() {
+        mAuth.signInWithEmailAndPassword(email,pass).addOnCompleteListener(StudenLoginActivity.this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(!task.isSuccessful()){
@@ -67,7 +65,7 @@ public class BusLoginActivity extends AppCompatActivity implements View.OnClickL
                 }
                 else {
                     Toast.makeText(getApplicationContext(),"Welcome " + email,Toast.LENGTH_LONG).show();
-                    Intent i = new Intent(BusLoginActivity.this,BusProfileActivity.class);
+                    Intent i = new Intent(StudenLoginActivity.this, StudentProfileActivity.class);
                     startActivity(i);
                 }
             }
@@ -84,7 +82,7 @@ public class BusLoginActivity extends AppCompatActivity implements View.OnClickL
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.twits_img :{
-                Intent i = new Intent(BusLoginActivity.this, BusProfileActivity.class);
+                Intent i = new Intent(StudenLoginActivity.this, StudentProfileActivity.class);
                 startActivity(i);
             }break;
 

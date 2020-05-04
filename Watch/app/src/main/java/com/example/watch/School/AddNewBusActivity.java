@@ -1,4 +1,4 @@
-package com.example.watch;
+package com.example.watch.School;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,10 +12,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.watch.Bus.BusInfo;
+import com.example.watch.R;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
-import java.lang.reflect.Array;
 
 public class AddNewBusActivity extends AppCompatActivity implements View.OnClickListener {
 

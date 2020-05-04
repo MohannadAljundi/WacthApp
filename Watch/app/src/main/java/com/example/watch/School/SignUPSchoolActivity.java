@@ -1,4 +1,4 @@
-package com.example.watch;
+package com.example.watch.School;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,6 +13,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.watch.EmailSendingClass;
+import com.example.watch.MainActivity;
+import com.example.watch.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
