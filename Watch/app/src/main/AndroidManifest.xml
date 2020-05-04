@@ -21,7 +21,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".LocationGetAutoActivity"></activity>
+        <activity android:name=".HealthyActivityStateStudent"></activity>
+        <activity android:name=".LocationGetAutoActivity" />
         <activity android:name=".LocationSetAutoActivity" />
         <activity android:name=".DatabaseTest" />
         <activity android:name=".StudentHomeActivity" />

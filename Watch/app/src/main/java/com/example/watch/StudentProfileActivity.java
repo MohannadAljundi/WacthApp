@@ -50,6 +50,7 @@ public class StudentProfileActivity extends AppCompatActivity implements View.On
         findViewById(R.id.non_atn_profile).setOnClickListener(this);
         findViewById(R.id.go_back_profile).setOnClickListener(this);
         findViewById(R.id.btn_setting_profile).setOnClickListener(this);
+
         select_pic = findViewById(R.id.select_pic);
         select_pic.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -150,6 +151,8 @@ public class StudentProfileActivity extends AppCompatActivity implements View.On
             }break;
             case R.id.health_profile :{
 
+                Intent i = new Intent(getApplicationContext(), HealthyActivityStateStudent.class);
+                startActivity(i);
 
             }break;
             case R.id.view_loc_profile :{

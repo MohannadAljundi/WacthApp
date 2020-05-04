@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
+    android:background="@drawable/ic_background"
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
@@ -63,6 +64,7 @@
                             android:layout_height="match_parent"
                             android:gravity="center"
                             android:paddingTop="5dp"
+                            android:background="@drawable/shapesignup"
                             android:paddingBottom="5dp"
 
                             >
@@ -102,6 +104,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
                         android:layout_weight="0.7"
+                        android:background="@drawable/shape_search"
                         android:orientation="vertical">
 
                         <TextView
@@ -143,12 +146,10 @@
                             android:layout_height="match_parent">
 
                             <ImageView
-                                android:id="@+id/image_right"
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
-                                android:layout_centerInParent="true"
-                                android:src="@drawable/logo_m"
-                                android:tint="#4e4e4e" />
+                                android:id="@+id/imageView8"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:srcCompat="@drawable/map_logo" />
 
                         </RelativeLayout>
 

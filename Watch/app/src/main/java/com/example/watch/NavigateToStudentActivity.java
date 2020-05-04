@@ -22,6 +22,8 @@ public class NavigateToStudentActivity  extends  AppCompatActivity implements Vi
         findViewById(R.id.txt_add_place_nav_to).setOnClickListener(this);
         findViewById(R.id.home_txt_nav_to).setOnClickListener(this);
         findViewById(R.id.txt_nav_to_school).setOnClickListener(this);
+        findViewById(R.id.go_back_nav_to).setOnClickListener(this);
+        findViewById(R.id.add_place_img_nav_to).setOnClickListener(this);
 
     }
 
@@ -29,7 +31,7 @@ public class NavigateToStudentActivity  extends  AppCompatActivity implements Vi
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case  R.id.add_place_img_nav_to | R.id.txt_add_place_nav_to:{
+            case  R.id.add_place_img_nav_to :{
                 Intent i = new Intent(getApplicationContext(), LocationSetAutoActivity.class);
                 startActivity(i);
             }break;
