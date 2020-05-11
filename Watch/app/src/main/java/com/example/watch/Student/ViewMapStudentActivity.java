@@ -50,6 +50,11 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.io.IOException;
 import java.util.List;
@@ -60,6 +65,11 @@ public class ViewMapStudentActivity extends AppCompatActivity implements
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
         LocationListener , View.OnClickListener {
+
+
+    private FirebaseDatabase firebaseInstance;
+    private DatabaseReference firebaseDatabase;
+    private String UserID;
 
 
     private static final String TAG = BusMapActivity.class.getSimpleName();
@@ -95,6 +105,10 @@ public class ViewMapStudentActivity extends AppCompatActivity implements
 
         current_location = findViewById(R.id.current_location_txt);
         findViewById(R.id.go_back_profile_to2).setOnClickListener(this);
+
+        firebaseInstance = FirebaseDatabase.getInstance();
+        firebaseDatabase = firebaseInstance.getReference("LocationRecord");
+        UserID = firebaseDatabase.push().getKey();
 
     }
 
@@ -136,26 +150,6 @@ public class ViewMapStudentActivity extends AppCompatActivity implements
             googleApiClient.disconnect();
         }
     }
-
-
-
-
-
-
-//        public void myLocation(View view) {
-//        Intent intent = new Intent( BusMapActivity.this, LocationAutoActivity.class );
-//        startActivityForResult(intent,GET_MY_LOCATION_PLACES);
-//        }
-//
-//
-//        public void destination(View view) {
-//        Intent intent = new Intent( BusMapActivity.this, LocationAutoActivity.class );
-//        startActivityForResult( intent , GET_DROP_LOCATION_PLACES );
-//        }
-
-
-
-
 
     public void onExit() {
         moveTaskToBack(true);
@@ -318,8 +312,31 @@ public class ViewMapStudentActivity extends AppCompatActivity implements
                     CameraUpdate update = CameraUpdateFactory.newLatLngZoom( positionUpdate, 15 );
                     now=mMap.addMarker(new MarkerOptions().position(positionUpdate)
                             .title("Your Location"));
-
                     mMap.animateCamera( update );
+                    final int[] count = {0};
+
+                    firebaseDatabase.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()){  // row read
+                                for(DataSnapshot dataSnapshot2 : dataSnapshot1.getChildren()){ // column read
+                                    double lat = dataSnapshot2.child("latitude").getValue(Double.class);
+                                    double lng = dataSnapshot2.child("longitude").getValue(Double.class);
+                                    LatLng OtherPositions  = new LatLng(lat , lng);
+                                    now=mMap.addMarker(new MarkerOptions().position(OtherPositions)
+                                            .title("Your Location"+ count[0]));
+                                    Log.d("TAGdb", String.valueOf(OtherPositions));
+                                    count[0]++;
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError error) {
+                            // Failed to read value
+                            Log.e("TAG", "Failed to read value.", error.toException());
+                        }
+                    });
 
                 } catch (Exception ex) {
 

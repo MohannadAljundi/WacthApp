@@ -107,7 +107,7 @@ public class MapMarkerTestActivity extends AppCompatActivity implements
 
 
         firebaseInstance = FirebaseDatabase.getInstance();
-        firebaseDatabase = firebaseInstance.getReference("LocationRecords");
+        firebaseDatabase = firebaseInstance.getReference("LocationDataRecord");
         UserID = firebaseDatabase.push().getKey();
 
     }
@@ -312,6 +312,13 @@ public class MapMarkerTestActivity extends AppCompatActivity implements
                     LatLng positionUpdate = new LatLng( MapMarkerTestActivity.this.latitude, MapMarkerTestActivity.this.longitude );
                     CameraUpdate update = CameraUpdateFactory.newLatLngZoom( positionUpdate, 15 );
 
+
+                    now=mMap.addMarker(new MarkerOptions().position(positionUpdate)
+                            .title("Your Location"));
+
+                    //firebaseDatabase.child("Location").child(UserID).setValue(positionUpdate);
+                    firebaseDatabase.child("Location").child(UserID).child("latitude").setValue(positionUpdate.latitude);
+                    firebaseDatabase.child("Location").child(UserID).child("longitude").setValue(positionUpdate.longitude);
                     firebaseDatabase.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -334,8 +341,6 @@ public class MapMarkerTestActivity extends AppCompatActivity implements
                         }
                     });
 
-                    now=mMap.addMarker(new MarkerOptions().position(positionUpdate)
-                            .title("Your Location"));
                     mMap.animateCamera( update );
 
 
