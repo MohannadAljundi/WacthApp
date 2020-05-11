@@ -306,12 +306,15 @@ public class StudentLocationActivity extends AppCompatActivity implements
                             .title("Your Location"));
                     mMap.animateCamera( update );
 
+
                     firebaseInstance = FirebaseDatabase.getInstance();
                     firebaseDatabase = firebaseInstance.getReference("LocationRecords");
                     UserID = firebaseDatabase.push().getKey();
 
-                    LocationInfo Linfo = new LocationInfo(positionUpdate);
-                    firebaseDatabase.child("CurrentLocationHistory").child(UserID).setValue(Linfo);
+
+
+                    LocationInfo locationInfo = new LocationInfo(positionUpdate,lat,lng);
+                    firebaseDatabase.child("Location").child(UserID).setValue(locationInfo);
 
                 } catch (Exception ex) {
 

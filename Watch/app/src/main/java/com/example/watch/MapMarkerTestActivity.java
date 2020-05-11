@@ -19,6 +19,7 @@ import androidx.annotation.NonNull;
         import android.location.Location;
 
         import com.example.watch.R;
+import com.example.watch.School.LocationInfo;
 import com.example.watch.School.SchoolProfileActivity;
 import com.google.android.gms.location.LocationListener;
         import android.location.LocationManager;
@@ -316,9 +317,10 @@ public class MapMarkerTestActivity extends AppCompatActivity implements
                     now=mMap.addMarker(new MarkerOptions().position(positionUpdate)
                             .title("Your Location"));
 
-                    //firebaseDatabase.child("Location").child(UserID).setValue(positionUpdate);
-                    firebaseDatabase.child("Location").child(UserID).child("latitude").setValue(positionUpdate.latitude);
-                    firebaseDatabase.child("Location").child(UserID).child("longitude").setValue(positionUpdate.longitude);
+                    double latitude = 0, longitude = 0 ;
+                    LocationInfo locationInfo = new LocationInfo(positionUpdate,latitude,longitude);
+                    firebaseDatabase.child("Location").child(UserID).setValue(locationInfo);
+
                     firebaseDatabase.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
