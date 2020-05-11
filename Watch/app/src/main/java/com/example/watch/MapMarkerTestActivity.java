@@ -105,6 +105,11 @@ public class MapMarkerTestActivity extends AppCompatActivity implements
         current_location = findViewById(R.id.current_location_txt);
         findViewById(R.id.go_back_profile_to).setOnClickListener(this);
 
+
+        firebaseInstance = FirebaseDatabase.getInstance();
+        firebaseDatabase = firebaseInstance.getReference("LocationRecords");
+        UserID = firebaseDatabase.push().getKey();
+
     }
 
     @Override
@@ -325,7 +330,7 @@ public class MapMarkerTestActivity extends AppCompatActivity implements
                         @Override
                         public void onCancelled(DatabaseError error) {
                             // Failed to read value
-                            Log.w("TAG", "Failed to read value.", error.toException());
+                            Log.e("TAG", "Failed to read value.", error.toException());
                         }
                     });
 
