@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 
+import com.example.watch.Test.AddingInfoActivity;
+
 public class Splash extends AppCompatActivity {
 
     /** Duration of wait **/
