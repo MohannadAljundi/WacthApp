@@ -3,8 +3,12 @@ package com.example.watch.School;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.media.MediaCas;
 import android.os.Bundle;
+import android.se.omapi.Session;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -12,18 +16,32 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.watch.R;
+import com.example.watch.modes.SessionManager;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
-public class SchoolLoginActivity extends AppCompatActivity implements View.OnClickListener{
+public class SchoolLoginActivity extends AppCompatActivity implements View.OnClickListener , DialogInterface {
 
+    private FirebaseDatabase firebaseInstance;
+    private DatabaseReference firebaseDatabase;
     private Button login;
     private TextView Signup;
     private FirebaseAuth mAuth;
     private EditText Email , Pass ;
     private String  Email_Str , Password_Str , Name_Str;
+
+    // Alert Dialog Manager
+    //AlertDialogManager alert = new AlertDialogManager();
+
+    // Session Manager Class
+    SessionManager session;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +55,12 @@ public class SchoolLoginActivity extends AppCompatActivity implements View.OnCli
         findViewById(R.id.twits_img).setOnClickListener(this);
         findViewById(R.id.textViewSignup).setOnClickListener(this);
 
+        firebaseInstance = FirebaseDatabase.getInstance();
+        firebaseDatabase = firebaseInstance.getReference("SchoolInfo");
+
         login = findViewById(R.id.buttonLogin);
+
+        session = new SessionManager(getApplicationContext());
 
         login.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,6 +82,27 @@ public class SchoolLoginActivity extends AppCompatActivity implements View.OnCli
 
     }
 
+            public void ReadNiceNameFromFirebase(){
+                firebaseDatabase.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()){  // row read
+                            for(DataSnapshot dataSnapshot2 : dataSnapshot1.getChildren()){ // column read
+                                Name_Str = dataSnapshot2.child("NiceName").getValue(String.class);
+                                Log.d("Firebase State","Read Name Successful" +" >> " + Name_Str);
+
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError error) {
+                        // Failed to read value
+                        Log.w("TAG", "Failed to read value.", error.toException());
+                    }
+                });
+
+            }
 
 
     private void LoginSoGood(final String email, String pass){
@@ -70,6 +114,8 @@ public class SchoolLoginActivity extends AppCompatActivity implements View.OnCli
                         if(task.isSuccessful()){
                             if(mAuth.getCurrentUser().isEmailVerified()){
                                 Toast.makeText(getApplicationContext(),"Welcome " + email,Toast.LENGTH_LONG).show();
+                                ReadNiceNameFromFirebase();
+                                session.createLoginSession(Name_Str, email);
                                 Intent i = new Intent(SchoolLoginActivity.this, SchoolProfileActivity.class);
                                 startActivity(i);
                             }
@@ -106,5 +152,15 @@ public class SchoolLoginActivity extends AppCompatActivity implements View.OnCli
             }break;
 
         }
+    }
+
+    @Override
+    public void cancel() {
+
+    }
+
+    @Override
+    public void dismiss() {
+
     }
 }

@@ -17,18 +17,26 @@ import android.widget.Toast;
 import com.example.watch.EmailSendingClass;
 import com.example.watch.MainActivity;
 import com.example.watch.R;
+import com.example.watch.Student.StudentInfo;
+import com.example.watch.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import javax.mail.MessagingException;
 
 public class SignUPSchoolActivity extends AppCompatActivity implements View.OnClickListener {
 
+    private FirebaseDatabase firebaseInstance;
+    private DatabaseReference firebaseDatabase;
     private FirebaseAuth mAuth;
     private EditText Email , Pass , Name , Phone;
     private EmailSendingClass EmialS;
+    public String  UserID , NiceName_Str , Email_Str , Password_Str , Phone_Str;
+    private String locked = "false";
 
     private Button conform ;
 
@@ -39,6 +47,9 @@ public class SignUPSchoolActivity extends AppCompatActivity implements View.OnCl
         findViewById(R.id.go_back_nav_to).setOnClickListener(this);
         //findViewById(R.id.move_on_create_account).setOnClickListener(this);
         conform = findViewById(R.id.move_on_create_account);
+        firebaseInstance = FirebaseDatabase.getInstance();
+        firebaseDatabase = firebaseInstance.getReference("SchoolInfo");
+        UserID = firebaseDatabase.push().getKey();
 
 
         Email = findViewById(R.id.txtEmail);
@@ -51,8 +62,9 @@ public class SignUPSchoolActivity extends AppCompatActivity implements View.OnCl
             @Override
             public void onClick(View v) {
                 try {
+                    AddSchoolToFirebase();
                     RegisterUser();
-                    Toast.makeText(getApplicationContext(),"Sendding an Email ...",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(),"Sending an Email ...",Toast.LENGTH_LONG).show();
                 } catch (MessagingException e) {
                     Log.d("Error" , " >> " + e.getMessage());
                     e.printStackTrace();
@@ -63,6 +75,21 @@ public class SignUPSchoolActivity extends AppCompatActivity implements View.OnCl
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
+
+    }
+
+    public void AddSchoolToFirebase(){
+        NiceName_Str = Name.getText().toString();
+        Email_Str = Email.getText().toString();
+        Password_Str = Pass.getText().toString();
+        Phone_Str = Phone.getText().toString();
+
+
+        SchoolInfo schoolInfo = new SchoolInfo(NiceName_Str,Email_Str,Password_Str
+                ,Phone_Str,false);
+        firebaseDatabase.child("School").child(UserID).setValue(schoolInfo);
+        Log.d("Firebase State","Info Saved");
+
 
     }
 
@@ -92,6 +119,8 @@ public class SignUPSchoolActivity extends AppCompatActivity implements View.OnCl
             Pass.requestFocus();
             return;
         }
+
+
 
         EmialS = new EmailSendingClass();
         EmialS.sendMail(Email.getText().toString(),Name.getText().toString());
