@@ -8,10 +8,13 @@ import android.view.View;
 
 import com.example.watch.Bus.BusLoginActivity;
 import com.example.watch.School.SchoolLoginActivity;
+import com.example.watch.School.SchoolProfileActivity;
 import com.example.watch.Student.StudenLoginActivity;
+import com.example.watch.modes.SessionManager;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+    SessionManager sessionManager ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,8 +32,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.all_user_student:{
-                Intent i = new Intent(getApplicationContext(), StudenLoginActivity.class);
-                startActivity(i);
+                if(sessionManager.isLoggedIn())
+                {
+                    Intent i = new Intent(getApplicationContext(), SchoolProfileActivity.class);
+                    startActivity(i);
+                }
+                else {
+                    Intent i = new Intent(getApplicationContext(), StudenLoginActivity.class);
+                    startActivity(i);
+                }
+
+
             }break;
 
             case R.id.all_user_school:{

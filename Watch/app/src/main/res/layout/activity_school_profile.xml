@@ -37,7 +37,20 @@
                 android:text="School"
                 android:textColor="#05738c"
                 android:textSize="25sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                />
+
+
+            <ImageView
+                android:id="@+id/btnSignout"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="100dp"
+                android:layout_marginTop="5dp"
+                android:src="@drawable/ic_exit_to_app_black_24dp"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+
         </LinearLayout>
 
         <LinearLayout

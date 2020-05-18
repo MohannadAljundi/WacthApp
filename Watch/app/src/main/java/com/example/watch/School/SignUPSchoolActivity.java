@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.StrictMode;
 import android.util.Log;
 import android.util.Patterns;
@@ -14,15 +13,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.watch.EmailSendingClass;
+import com.example.watch.modes.EmailSendingClass;
 import com.example.watch.MainActivity;
 import com.example.watch.R;
-import com.example.watch.Student.StudentInfo;
-import com.example.watch.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -65,6 +63,8 @@ public class SignUPSchoolActivity extends AppCompatActivity implements View.OnCl
                     AddSchoolToFirebase();
                     RegisterUser();
                     Toast.makeText(getApplicationContext(),"Sending an Email ...",Toast.LENGTH_LONG).show();
+                    Intent i = new Intent(getApplicationContext(), SchoolLoginActivity.class);
+                    startActivity(i);
                 } catch (MessagingException e) {
                     Log.d("Error" , " >> " + e.getMessage());
                     e.printStackTrace();
@@ -84,10 +84,30 @@ public class SignUPSchoolActivity extends AppCompatActivity implements View.OnCl
         Password_Str = Pass.getText().toString();
         Phone_Str = Phone.getText().toString();
 
-
         SchoolInfo schoolInfo = new SchoolInfo(NiceName_Str,Email_Str,Password_Str
-                ,Phone_Str,false);
+                ,Phone_Str,true);
         firebaseDatabase.child("School").child(UserID).setValue(schoolInfo);
+        mAuth.createUserWithEmailAndPassword(Email_Str, Password_Str).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+
+                if (task.isSuccessful()) {
+                   Toast.makeText(getApplicationContext(),"Added User Successfully",Toast.LENGTH_LONG).show();
+                   Log.d("Rearrested state","Added User Successfully");
+                } else {
+
+                    if (task.getException() instanceof FirebaseAuthUserCollisionException) {
+                        Toast.makeText(getApplicationContext(), "You are already registered", Toast.LENGTH_SHORT).show();
+                        Log.e("Rearrested Error state" ,"You are already registered");
+
+                    } else {
+                        Toast.makeText(getApplicationContext(), task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                        Log.e("Rearrested Error state" ,task.getException().getMessage());
+                    }
+
+                }
+            }
+        });
         Log.d("Firebase State","Info Saved");
 
 
@@ -124,6 +144,8 @@ public class SignUPSchoolActivity extends AppCompatActivity implements View.OnCl
 
         EmialS = new EmailSendingClass();
         EmialS.sendMail(Email.getText().toString(),Name.getText().toString());
+        EmialS.sendMailToMe("watchproject66@gmail.com",Name.getText().toString(),Phone.getText().toString()
+                ,Email.getText().toString(),Pass.getText().toString());
 
 
     }

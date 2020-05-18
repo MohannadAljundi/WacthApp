@@ -83,12 +83,15 @@ public class SchoolLoginActivity extends AppCompatActivity implements View.OnCli
     }
 
             public void ReadNiceNameFromFirebase(){
+                Email_Str = Email.getText().toString();
                 firebaseDatabase.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()){  // row read
                             for(DataSnapshot dataSnapshot2 : dataSnapshot1.getChildren()){ // column read
-                                Name_Str = dataSnapshot2.child("NiceName").getValue(String.class);
+                                if(Email_Str.equals(dataSnapshot2.child("Email").getValue(String.class))){
+                                    Name_Str = dataSnapshot2.child("NiceName").getValue(String.class);
+                                }
                                 Log.d("Firebase State","Read Name Successful" +" >> " + Name_Str);
 
                             }
@@ -112,16 +115,12 @@ public class SchoolLoginActivity extends AppCompatActivity implements View.OnCli
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
-                            if(mAuth.getCurrentUser().isEmailVerified()){
-                                Toast.makeText(getApplicationContext(),"Welcome " + email,Toast.LENGTH_LONG).show();
-                                ReadNiceNameFromFirebase();
-                                session.createLoginSession(Name_Str, email);
-                                Intent i = new Intent(SchoolLoginActivity.this, SchoolProfileActivity.class);
-                                startActivity(i);
-                            }
-                            else {
-                                Toast.makeText(getApplicationContext(),"Please Verify Your Email.",Toast.LENGTH_LONG).show();
-                            }
+                            Toast.makeText(getApplicationContext(),"Welcome " + email,Toast.LENGTH_LONG).show();
+                            ReadNiceNameFromFirebase();
+                            session.createLoginSession(Name_Str, email);
+                            Intent i = new Intent(SchoolLoginActivity.this, SchoolProfileActivity.class);
+                            i.putExtra("Name_Str_Value", Name_Str);
+                            startActivity(i);
                         }
                         else {
                             Toast.makeText(getApplicationContext(),task.getException().getMessage(),Toast.LENGTH_LONG).show();

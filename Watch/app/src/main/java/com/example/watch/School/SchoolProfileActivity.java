@@ -7,13 +7,21 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.example.watch.MainActivity;
 import com.example.watch.R;
 import com.example.watch.SettingsActivity;
 import com.example.watch.modes.SessionManager;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class SchoolProfileActivity extends AppCompatActivity implements View.OnClickListener {
+
+    FirebaseAuth firebaseAuth;
+    FirebaseUser firebaseUser;
+
+    private TextView Name_View , Email_View;
 
 
 
@@ -22,6 +30,9 @@ public class SchoolProfileActivity extends AppCompatActivity implements View.OnC
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_school_profile);
+
+        firebaseAuth = FirebaseAuth.getInstance();
+        firebaseUser = firebaseAuth.getCurrentUser();
 
         findViewById(R.id.add_new_butt).setOnClickListener(this);
 
@@ -37,9 +48,15 @@ public class SchoolProfileActivity extends AppCompatActivity implements View.OnC
 
         findViewById(R.id.student_location).setOnClickListener(this);
 
+        findViewById(R.id.btnSignout).setOnClickListener(this);
 
+        Name_View = findViewById(R.id.txtname_profil);
+        Email_View = findViewById(R.id.txtemail_profil);
 
+        String Name_Get = getIntent().getStringExtra("Name_Str_Value");
 
+        Name_View.setText(Name_Get);
+        Email_View.setText(firebaseUser.getEmail());
     }
 
     @Override
@@ -77,6 +94,14 @@ public class SchoolProfileActivity extends AppCompatActivity implements View.OnC
 
             case R.id.student_location:{
                 Intent go = new Intent(SchoolProfileActivity.this, StudentLocationActivity.class);
+                startActivity(go);
+            }break;
+
+            case R.id.btnSignout:{
+                FirebaseAuth.getInstance().signOut();
+                Intent go = new Intent(SchoolProfileActivity.this, MainActivity.class);
+                go.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                go.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(go);
             }break;
 

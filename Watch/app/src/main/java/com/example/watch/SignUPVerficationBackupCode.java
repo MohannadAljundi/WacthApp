@@ -1,12 +1,5 @@
+/*
 package com.example.watch;
-
-import android.content.Intent;
-
-public class SignUPVerficationBackupCode {
-
-    /*
-
-    package com.example.watch;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,7 +17,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
-public class SignUPSchoolActivity extends AppCompatActivity implements View.OnClickListener {
+public class SignUPVerficationBackupCode extends AppCompatActivity implements View.OnClickListener {
 
     private FirebaseAuth mAuth;
     private EditText Email , Pass , Name ;
@@ -88,29 +81,21 @@ public class SignUPSchoolActivity extends AppCompatActivity implements View.OnCl
                                         new Handler().postDelayed(new Runnable(){
                                             @Override
                                             public void run() {
-                                         */
-    /*
-    Intent i = new Intent(SignUPSchoolActivity.this, SchoolLoginActivity.class);
-    SignUPSchoolActivity.this.startActivity(i);
-    SignUPSchoolActivity.this.finish();
-}
+                                                Intent intent;
                                         }, 3000);
+                                        else {
+                                            Toast.makeText(getApplicationContext(), task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                                        }
+                                    }
+                                });
+                            }
+                            else {
+                    Toast.makeText(getApplicationContext(),task.getException().getMessage(),Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+    }
 
-
-
-                                                } else {
-                                                Toast.makeText(getApplicationContext(), task.getException().getMessage(), Toast.LENGTH_LONG).show();
-                                                }
-
-                                                }
-                                                });
-                                                }
-                                                else {
-                                                Toast.makeText(getApplicationContext(),task.getException().getMessage(),Toast.LENGTH_LONG).show();
-                                                }
-                                                }
-                                                });
-                                                }
 
 @Override
 public void onClick(View v) {
@@ -130,5 +115,6 @@ public void onClick(View v) {
         }
 
 
-        */
 }
+
+*/
