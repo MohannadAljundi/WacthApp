@@ -16,7 +16,7 @@
 
     <!--styles for profile-->
     <style name="AppTheme.ProfileTheme">
-        <item name="colorPrimaryDark">@color/profilePrimaryDark</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/profileAccentColor</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>

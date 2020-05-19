@@ -2,9 +2,11 @@ package com.example.watch.School;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -24,9 +26,9 @@ public class AddNewStudentActivity extends AppCompatActivity implements View.OnC
             User_Age, User_ClassNo , User_BloodType , User_Phone ;
     private Button btnRQ , banConfirm ;
     public String  UserID , Full_name , bus_no , class_no , blood_type , phone , age;
-    private Bitmap student_qr;
     private QRCodeHelper qrCodeHelper;
-    private String Content ;
+    StudentInfo studentInfo;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,14 +70,14 @@ public class AddNewStudentActivity extends AppCompatActivity implements View.OnC
         phone = User_Phone.getText().toString();
         age = User_Age.getText().toString();
 
-        StudentInfo studentInfo = new StudentInfo(Full_name,phone,bus_no,age
-                ,class_no,blood_type);
+         studentInfo = new StudentInfo(Full_name,phone,bus_no,age
+                ,class_no,blood_type,studentInfo.StudentQR);
         firebaseDatabase.child("Student").child(UserID).setValue(studentInfo);
 
 
     }
 
-   /* public void GenerateQR(View view){
+    public void GenerateQR(View view){
         final ProgressDialog progressDialog = new ProgressDialog(this);
         Full_name = User_FullName.getText().toString();
         bus_no = User_BusNo.getText().toString();
@@ -84,27 +86,17 @@ public class AddNewStudentActivity extends AppCompatActivity implements View.OnC
         phone = User_Phone.getText().toString();
         age = User_Age.getText().toString();
 
-        Content = Full_name + " , " + bus_no + " , "
+        studentInfo.Content = Full_name + " , " + bus_no + " , "
                 + phone + " , " + age + " , " +
                 class_no + " , " + blood_type ;
 
-
-
-        Log.d("Content",Content);
-        qrCodeHelper.setContent(Content);
+        Log.d("Content",studentInfo.Content);
+        qrCodeHelper.setContent(studentInfo.Content);
         qrCodeHelper.setWidthAndHeight(160,160);
         qrCodeHelper.setMargin(2);
-        student_qr = qrCodeHelper.getQRCOde();
+        studentInfo.StudentQR = qrCodeHelper.getQRCOde();
         Toast.makeText(getApplicationContext(),"QR is Generated ",Toast.LENGTH_LONG).show();
-    }*/
-
-   /* public void AddStudentToFirebase(View view){
-
-
-        studentInfo = new StudentInfo(Full_name,phone,bus_no,age
-                    ,class_no,blood_type);
-        firebaseDatabase.child("Student").child(UserID).setValue(studentInfo);
-    }*/
+    }
 
     @Override
     public void onClick(View v) {

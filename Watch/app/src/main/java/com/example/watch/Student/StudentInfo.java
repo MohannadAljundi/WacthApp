@@ -13,13 +13,14 @@ public class StudentInfo {
     public String ClassNo;
     public String BloodType;
     public Bitmap StudentQR;
+    public String Content;
 
     public StudentInfo(){
 
     }
 
     public StudentInfo(String fullName , String phone , String busNumber , String age ,
-                       String classNo , String bloodType ){
+                       String classNo , String bloodType ,Bitmap studentQR ){
         //ID = IDGenerator();
         this.FullName = fullName;
         this.Phone = phone;
@@ -27,6 +28,7 @@ public class StudentInfo {
         this.Age = age ;
         this.ClassNo = classNo;
         this.BloodType = bloodType;
+        this.StudentQR = studentQR;
     }
 
 

@@ -14,6 +14,7 @@ public class SchoolInfo {
     public boolean Locked ;
 
 
+
     public SchoolInfo(){
 
     }

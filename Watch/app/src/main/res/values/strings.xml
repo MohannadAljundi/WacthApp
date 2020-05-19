@@ -50,5 +50,8 @@
     <string name="phone_add_bus_res">Phone</string>
     <string name="no_place_selected">No Place Selected</string>
     <string name="title_activity_maps2">Map</string>
+    <string name="name_edit_res">name</string>
+    <string name="Save">Save</string>
+    <string name="cancel">Cancel</string>
 
 </resources>
