@@ -2,6 +2,7 @@ package com.example.watch.School;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -50,13 +51,33 @@ public class SchoolProfileActivity extends AppCompatActivity implements View.OnC
 
         findViewById(R.id.btnSignout).setOnClickListener(this);
 
+        findViewById(R.id.btn_edit_profile).setOnClickListener(this);
+
         Name_View = findViewById(R.id.txtname_profil);
         Email_View = findViewById(R.id.txtemail_profil);
 
+
+    }
+
+    @SuppressLint("SetTextI18n")
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        String Email_Get = getIntent().getStringExtra("Email_Value");
         String Name_Get = getIntent().getStringExtra("Name_Str_Value");
 
-        Name_View.setText(Name_Get);
-        Email_View.setText(firebaseUser.getEmail());
+
+        if(Email_Get != null){
+            Email_View.setText(firebaseUser.getEmail());
+            Name_View.setText(Name_Get);
+        }
+        else {
+            Email_View.setText("Gust");
+            Name_View.setText("Gust");
+        }
+
+
     }
 
     @Override
@@ -105,6 +126,11 @@ public class SchoolProfileActivity extends AppCompatActivity implements View.OnC
                 startActivity(go);
             }break;
 
+
+            case R.id.btn_edit_profile:{
+                Intent go = new Intent(SchoolProfileActivity.this, SchoolEditProfileActivity.class);
+                startActivity(go);
+            }break;
         }
 
 

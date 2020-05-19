@@ -35,7 +35,9 @@ public class SchoolLoginActivity extends AppCompatActivity implements View.OnCli
     private TextView Signup;
     private FirebaseAuth mAuth;
     private EditText Email , Pass ;
-    private String  Email_Str , Password_Str , Name_Str;
+    private String  Email_Str , Password_Str ;
+    public String Name_Str;
+    SchoolInfo schoolInfo  = new SchoolInfo();
 
     // Alert Dialog Manager
     //AlertDialogManager alert = new AlertDialogManager();
@@ -83,17 +85,18 @@ public class SchoolLoginActivity extends AppCompatActivity implements View.OnCli
     }
 
             public void ReadNiceNameFromFirebase(){
+
                 Email_Str = Email.getText().toString();
                 firebaseDatabase.addValueEventListener(new ValueEventListener() {
                     @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()){  // row read
                             for(DataSnapshot dataSnapshot2 : dataSnapshot1.getChildren()){ // column read
                                 if(Email_Str.equals(dataSnapshot2.child("Email").getValue(String.class))){
                                     Name_Str = dataSnapshot2.child("NiceName").getValue(String.class);
+                                    schoolInfo.NiceName = Name_Str;
                                 }
                                 Log.d("Firebase State","Read Name Successful" +" >> " + Name_Str);
-
                             }
                         }
                     }
@@ -104,22 +107,23 @@ public class SchoolLoginActivity extends AppCompatActivity implements View.OnCli
                         Log.w("TAG", "Failed to read value.", error.toException());
                     }
                 });
-
             }
 
 
     private void LoginSoGood(final String email, String pass){
 
+        ReadNiceNameFromFirebase();
         mAuth.signInWithEmailAndPassword(email,pass)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
                             Toast.makeText(getApplicationContext(),"Welcome " + email,Toast.LENGTH_LONG).show();
-                            ReadNiceNameFromFirebase();
-                            session.createLoginSession(Name_Str, email);
-                            Intent i = new Intent(SchoolLoginActivity.this, SchoolProfileActivity.class);
-                            i.putExtra("Name_Str_Value", Name_Str);
+                            session.createLoginSession(schoolInfo.NiceName, email);
+                            Intent i = new Intent(getBaseContext(), SchoolProfileActivity.class);
+                            i.putExtra("Name_Str_Value", schoolInfo.NiceName);
+                            i.putExtra("Email_Value", schoolInfo.Email);
+
                             startActivity(i);
                         }
                         else {

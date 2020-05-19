@@ -41,6 +41,8 @@ public class SessionManager {
         editor = pref.edit();
     }
 
+
+
     /**
      * Create login session
      * */

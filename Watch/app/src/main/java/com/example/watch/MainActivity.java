@@ -32,17 +32,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.all_user_student:{
-                if(sessionManager.isLoggedIn())
-                {
-                    Intent i = new Intent(getApplicationContext(), SchoolProfileActivity.class);
-                    startActivity(i);
-                }
-                else {
-                    Intent i = new Intent(getApplicationContext(), StudenLoginActivity.class);
-                    startActivity(i);
-                }
-
-
+                Intent i = new Intent(getApplicationContext(), StudenLoginActivity.class);
+                startActivity(i);
             }break;
 
             case R.id.all_user_school:{
