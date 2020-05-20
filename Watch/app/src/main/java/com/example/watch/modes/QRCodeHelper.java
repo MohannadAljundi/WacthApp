@@ -1,4 +1,4 @@
-package com.example.watch;
+package com.example.watch.modes;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -22,6 +22,12 @@ public class QRCodeHelper {
     private int mMargin;
     private String mContent;
     private int mWidth, mHeight;
+
+
+   public QRCodeHelper(){
+
+   }
+
     /**
      * private constructor of this class only access by stying in this class.
      */
@@ -100,7 +106,8 @@ public class QRCodeHelper {
     private Bitmap generate() {
         Map<EncodeHintType, Object> hintsMap = new HashMap<>();
         hintsMap.put(EncodeHintType.CHARACTER_SET, "utf-8");
-        hintsMap.put(EncodeHintType.ERROR_CORRECTION, mErrorCorrectionLevel);
+        //hintsMap.put(EncodeHintType.ERROR_CORRECTION, mErrorCorrectionLevel);
+        hintsMap.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.H);
         hintsMap.put(EncodeHintType.MARGIN, mMargin);
         try {
             BitMatrix bitMatrix = new QRCodeWriter().encode(mContent, BarcodeFormat.QR_CODE, mWidth, mHeight, hintsMap);

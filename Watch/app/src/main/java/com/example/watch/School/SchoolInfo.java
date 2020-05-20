@@ -11,6 +11,7 @@ public class SchoolInfo {
     public String Phone;
     public String Email;
     public String Password ;
+    public String Address ;
     public boolean Locked ;
 
 

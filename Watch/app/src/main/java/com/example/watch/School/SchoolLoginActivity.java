@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.MediaCas;
 import android.os.Bundle;
+import android.os.Handler;
 import android.se.omapi.Session;
 import android.util.Log;
 import android.view.View;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.watch.R;
+import com.example.watch.modes.LoadingDialoge;
 import com.example.watch.modes.SessionManager;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -57,6 +59,8 @@ public class SchoolLoginActivity extends AppCompatActivity implements View.OnCli
         findViewById(R.id.twits_img).setOnClickListener(this);
         findViewById(R.id.textViewSignup).setOnClickListener(this);
 
+        final LoadingDialoge loadingDialoge = new LoadingDialoge(this);
+
         firebaseInstance = FirebaseDatabase.getInstance();
         firebaseDatabase = firebaseInstance.getReference("SchoolInfo");
 
@@ -80,11 +84,20 @@ public class SchoolLoginActivity extends AppCompatActivity implements View.OnCli
                 }
 
                 LoginSoGood(email,pass);
-
-
+                loadingDialoge.StartLoadingDialog();
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        loadingDialoge.DismissDialog();
+                    }
+                },5000);
+            }
+        });
     }
 
-            public void ReadNiceNameFromFirebase(){
+
+            void ReadNiceNameFromFirebase(){
 
                 Email_Str = Email.getText().toString();
                 firebaseDatabase.addValueEventListener(new ValueEventListener() {
@@ -108,32 +121,30 @@ public class SchoolLoginActivity extends AppCompatActivity implements View.OnCli
                     }
                 });
             }
+            private void LoginSoGood(final String email, String pass){
+
+                ReadNiceNameFromFirebase();
+                mAuth.signInWithEmailAndPassword(email,pass)
+                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                if(task.isSuccessful()){
+                                    Toast.makeText(getApplicationContext(),"Welcome " + schoolInfo.NiceName,Toast.LENGTH_LONG).show();
+                                    session.createLoginSession(schoolInfo.NiceName, email);
+                                    Intent i = new Intent(getBaseContext(), SchoolProfileActivity.class);
+                                    i.putExtra("Email_Value", email);
+                                    i.putExtra("Name_Str_Value", schoolInfo.NiceName);
 
 
-    private void LoginSoGood(final String email, String pass){
+                                    startActivity(i);
+                                }
+                                else {
+                                    Toast.makeText(getApplicationContext(),task.getException().getMessage(),Toast.LENGTH_LONG).show();
+                                }
+                            }
+                        });
+            }
 
-        ReadNiceNameFromFirebase();
-        mAuth.signInWithEmailAndPassword(email,pass)
-                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if(task.isSuccessful()){
-                            Toast.makeText(getApplicationContext(),"Welcome " + email,Toast.LENGTH_LONG).show();
-                            session.createLoginSession(schoolInfo.NiceName, email);
-                            Intent i = new Intent(getBaseContext(), SchoolProfileActivity.class);
-                            i.putExtra("Name_Str_Value", schoolInfo.NiceName);
-                            i.putExtra("Email_Value", schoolInfo.Email);
-
-                            startActivity(i);
-                        }
-                        else {
-                            Toast.makeText(getApplicationContext(),task.getException().getMessage(),Toast.LENGTH_LONG).show();
-                        }
-                    }
-                });
-    }
-        });
-    }
 
     @Override
     public void onStart() {

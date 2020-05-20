@@ -157,7 +157,6 @@
                 android:background="@drawable/btn_shape2"
                 android:drawableRight="@drawable/ic_qr"
                 android:hint="@string/generate_qr_code_add_student_res"
-                android:onClick="GenerateQR"
                 android:inputType="textPersonName"
                 android:paddingLeft="20dp"
                 android:textSize="18sp" />

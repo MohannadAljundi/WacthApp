@@ -59,7 +59,7 @@ public class SchoolProfileActivity extends AppCompatActivity implements View.OnC
 
     }
 
-    @SuppressLint("SetTextI18n")
+
     @Override
     protected void onStart() {
         super.onStart();

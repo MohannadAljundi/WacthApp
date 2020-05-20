@@ -2,49 +2,92 @@ package com.example.watch.School;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
+import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.watch.R;
+import com.example.watch.modes.EditAddressDialog;
+import com.example.watch.modes.EditEmailDialog;
+import com.example.watch.modes.EditNameDialog;
+import com.example.watch.modes.EditPasswordDialog;
+import com.example.watch.modes.EditPhoneDialog;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 
+public class SchoolEditProfileActivity extends AppCompatActivity implements View.OnClickListener
+        , EditNameDialog.EditNameDialogListener , EditAddressDialog.EditAddressDialogListener ,
+        EditEmailDialog.EditEmailDialogListener , EditPhoneDialog.EditPhoneDialogListener ,
+        EditPasswordDialog.EditPasswordDialogListener {
 
-public class SchoolEditProfileActivity extends AppCompatActivity implements View.OnClickListener {
+    private TextView name_view , email_view , address_view , phone_view ;
+    private FirebaseDatabase firebaseInstance;
+    private DatabaseReference firebaseDatabase;
+    private String UserID;
+    String old_pass = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_school_edit_profile);
+        name_view = findViewById(R.id.nameTextView);
+        email_view = findViewById(R.id.emailTextView);
+        address_view = findViewById(R.id.addressTextView);
+        phone_view = findViewById(R.id.phoneTextView);
+
+        findViewById(R.id.edit_name).setOnClickListener(this);
+        findViewById(R.id.edit_email).setOnClickListener(this);
+        findViewById(R.id.edit_address).setOnClickListener(this);
+        findViewById(R.id.edit_password).setOnClickListener(this);
+        findViewById(R.id.edit_phone).setOnClickListener(this);
+
+        firebaseInstance = FirebaseDatabase.getInstance();
+        firebaseDatabase = firebaseInstance.getReference("SchoolInfo");
+        UserID = firebaseDatabase.push().getKey();
+
+
     }
 
-//    @Override
-//    public Dialog onCreateDialog(Bundle savedInstanceState) {
-//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//        // Get the layout inflater
-//        LayoutInflater inflater = requireActivity().getLayoutInflater();
-//
-//        // Inflate and set the layout for the dialog
-//        // Pass null as the parent view because its going in the dialog layout
-//        builder.setView(inflater.inflate(R.layout.dialog_edit_name, null))
-//                // Add action buttons
-//                .setPositiveButton(R.string.Save, new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int id) {
-//
-//                    }
-//                })
-//                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-//                    public void onClick(DialogInterface dialog, int id) {
-//                        LoginDialogFragment.this.getDialog().cancel();
-//                    }
-//                });
-//        return builder.create();
-//    }
+    public void updateInfo(String filed , String child){
+        firebaseDatabase.child("School").child(UserID).child(child).setValue(filed);
+    }
+
+    public void OpenEditNameDialog(){
+        EditNameDialog editNameDialog = new EditNameDialog();
+        editNameDialog.show(getSupportFragmentManager(),"Edit Name Dialog");
+
+    }
+
+    public void OpenEditEmailDialog(){
+        EditEmailDialog editEmailDialog = new EditEmailDialog();
+        editEmailDialog.show(getSupportFragmentManager(),"Edit Email Dialog");
+
+    }
+
+    public void OpenEditPhoneDialog(){
+        EditPhoneDialog editPhoneDialog = new EditPhoneDialog();
+        editPhoneDialog.show(getSupportFragmentManager(),"Edit Phone Dialog");
+
+    }
+
+    public void OpenEditAddressDialog(){
+        EditAddressDialog editAddressDialog = new EditAddressDialog();
+        editAddressDialog.show(getSupportFragmentManager(),"Edit Address Dialog");
+
+    }
+
+    public void OpenEditPasswordDialog(){
+        EditPasswordDialog editPasswordDialog = new EditPasswordDialog();
+        editPasswordDialog.show(getSupportFragmentManager(),"Edit Password Dialog");
+
+    }
 
     @Override
     public void onClick(View v) {
@@ -55,10 +98,79 @@ public class SchoolEditProfileActivity extends AppCompatActivity implements View
             }break;
 
             case R.id.edit_name:{
+                OpenEditNameDialog();
+            }break;
 
+            case R.id.edit_email:{
+                OpenEditEmailDialog();
+            }break;
+
+            case R.id.edit_address:{
+                OpenEditAddressDialog();
+            }break;
+
+            case R.id.edit_phone:{
+                OpenEditPhoneDialog();
+            }break;
+
+            case R.id.edit_password:{
+                OpenEditPasswordDialog();
             }break;
 
 
+        }
+    }
+
+    @Override
+    public void TransferNameText(String username) {
+        name_view.setText(username);
+        updateInfo(username,"NiceName");
+
+    }
+
+    @Override
+    public void TransferAddressText(String address) {
+        address_view.setText(address);
+        updateInfo(address,"Address");
+    }
+
+    @Override
+    public void TransferEmailText(String Email) {
+        email_view.setText(Email);
+        updateInfo(Email,"Email");
+    }
+
+    @Override
+    public void TransferPhoneText(String phone) {
+        phone_view.setText(phone);
+        updateInfo(phone,"Phone");
+
+    }
+
+    @Override
+    public void TransferPasswordText(String Old_password, String New_Password) {
+
+        firebaseDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()){  // row read
+                    for(DataSnapshot dataSnapshot2 : dataSnapshot1.getChildren()){ // column read
+                        old_pass = dataSnapshot2.child("Password").getValue(String.class);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w("TAG", "Failed to read value.", error.toException());
+            }
+        });
+
+        if(old_pass.equals(Old_password)){
+            updateInfo(New_Password,"Password");
+        }else{
+            Toast.makeText(getApplicationContext(),"The Old Password is Wrong",Toast.LENGTH_LONG).show();
         }
     }
 }

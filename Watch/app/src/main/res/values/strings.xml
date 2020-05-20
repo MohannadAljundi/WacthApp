@@ -50,8 +50,15 @@
     <string name="phone_add_bus_res">Phone</string>
     <string name="no_place_selected">No Place Selected</string>
     <string name="title_activity_maps2">Map</string>
-    <string name="name_edit_res">name</string>
+    <string name="name_edit_res">Your Name</string>
     <string name="Save">Save</string>
     <string name="cancel">Cancel</string>
+    <string name="your_phone_edit_res">Your Phone</string>
+    <string name="your_email_edit_res">Your Email</string>
+    <string name="your_address_edit_res">Your Address</string>
+    <string name="loading_res">Loading ...</string>
+    <string name="old_password_res">Old Password</string>
+    <string name="new_password_res">New Password</string>
+    <string name="conform_password_res">Conform Password</string>
 
 </resources>

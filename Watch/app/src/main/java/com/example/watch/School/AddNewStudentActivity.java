@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -12,7 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.watch.QRCodeHelper;
+import com.example.watch.modes.QRCodeHelper;
 import com.example.watch.R;
 import com.example.watch.Student.StudentInfo;
 import com.google.firebase.database.DatabaseReference;
@@ -26,8 +25,9 @@ public class AddNewStudentActivity extends AppCompatActivity implements View.OnC
             User_Age, User_ClassNo , User_BloodType , User_Phone ;
     private Button btnRQ , banConfirm ;
     public String  UserID , Full_name , bus_no , class_no , blood_type , phone , age;
-    private QRCodeHelper qrCodeHelper;
-    StudentInfo studentInfo;
+    public QRCodeHelper qrCodeHelper = new QRCodeHelper();
+    StudentInfo studentInfo = new StudentInfo();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +35,7 @@ public class AddNewStudentActivity extends AppCompatActivity implements View.OnC
         setContentView(R.layout.activity_add_new_student);
 
         findViewById(R.id.bktomain).setOnClickListener(this);
+        findViewById(R.id.QR_add_student).setOnClickListener(this);
 
         User_FullName = findViewById(R.id.name_add_student);
         User_BusNo = findViewById(R.id.bus_number_add_student);
@@ -77,7 +78,7 @@ public class AddNewStudentActivity extends AppCompatActivity implements View.OnC
 
     }
 
-    public void GenerateQR(View view){
+    public void GenerateQR(){
         final ProgressDialog progressDialog = new ProgressDialog(this);
         Full_name = User_FullName.getText().toString();
         bus_no = User_BusNo.getText().toString();
@@ -86,14 +87,15 @@ public class AddNewStudentActivity extends AppCompatActivity implements View.OnC
         phone = User_Phone.getText().toString();
         age = User_Age.getText().toString();
 
-        studentInfo.Content = Full_name + " , " + bus_no + " , "
-                + phone + " , " + age + " , " +
-                class_no + " , " + blood_type ;
+        studentInfo.Content = Full_name + " + " + bus_no + " + "
+                + phone + " + " + age + " + " +
+                class_no + " + " + blood_type ;
+
 
         Log.d("Content",studentInfo.Content);
         qrCodeHelper.setContent(studentInfo.Content);
         qrCodeHelper.setWidthAndHeight(160,160);
-        qrCodeHelper.setMargin(2);
+        qrCodeHelper.setMargin(1);
         studentInfo.StudentQR = qrCodeHelper.getQRCOde();
         Toast.makeText(getApplicationContext(),"QR is Generated ",Toast.LENGTH_LONG).show();
     }
@@ -105,6 +107,11 @@ public class AddNewStudentActivity extends AppCompatActivity implements View.OnC
                 Intent go = new Intent(AddNewStudentActivity.this, AddNewMemberSchoolActivity.class);
                 startActivity(go);
             }break;
+
+            case R.id.QR_add_student:{
+                GenerateQR();
+            }break;
+
         }
     }
 }

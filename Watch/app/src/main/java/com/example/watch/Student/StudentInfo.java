@@ -2,6 +2,7 @@ package com.example.watch.Student;
 
 import android.graphics.Bitmap;
 
+import java.util.List;
 import java.util.Random;
 
 public class StudentInfo {
@@ -13,7 +14,9 @@ public class StudentInfo {
     public String ClassNo;
     public String BloodType;
     public Bitmap StudentQR;
+    public String StudentQR_str;
     public String Content;
+    public List<Bitmap> StudentQR_List;
 
     public StudentInfo(){
 
@@ -22,14 +25,20 @@ public class StudentInfo {
     public StudentInfo(String fullName , String phone , String busNumber , String age ,
                        String classNo , String bloodType ,Bitmap studentQR ){
         //ID = IDGenerator();
+        String QR_Str ;
         this.FullName = fullName;
         this.Phone = phone;
         this.BusNumber = busNumber;
         this.Age = age ;
         this.ClassNo = classNo;
         this.BloodType = bloodType;
-        this.StudentQR = studentQR;
+        //this.StudentQR_List.add(studentQR);
+        this.StudentQR_str = studentQR.toString();
+        //this.StudentQR = studentQR;
+
     }
+
+
 
 
     private String IDGenerator(){
