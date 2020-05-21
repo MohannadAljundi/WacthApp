@@ -19,6 +19,7 @@ import android.location.Geocoder;
 import android.location.Location;
 
 import com.example.watch.R;
+import com.example.watch.modes.SessionManager;
 import com.google.android.gms.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Build;
@@ -61,6 +62,7 @@ public class BusMapActivity extends AppCompatActivity implements
         LocationListener , View.OnClickListener {
 
 
+    SessionManager session ;
     private static final String TAG = BusMapActivity.class.getSimpleName();
 
     private static final int REQUEST_CHECK_SETTINGS = 1000;
@@ -85,6 +87,9 @@ public class BusMapActivity extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bus_map);
+
+        session = new SessionManager(getApplicationContext());
+        session.checkLogin();
 
         mapFragment = (MapFragment) getFragmentManager()
                 .findFragmentById( R.id.map );

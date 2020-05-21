@@ -14,10 +14,15 @@ import android.widget.Toast;
 
 import com.example.watch.Bus.BusInfo;
 import com.example.watch.R;
+import com.example.watch.modes.SessionManager;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.HashMap;
+
 public class AddNewBusActivity extends AppCompatActivity implements View.OnClickListener {
+
+    SessionManager session ;
 
     private FirebaseDatabase firebaseInstance;
     private DatabaseReference firebaseDatabase;
@@ -30,6 +35,8 @@ public class AddNewBusActivity extends AppCompatActivity implements View.OnClick
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_new_bus);
 
+        session = new SessionManager(getApplicationContext());
+
         findViewById(R.id.bktomain).setOnClickListener(this);
 
 
@@ -39,6 +46,9 @@ public class AddNewBusActivity extends AppCompatActivity implements View.OnClick
         Phone = findViewById(R.id.user_phone_add_bus);
         Age = findViewById(R.id.age_add_student);
         btnConform = findViewById(R.id.conf_butt);
+
+        session.checkLogin();
+
 
         firebaseInstance = FirebaseDatabase.getInstance();
         firebaseDatabase = firebaseInstance.getReference("BusInfo");

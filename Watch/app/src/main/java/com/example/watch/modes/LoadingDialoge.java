@@ -25,6 +25,9 @@ public class LoadingDialoge {
     }
 
     public void DismissDialog(){
-        alertDialog.dismiss();
+        if(!activity.isFinishing()){
+            alertDialog.dismiss();
+        }
+
     }
 }

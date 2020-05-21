@@ -10,17 +10,22 @@ import android.widget.Button;
 
 import com.example.watch.LocationSetAutoActivity;
 import com.example.watch.R;
+import com.example.watch.modes.SessionManager;
 
 
 public class NavigateToStudentActivity  extends  AppCompatActivity implements View.OnClickListener {
 
 
+    SessionManager session ;
     private Button AddPlace;
     @SuppressLint("WrongViewCast")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigate_to_student);
+
+        session = new SessionManager(getApplicationContext());
+        session.checkLogin();
 
         findViewById(R.id.txt_add_place_nav_to).setOnClickListener(this);
         findViewById(R.id.home_txt_nav_to).setOnClickListener(this);

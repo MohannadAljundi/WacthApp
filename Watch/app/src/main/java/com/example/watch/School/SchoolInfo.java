@@ -30,13 +30,6 @@ public class SchoolInfo {
 
     }
 
-//    public void setLocked(boolean locked){
-//        this.Locked = locked;
-//    }
-//
-//    public boolean isLocked(){
-//        return Locked ;
-//    }
 
 
 

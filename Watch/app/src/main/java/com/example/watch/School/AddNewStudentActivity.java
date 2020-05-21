@@ -1,5 +1,6 @@
 package com.example.watch.School;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
@@ -14,13 +15,22 @@ import android.widget.Toast;
 import com.example.watch.modes.QRCodeHelper;
 import com.example.watch.R;
 import com.example.watch.Student.StudentInfo;
+import com.example.watch.modes.SessionManager;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class AddNewStudentActivity extends AppCompatActivity implements View.OnClickListener {
 
+    SessionManager session ;
+
     private FirebaseDatabase firebaseInstance;
     private DatabaseReference firebaseDatabase;
+    private FirebaseAuth mAuth;
     private EditText User_FullName , User_BusNo ,
             User_Age, User_ClassNo , User_BloodType , User_Phone ;
     private Button btnRQ , banConfirm ;
@@ -34,6 +44,8 @@ public class AddNewStudentActivity extends AppCompatActivity implements View.OnC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_new_student);
 
+        session = new SessionManager(getApplicationContext());
+
         findViewById(R.id.bktomain).setOnClickListener(this);
         findViewById(R.id.QR_add_student).setOnClickListener(this);
 
@@ -46,8 +58,10 @@ public class AddNewStudentActivity extends AppCompatActivity implements View.OnC
         banConfirm = findViewById(R.id.conf_butt);
 
 
+        session.checkLogin();
 
 
+        mAuth = FirebaseAuth.getInstance();
         firebaseInstance = FirebaseDatabase.getInstance();
         firebaseDatabase = firebaseInstance.getReference("StudentInfo");
         UserID = firebaseDatabase.push().getKey();
@@ -56,7 +70,7 @@ public class AddNewStudentActivity extends AppCompatActivity implements View.OnC
             @Override
             public void onClick(View v) {
                 AddStudentToFirebase();
-                Toast.makeText(getApplicationContext(), "Saving Data ..", Toast.LENGTH_LONG).show();
+                //Toast.makeText(getApplicationContext(), "Saving Data ..", Toast.LENGTH_LONG).show();
             }
         });
 
@@ -71,9 +85,36 @@ public class AddNewStudentActivity extends AppCompatActivity implements View.OnC
         phone = User_Phone.getText().toString();
         age = User_Age.getText().toString();
 
-         studentInfo = new StudentInfo(Full_name,phone,bus_no,age
+
+        String Username = studentInfo.UsernameGenerator(Full_name);
+        Log.d("Username Value >> ",Username);
+        String Password = studentInfo.PasswordGenerator();
+        Log.d("Password Value >> ",Password);
+
+        studentInfo = new StudentInfo(Full_name,Username,Password,phone,bus_no,age
                 ,class_no,blood_type,studentInfo.StudentQR);
         firebaseDatabase.child("Student").child(UserID).setValue(studentInfo);
+
+        mAuth.createUserWithEmailAndPassword(Username, Password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if (task.isSuccessful()) {
+                  Toast.makeText(getApplicationContext(),"The User Authenticated Successfully",Toast.LENGTH_LONG).show();
+                    Log.d("Register State >> ",task.getResult().toString());
+                } else {
+
+                    if (task.getException() instanceof FirebaseAuthUserCollisionException) {
+                        Toast.makeText(getApplicationContext(), "You are already registered", Toast.LENGTH_SHORT).show();
+                        Log.d("Register State >> ","You are already registered");
+
+                    } else {
+                        Toast.makeText(getApplicationContext(), task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                        Log.d("Register State >> ",task.getException().getMessage());
+                    }
+
+                }
+            }
+        });
 
 
     }

@@ -31,6 +31,7 @@ import com.google.firebase.database.ValueEventListener;
 
 public class SchoolLoginActivity extends AppCompatActivity implements View.OnClickListener , DialogInterface {
 
+    SessionManager session ;
     private FirebaseDatabase firebaseInstance;
     private DatabaseReference firebaseDatabase;
     private Button login;
@@ -40,12 +41,9 @@ public class SchoolLoginActivity extends AppCompatActivity implements View.OnCli
     private String  Email_Str , Password_Str ;
     public String Name_Str;
     SchoolInfo schoolInfo  = new SchoolInfo();
+    final LoadingDialoge loadingDialoge = new LoadingDialoge(this);
 
-    // Alert Dialog Manager
-    //AlertDialogManager alert = new AlertDialogManager();
 
-    // Session Manager Class
-    SessionManager session;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,20 +51,21 @@ public class SchoolLoginActivity extends AppCompatActivity implements View.OnCli
         setContentView(R.layout.activity_school_login);
         findViewById(R.id.buttonLogin).setOnClickListener(this);
 
+        session = new SessionManager(getApplicationContext());
+
         mAuth = FirebaseAuth.getInstance();
         Email = findViewById(R.id.txtEmail);
         Pass = findViewById(R.id.txtPass);
         findViewById(R.id.twits_img).setOnClickListener(this);
         findViewById(R.id.textViewSignup).setOnClickListener(this);
 
-        final LoadingDialoge loadingDialoge = new LoadingDialoge(this);
+
 
         firebaseInstance = FirebaseDatabase.getInstance();
         firebaseDatabase = firebaseInstance.getReference("SchoolInfo");
 
         login = findViewById(R.id.buttonLogin);
 
-        session = new SessionManager(getApplicationContext());
 
         login.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,20 +83,27 @@ public class SchoolLoginActivity extends AppCompatActivity implements View.OnCli
                 }
 
                 LoginSoGood(email,pass);
-                loadingDialoge.StartLoadingDialog();
-                Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        loadingDialoge.DismissDialog();
-                    }
-                },5000);
+
+
             }
         });
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        loadingDialoge.StartLoadingDialog();
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                loadingDialoge.DismissDialog();
+            }
+        },6000);
+    }
 
-            void ReadNiceNameFromFirebase(){
+
+    void ReadNiceNameFromFirebase(){
 
                 Email_Str = Email.getText().toString();
                 firebaseDatabase.addValueEventListener(new ValueEventListener() {
@@ -134,8 +140,8 @@ public class SchoolLoginActivity extends AppCompatActivity implements View.OnCli
                                     Intent i = new Intent(getBaseContext(), SchoolProfileActivity.class);
                                     i.putExtra("Email_Value", email);
                                     i.putExtra("Name_Str_Value", schoolInfo.NiceName);
-
-
+                                    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                    i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                     startActivity(i);
                                 }
                                 else {

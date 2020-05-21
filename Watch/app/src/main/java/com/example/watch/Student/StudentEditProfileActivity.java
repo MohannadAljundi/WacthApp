@@ -1,4 +1,4 @@
-package com.example.watch.School;
+package com.example.watch.Student;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,6 +11,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.watch.R;
+import com.example.watch.School.SchoolInfo;
+import com.example.watch.School.SchoolProfileActivity;
 import com.example.watch.modes.EditAddressDialog;
 import com.example.watch.modes.EditEmailDialog;
 import com.example.watch.modes.EditNameDialog;
@@ -25,8 +27,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
 
-
-public class SchoolEditProfileActivity extends AppCompatActivity implements View.OnClickListener
+public class StudentEditProfileActivity extends AppCompatActivity implements View.OnClickListener
         , EditNameDialog.EditNameDialogListener , EditAddressDialog.EditAddressDialogListener ,
         EditEmailDialog.EditEmailDialogListener , EditPhoneDialog.EditPhoneDialogListener ,
         EditPasswordDialog.EditPasswordDialogListener {
@@ -41,12 +42,12 @@ public class SchoolEditProfileActivity extends AppCompatActivity implements View
 
     String Email_Get_2 , Name_Get_2 ;
 
-    SchoolInfo schoolInfo = new SchoolInfo();
+    StudentInfo studentInfo = new StudentInfo();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_school_edit_profile);
+        setContentView(R.layout.activity_student_edit_profile);
 
         session = new SessionManager(getApplicationContext());
 
@@ -74,7 +75,7 @@ public class SchoolEditProfileActivity extends AppCompatActivity implements View
         email_headLine.setText(name);
 
         firebaseInstance = FirebaseDatabase.getInstance();
-        firebaseDatabase = firebaseInstance.getReference("SchoolInfo");
+        firebaseDatabase = firebaseInstance.getReference("StudentInfo");
         UserID = firebaseDatabase.push().getKey();
 
         Email_Get_2  = getIntent().getStringExtra("email_2");
@@ -94,22 +95,22 @@ public class SchoolEditProfileActivity extends AppCompatActivity implements View
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()){  // row read
                     for(DataSnapshot dataSnapshot2 : dataSnapshot1.getChildren()){ // column read
-                        if(Email_Get_2.equals(dataSnapshot2.child("Email").getValue(String.class))){
-                            schoolInfo.NiceName = dataSnapshot2.child("NiceName").getValue(String.class);
-                            schoolInfo.Email = dataSnapshot2.child("Email").getValue(String.class);
-                            schoolInfo.Phone = dataSnapshot2.child("Phone").getValue(String.class);
-                            schoolInfo.Address = dataSnapshot2.child("Address").getValue(String.class);
+                        if(Email_Get_2.equals(dataSnapshot2.child("Username").getValue(String.class))){
+                            studentInfo.FullName = dataSnapshot2.child("FullName").getValue(String.class);
+                            studentInfo.Username = dataSnapshot2.child("Username").getValue(String.class);
+                            studentInfo.Phone = dataSnapshot2.child("Phone").getValue(String.class);
+                            studentInfo.Address = dataSnapshot2.child("Address").getValue(String.class);
                         }
-                        Log.d("Firebase State","Read Name Successful" +" >> " + schoolInfo.NiceName );
-                        Log.d("Firebase State","Read Email Successful" +" >> " + schoolInfo.Email);
-                        Log.d("Firebase State","Read Phone Successful" +" >> " + schoolInfo.Phone);
-                        Log.d("Firebase State","Read Address Successful" +" >> " + schoolInfo.Address);
+                        Log.d("Firebase State","Read Name Successful" +" >> " + studentInfo.FullName );
+                        Log.d("Firebase State","Read Email Successful" +" >> " + studentInfo.Username);
+                        Log.d("Firebase State","Read Phone Successful" +" >> " + studentInfo.Phone);
+                        Log.d("Firebase State","Read Address Successful" +" >> " + studentInfo.Address);
                     }
                 }
-                name_view.setText( schoolInfo.NiceName);
-                email_view.setText(schoolInfo.Email);
-                address_view.setText(schoolInfo.Address);
-                phone_view.setText(schoolInfo.Phone);
+                name_view.setText( studentInfo.FullName);
+                email_view.setText(studentInfo.Username);
+                address_view.setText(studentInfo.Address);
+                phone_view.setText(studentInfo.Phone);
             }
 
             @Override
@@ -123,7 +124,7 @@ public class SchoolEditProfileActivity extends AppCompatActivity implements View
 
 
     public void updateInfo(String filed , String child){
-        firebaseDatabase.child("School").child(UserID).child(child).setValue(filed);
+        firebaseDatabase.child("Student").child(UserID).child(child).setValue(filed);
     }
 
     public void OpenEditNameDialog(){
@@ -191,7 +192,7 @@ public class SchoolEditProfileActivity extends AppCompatActivity implements View
     @Override
     public void TransferNameText(String username) {
         name_view.setText(username);
-        updateInfo(username,"NiceName");
+        updateInfo(username,"FullName");
 
     }
 
@@ -204,7 +205,7 @@ public class SchoolEditProfileActivity extends AppCompatActivity implements View
     @Override
     public void TransferEmailText(String Email) {
         email_view.setText(Email);
-        updateInfo(Email,"Email");
+        updateInfo(Email,"Username");
     }
 
     @Override
@@ -241,3 +242,4 @@ public class SchoolEditProfileActivity extends AppCompatActivity implements View
         }
     }
 }
+

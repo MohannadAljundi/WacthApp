@@ -111,9 +111,9 @@ public class EmailSendingClass {
             message.setFrom(new InternetAddress(myEmil));
             message.setRecipient(Message.RecipientType.TO,new InternetAddress(recepint));
             message.setSubject("Email Verification ");
-            message.setText("Hi "+Name+". \nWe are Studding You Request  , \n As Soon As Possible we Will Connect with you ." +
-                    "\n Thank You For Using Watch App. \n " +
-                    "Watch Family." );
+            message.setText("Hi "+Name+". \nWe are Studding You Request  , \n As soon as possible we will connect with you ." +
+                    "\n Thank you for using Watch app. \n " +
+                    "Watch family." );
 
             return message;
 

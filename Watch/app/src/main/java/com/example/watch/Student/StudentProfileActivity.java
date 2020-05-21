@@ -15,11 +15,13 @@ import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.watch.MainActivity;
 import com.example.watch.R;
 import com.example.watch.SettingsActivity;
+import com.example.watch.modes.SessionManager;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
@@ -28,9 +30,12 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.UUID;
 
 public class StudentProfileActivity extends AppCompatActivity implements View.OnClickListener  {
+
+    SessionManager session ;
 
     private static final int PICK_IMAGE_REQUEST = 71 ;
     private ImageView navigate_to , heath , bus_map , non_atnd , view_loc , go_back_nav_to ;
@@ -38,12 +43,15 @@ public class StudentProfileActivity extends AppCompatActivity implements View.On
     private StorageReference mStorageRef;
     private Uri filePath;
     private ImageView profile_image ;
+    private TextView Name_View , Email_View ;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_studen_profile);
+
+        session = new SessionManager(getApplicationContext());
 
         // set On Click Listener nav
         findViewById(R.id.navigate_profile).setOnClickListener(this);
@@ -53,6 +61,21 @@ public class StudentProfileActivity extends AppCompatActivity implements View.On
         findViewById(R.id.non_atn_profile).setOnClickListener(this);
         findViewById(R.id.go_back_profile).setOnClickListener(this);
         findViewById(R.id.btn_setting_profile).setOnClickListener(this);
+        findViewById(R.id.btn_edit_profile);
+        Name_View = findViewById(R.id.txtname_student_profile);
+        Email_View = findViewById(R.id.txtemail_student_profile);
+
+        Toast.makeText(getApplicationContext(),"User Login State : " + session.isLoggedIn(),Toast.LENGTH_LONG).show();
+
+        session.checkLogin();
+
+        HashMap<String,String > schoolUser = session.getUserDetails();
+
+        String name  = schoolUser.get(SessionManager.KEY_NAME);
+        String email = schoolUser.get(SessionManager.KEY_EMAIL);
+
+        Name_View.setText(name);
+        Email_View.setText(email);
 
         select_pic = findViewById(R.id.select_pic);
         select_pic.setOnClickListener(new View.OnClickListener() {
@@ -178,6 +201,11 @@ public class StudentProfileActivity extends AppCompatActivity implements View.On
 
             case R.id.btn_setting_profile:{
                 Intent i = new Intent(getApplicationContext(), SettingsActivity.class);
+                startActivity(i);
+            }break;
+
+            case R.id.btn_edit_profile:{
+                Intent i = new Intent(getApplicationContext(), StudentEditProfileActivity.class);
                 startActivity(i);
             }break;
         }

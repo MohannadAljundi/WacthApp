@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -12,24 +13,40 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.watch.R;
+import com.example.watch.modes.SessionManager;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class StudenLoginActivity extends AppCompatActivity implements View.OnClickListener {
 
+    SessionManager session ;
     private Button login;
     private TextView Signup;
     private FirebaseAuth mAuth;
+    private FirebaseDatabase firebaseInstance;
+    private DatabaseReference firebaseDatabase;
     private EditText Email , Pass ;
+    StudentInfo studentInfo = new StudentInfo();
+    private String Email_Str;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_studen_login);
 
+        session = new SessionManager(getApplicationContext());
+
         mAuth = FirebaseAuth.getInstance();
+        firebaseInstance = FirebaseDatabase.getInstance();
+        firebaseDatabase = firebaseInstance.getReference("StudentInfo");
+
         Email = findViewById(R.id.txtEmail);
         Pass = findViewById(R.id.txtPass);
         findViewById(R.id.twits_img).setOnClickListener(this);
@@ -56,17 +73,47 @@ public class StudenLoginActivity extends AppCompatActivity implements View.OnCli
         });
     }
 
+    void ReadNiceNameFromFirebase(){
+
+        Email_Str = Email.getText().toString();
+        firebaseDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()){  // row read
+                    for(DataSnapshot dataSnapshot2 : dataSnapshot1.getChildren()){ // column read
+                        if(Email_Str.equals(dataSnapshot2.child("Username").getValue(String.class))){
+                            studentInfo.FullName = dataSnapshot2.child("FullName").getValue(String.class);
+                        }
+                        Log.d("Firebase State","Read Name Successful" +" >> " + studentInfo.FullName);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w("TAG", "Failed to read value.", error.toException());
+            }
+        });
+    }
+
     private void LoginSoGood(final String email, String pass){
+        ReadNiceNameFromFirebase();
         mAuth.signInWithEmailAndPassword(email,pass).addOnCompleteListener(StudenLoginActivity.this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
-                if(!task.isSuccessful()){
-                    Toast.makeText(getApplicationContext(),"Login Error , Login Again .. ",Toast.LENGTH_LONG).show();
+                if(task.isSuccessful()){
+                    session.createLoginSession(studentInfo.FullName, email);
+                    Toast.makeText(getApplicationContext(),"Welcome " + studentInfo.FullName,Toast.LENGTH_LONG).show();
+                    Intent i = new Intent(StudenLoginActivity.this, StudentProfileActivity.class);
+                    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(i);
                 }
                 else {
-                    Toast.makeText(getApplicationContext(),"Welcome " + email,Toast.LENGTH_LONG).show();
-                    Intent i = new Intent(StudenLoginActivity.this, StudentProfileActivity.class);
-                    startActivity(i);
+                    Toast.makeText(getApplicationContext(),"Login Error , Login Again .. ",Toast.LENGTH_LONG).show();
+                    Log.e("Login Faild State : ",task.getException().getMessage());
+
                 }
             }
         });

@@ -43,7 +43,6 @@ public class SignUPSchoolActivity extends AppCompatActivity implements View.OnCl
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up_school);
         findViewById(R.id.go_back_nav_to).setOnClickListener(this);
-        //findViewById(R.id.move_on_create_account).setOnClickListener(this);
         conform = findViewById(R.id.move_on_create_account);
         firebaseInstance = FirebaseDatabase.getInstance();
         firebaseDatabase = firebaseInstance.getReference("SchoolInfo");

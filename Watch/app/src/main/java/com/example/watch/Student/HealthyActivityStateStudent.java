@@ -7,14 +7,20 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.example.watch.R;
+import com.example.watch.modes.SessionManager;
 
 public class HealthyActivityStateStudent extends AppCompatActivity implements View.OnClickListener {
+
+    SessionManager session ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_healthy_state_schoole);
         findViewById(R.id.go_back_student_profile).setOnClickListener(this);
+
+        session = new SessionManager(getApplicationContext());
+        session.checkLogin();
 
     }
 

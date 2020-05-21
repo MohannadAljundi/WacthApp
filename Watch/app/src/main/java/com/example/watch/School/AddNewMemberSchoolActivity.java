@@ -7,18 +7,27 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.example.watch.R;
+import com.example.watch.modes.SessionManager;
 
 public class AddNewMemberSchoolActivity extends AppCompatActivity implements View.OnClickListener {
+
+    SessionManager session ;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_new_member_school);
 
+        session = new SessionManager(getApplicationContext());
+
         //this.setTitle("Add New Member"); //change screen title.
         findViewById(R.id.User_button).setOnClickListener(this);
         findViewById(R.id.Bus_button).setOnClickListener(this);
         findViewById(R.id.go_back_school_profile).setOnClickListener(this);
+
+        session.checkLogin();
 
     }
 
