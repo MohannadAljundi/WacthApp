@@ -83,8 +83,8 @@ public class SignUPSchoolActivity extends AppCompatActivity implements View.OnCl
         Password_Str = Pass.getText().toString();
         Phone_Str = Phone.getText().toString();
 
-        SchoolInfo schoolInfo = new SchoolInfo(NiceName_Str,Email_Str,Password_Str
-                ,Phone_Str,true);
+        SchoolInfo schoolInfo = new SchoolInfo(UserID,NiceName_Str,Email_Str,Password_Str
+                ,Phone_Str," ",true);
         firebaseDatabase.child("School").child(UserID).setValue(schoolInfo);
         mAuth.createUserWithEmailAndPassword(Email_Str, Password_Str).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override

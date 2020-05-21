@@ -1,12 +1,20 @@
 package com.example.watch.School;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,13 +25,21 @@ import com.example.watch.modes.EditNameDialog;
 import com.example.watch.modes.EditPasswordDialog;
 import com.example.watch.modes.EditPhoneDialog;
 import com.example.watch.modes.SessionManager;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
+import java.io.IOException;
 import java.util.HashMap;
+import java.util.UUID;
 
 
 public class SchoolEditProfileActivity extends AppCompatActivity implements View.OnClickListener
@@ -41,7 +57,14 @@ public class SchoolEditProfileActivity extends AppCompatActivity implements View
 
     String Email_Get_2 , Name_Get_2 ;
 
+    String email , name ;
+
     SchoolInfo schoolInfo = new SchoolInfo();
+
+    private StorageReference mStorageRef;
+    private Uri filePath;
+    private static final int PICK_IMAGE_REQUEST = 71 ;
+    private ImageView profile_image;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,8 +90,8 @@ public class SchoolEditProfileActivity extends AppCompatActivity implements View
 
         HashMap<String,String > schoolUser = session.getUserDetails();
 
-        String name  = schoolUser.get(SessionManager.KEY_NAME);
-        String email = schoolUser.get(SessionManager.KEY_EMAIL);
+         name  = schoolUser.get(SessionManager.KEY_NAME);
+         email = schoolUser.get(SessionManager.KEY_EMAIL);
 
         name_headLine.setText(email);
         email_headLine.setText(name);
@@ -82,8 +105,88 @@ public class SchoolEditProfileActivity extends AppCompatActivity implements View
 
         ReadNiceNameFromFirebase();
 
+        name_view.setText(schoolInfo.NiceName);
+
+        profile_image = findViewById(R.id.profile_img);
+
+        profile_image = findViewById(R.id.profile_img);
+        profile_image.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP_MR1)
+            @Override
+            public void onClick(View v) {
+               boolean wait = chooseImage();
+
+               if(wait){
+                   uploadImage();
+               }
+            }
+        });
 
 
+        mStorageRef = FirebaseStorage.getInstance().getReference();
+
+
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP_MR1)
+    private boolean chooseImage(){
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent,"Select Picture"), PICK_IMAGE_REQUEST);
+
+        return true;
+    }
+
+    private void uploadImage(){
+        if(filePath != null){
+            final ProgressDialog progressDialog = new ProgressDialog(this);
+            progressDialog.setTitle("Upload Image ...");
+            progressDialog.show();
+
+            StorageReference ref = mStorageRef.child("image/"+ UUID.randomUUID().toString());
+            ref.putFile(filePath).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    progressDialog.dismiss();
+                    Toast.makeText(getApplicationContext(),"Image Uploaded",Toast.LENGTH_LONG).show();
+
+                    final String ImageURL = taskSnapshot.getUploadSessionUri().toString();
+                    Log.d("Image URL : ",ImageURL);
+                }
+            })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            progressDialog.dismiss();
+                            Toast.makeText(getApplicationContext(),"Image not Uploaded",Toast.LENGTH_LONG).show();
+                        }
+                    })
+                    .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                            double progress = (100.0 * taskSnapshot.getBytesTransferred()/taskSnapshot.getTotalByteCount() );
+                            progressDialog.setMessage("Uploaded" + (int)progress + "%");
+                        }
+                    });
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK
+                && data != null && data.getData() != null){
+            filePath = data.getData();
+            try {
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),filePath);
+                profile_image.setImageBitmap(bitmap);
+            }
+            catch (IOException ex){
+                ex.printStackTrace();
+            }
+
+        }
     }
 
 
@@ -94,7 +197,8 @@ public class SchoolEditProfileActivity extends AppCompatActivity implements View
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()){  // row read
                     for(DataSnapshot dataSnapshot2 : dataSnapshot1.getChildren()){ // column read
-                        if(Email_Get_2.equals(dataSnapshot2.child("Email").getValue(String.class))){
+                        if(email.equals(dataSnapshot2.child("Email").getValue(String.class))){
+                            schoolInfo.ID = dataSnapshot2.child("ID").getValue(String.class);
                             schoolInfo.NiceName = dataSnapshot2.child("NiceName").getValue(String.class);
                             schoolInfo.Email = dataSnapshot2.child("Email").getValue(String.class);
                             schoolInfo.Phone = dataSnapshot2.child("Phone").getValue(String.class);
@@ -104,6 +208,8 @@ public class SchoolEditProfileActivity extends AppCompatActivity implements View
                         Log.d("Firebase State","Read Email Successful" +" >> " + schoolInfo.Email);
                         Log.d("Firebase State","Read Phone Successful" +" >> " + schoolInfo.Phone);
                         Log.d("Firebase State","Read Address Successful" +" >> " + schoolInfo.Address);
+                        Log.d("Firebase State","Read ID Successful" +" >> " + schoolInfo.ID);
+
                     }
                 }
                 name_view.setText( schoolInfo.NiceName);
@@ -123,7 +229,7 @@ public class SchoolEditProfileActivity extends AppCompatActivity implements View
 
 
     public void updateInfo(String filed , String child){
-        firebaseDatabase.child("School").child(UserID).child(child).setValue(filed);
+        firebaseDatabase.child("School").child(schoolInfo.ID).child(child).setValue(filed);
     }
 
     public void OpenEditNameDialog(){
@@ -190,7 +296,8 @@ public class SchoolEditProfileActivity extends AppCompatActivity implements View
 
     @Override
     public void TransferNameText(String username) {
-        name_view.setText(username);
+        schoolInfo.NiceName = username;
+//        name_view.setText(username);
         updateInfo(username,"NiceName");
 
     }

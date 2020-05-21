@@ -112,10 +112,9 @@ public class SchoolLoginActivity extends AppCompatActivity implements View.OnCli
                         for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()){  // row read
                             for(DataSnapshot dataSnapshot2 : dataSnapshot1.getChildren()){ // column read
                                 if(Email_Str.equals(dataSnapshot2.child("Email").getValue(String.class))){
-                                    Name_Str = dataSnapshot2.child("NiceName").getValue(String.class);
-                                    schoolInfo.NiceName = Name_Str;
+                                    schoolInfo.NiceName = dataSnapshot2.child("NiceName").getValue(String.class);
                                 }
-                                Log.d("Firebase State","Read Name Successful" +" >> " + Name_Str);
+                                Log.d("Firebase State","Read Name Successful" +" >> " + schoolInfo.NiceName);
                             }
                         }
                     }

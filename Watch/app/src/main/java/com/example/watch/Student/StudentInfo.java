@@ -25,9 +25,9 @@ public class StudentInfo {
 
     }
 
-    public StudentInfo(String fullName ,String username, String password, String phone , String busNumber , String age ,
-                       String classNo , String bloodType ,Bitmap studentQR ){
-        //ID = IDGenerator();
+    public StudentInfo(String id ,String fullName ,String username, String password, String phone , String busNumber , String age ,
+                       String classNo , String bloodType ,String address ,Bitmap studentQR ){
+        this.ID = id;
         this.FullName = fullName;
         this.Username = username;
         this.Password = password;
@@ -36,6 +36,7 @@ public class StudentInfo {
         this.Age = age ;
         this.ClassNo = classNo;
         this.BloodType = bloodType;
+        this.Address = address;
         this.StudentQR_str = studentQR.toString();
     }
 

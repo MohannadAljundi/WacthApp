@@ -73,7 +73,7 @@
                         android:layout_alignParentTop="true"
                         android:layout_width="match_parent"
                         android:layout_height="30dp"
-                        android:background="@color/BlueBo"/>
+                        android:background="@color/GreenBo"/>
 
                     <TextView
                         android:id="@+id/back_to_home_btn"

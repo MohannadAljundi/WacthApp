@@ -20,10 +20,12 @@ import android.widget.Toast;
 
 import com.example.watch.MainActivity;
 import com.example.watch.R;
+import com.example.watch.School.SchoolProfileActivity;
 import com.example.watch.SettingsActivity;
 import com.example.watch.modes.SessionManager;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
@@ -61,9 +63,10 @@ public class StudentProfileActivity extends AppCompatActivity implements View.On
         findViewById(R.id.non_atn_profile).setOnClickListener(this);
         findViewById(R.id.go_back_profile).setOnClickListener(this);
         findViewById(R.id.btn_setting_profile).setOnClickListener(this);
-        findViewById(R.id.btn_edit_profile);
-        Name_View = findViewById(R.id.txtname_student_profile);
-        Email_View = findViewById(R.id.txtemail_student_profile);
+        findViewById(R.id.btn_edit_profile).setOnClickListener(this);
+        findViewById(R.id.btnSignout).setOnClickListener(this);
+        Name_View = findViewById(R.id.txtname_profil);
+        Email_View = findViewById(R.id.txtemail_profil);
 
         Toast.makeText(getApplicationContext(),"User Login State : " + session.isLoggedIn(),Toast.LENGTH_LONG).show();
 
@@ -77,23 +80,6 @@ public class StudentProfileActivity extends AppCompatActivity implements View.On
         Name_View.setText(name);
         Email_View.setText(email);
 
-        select_pic = findViewById(R.id.select_pic);
-        select_pic.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                uploadImage();
-            }
-        });
-        profile_image = findViewById(R.id.profile_img);
-        profile_image.setOnClickListener(new View.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP_MR1)
-            @Override
-            public void onClick(View v) {
-                chooseImage();
-            }
-        });
-
-        mStorageRef = FirebaseStorage.getInstance().getReference();
 
 
     }
@@ -207,6 +193,15 @@ public class StudentProfileActivity extends AppCompatActivity implements View.On
             case R.id.btn_edit_profile:{
                 Intent i = new Intent(getApplicationContext(), StudentEditProfileActivity.class);
                 startActivity(i);
+            }break;
+
+            case  R.id.btnSignout:{
+                FirebaseAuth.getInstance().signOut();
+                Intent go = new Intent(getApplicationContext(), MainActivity.class);
+                go.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                go.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(go);
+                session.logoutUser();
             }break;
         }
 

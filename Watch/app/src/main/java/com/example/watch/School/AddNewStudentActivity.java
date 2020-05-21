@@ -91,8 +91,8 @@ public class AddNewStudentActivity extends AppCompatActivity implements View.OnC
         String Password = studentInfo.PasswordGenerator();
         Log.d("Password Value >> ",Password);
 
-        studentInfo = new StudentInfo(Full_name,Username,Password,phone,bus_no,age
-                ,class_no,blood_type,studentInfo.StudentQR);
+        studentInfo = new StudentInfo(UserID,Full_name,Username,Password,phone,bus_no,age
+                ,class_no,blood_type,"None",studentInfo.StudentQR);
         firebaseDatabase.child("Student").child(UserID).setValue(studentInfo);
 
         mAuth.createUserWithEmailAndPassword(Username, Password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {

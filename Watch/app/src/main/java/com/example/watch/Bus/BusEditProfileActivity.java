@@ -1,49 +1,48 @@
-package com.example.watch.Student;
+package com.example.watch.Bus;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
+        import androidx.annotation.Nullable;
+        import androidx.annotation.RequiresApi;
+        import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.ProgressDialog;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.net.Uri;
-import android.os.Build;
-import android.os.Bundle;
-import android.provider.MediaStore;
-import android.util.Log;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
+        import android.app.ProgressDialog;
+        import android.content.Intent;
+        import android.graphics.Bitmap;
+        import android.net.Uri;
+        import android.os.Build;
+        import android.os.Bundle;
+        import android.provider.MediaStore;
+        import android.util.Log;
+        import android.view.View;
+        import android.widget.ImageView;
+        import android.widget.TextView;
+        import android.widget.Toast;
 
-import com.example.watch.R;
-import com.example.watch.School.SchoolInfo;
-import com.example.watch.School.SchoolProfileActivity;
-import com.example.watch.modes.EditAddressDialog;
-import com.example.watch.modes.EditEmailDialog;
-import com.example.watch.modes.EditNameDialog;
-import com.example.watch.modes.EditPasswordDialog;
-import com.example.watch.modes.EditPhoneDialog;
-import com.example.watch.modes.SessionManager;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.OnProgressListener;
-import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
+        import com.example.watch.R;
+        import com.example.watch.modes.EditAddressDialog;
+        import com.example.watch.modes.EditEmailDialog;
+        import com.example.watch.modes.EditNameDialog;
+        import com.example.watch.modes.EditPasswordDialog;
+        import com.example.watch.modes.EditPhoneDialog;
+        import com.example.watch.modes.SessionManager;
+        import com.google.android.gms.tasks.OnFailureListener;
+        import com.google.android.gms.tasks.OnSuccessListener;
+        import com.google.firebase.database.DataSnapshot;
+        import com.google.firebase.database.DatabaseError;
+        import com.google.firebase.database.DatabaseReference;
+        import com.google.firebase.database.FirebaseDatabase;
+        import com.google.firebase.database.ValueEventListener;
+        import com.google.firebase.storage.FirebaseStorage;
+        import com.google.firebase.storage.OnProgressListener;
+        import com.google.firebase.storage.StorageReference;
+        import com.google.firebase.storage.UploadTask;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.UUID;
+        import java.io.IOException;
+        import java.util.HashMap;
+        import java.util.UUID;
 
-public class StudentEditProfileActivity extends AppCompatActivity implements View.OnClickListener
+
+public class BusEditProfileActivity extends AppCompatActivity implements View.OnClickListener
         , EditNameDialog.EditNameDialogListener , EditAddressDialog.EditAddressDialogListener ,
         EditEmailDialog.EditEmailDialogListener , EditPhoneDialog.EditPhoneDialogListener ,
         EditPasswordDialog.EditPasswordDialogListener {
@@ -57,9 +56,10 @@ public class StudentEditProfileActivity extends AppCompatActivity implements Vie
     String old_pass = "";
 
     String Email_Get_2 , Name_Get_2 ;
-    String email , name;
 
-    StudentInfo studentInfo = new StudentInfo();
+    String email , name ;
+
+    BusInfo busInfo = new BusInfo();
 
     private StorageReference mStorageRef;
     private Uri filePath;
@@ -69,7 +69,7 @@ public class StudentEditProfileActivity extends AppCompatActivity implements Vie
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_student_edit_profile);
+        setContentView(R.layout.activity_bus_edit_profile);
 
         session = new SessionManager(getApplicationContext());
 
@@ -90,20 +90,22 @@ public class StudentEditProfileActivity extends AppCompatActivity implements Vie
 
         HashMap<String,String > schoolUser = session.getUserDetails();
 
-         name  = schoolUser.get(SessionManager.KEY_NAME);
-         email = schoolUser.get(SessionManager.KEY_EMAIL);
+        name  = schoolUser.get(SessionManager.KEY_NAME);
+        email = schoolUser.get(SessionManager.KEY_EMAIL);
 
         name_headLine.setText(email);
         email_headLine.setText(name);
 
         firebaseInstance = FirebaseDatabase.getInstance();
-        firebaseDatabase = firebaseInstance.getReference("StudentInfo");
+        firebaseDatabase = firebaseInstance.getReference("BusInfo");
         UserID = firebaseDatabase.push().getKey();
 
         Email_Get_2  = getIntent().getStringExtra("email_2");
         Name_Get_2 = getIntent().getStringExtra("name_2");
 
         ReadNiceNameFromFirebase();
+
+        name_view.setText(busInfo.FullName);
 
         profile_image = findViewById(R.id.profile_img);
 
@@ -195,25 +197,25 @@ public class StudentEditProfileActivity extends AppCompatActivity implements Vie
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()){  // row read
                     for(DataSnapshot dataSnapshot2 : dataSnapshot1.getChildren()){ // column read
-                        if(email.equals(dataSnapshot2.child("Username").getValue(String.class))){
-                            studentInfo.ID = dataSnapshot2.child("ID").getValue(String.class);
-                            studentInfo.FullName = dataSnapshot2.child("FullName").getValue(String.class);
-                            studentInfo.Username = dataSnapshot2.child("Username").getValue(String.class);
-                            studentInfo.Phone = dataSnapshot2.child("Phone").getValue(String.class);
-                            studentInfo.Address = dataSnapshot2.child("Address").getValue(String.class);
+                        if(email.equals(dataSnapshot2.child("Email").getValue(String.class))){
+                            busInfo.ID = dataSnapshot2.child("ID").getValue(String.class);
+                            busInfo.FullName = dataSnapshot2.child("FullName").getValue(String.class);
+                            busInfo.Username = dataSnapshot2.child("Email").getValue(String.class);
+                            busInfo.Phone = dataSnapshot2.child("Username").getValue(String.class);
+                            busInfo.Address = dataSnapshot2.child("Address").getValue(String.class);
                         }
-                        Log.d("Firebase State","Read Name Successful" +" >> " + studentInfo.FullName );
-                        Log.d("Firebase State","Read Email Successful" +" >> " + studentInfo.Username);
-                        Log.d("Firebase State","Read Phone Successful" +" >> " + studentInfo.Phone);
-                        Log.d("Firebase State","Read Address Successful" +" >> " + studentInfo.Address);
-                        Log.d("Firebase State","Read ID Successful" +" >> " +  studentInfo.ID);
+                        Log.d("Firebase State","Read Name Successful" +" >> " + busInfo.FullName );
+                        Log.d("Firebase State","Read Email Successful" +" >> " + busInfo.Username);
+                        Log.d("Firebase State","Read Phone Successful" +" >> " + busInfo.Phone);
+                        Log.d("Firebase State","Read Address Successful" +" >> " + busInfo.Address);
+                        Log.d("Firebase State","Read ID Successful" +" >> " + busInfo.ID);
 
                     }
                 }
-                name_view.setText( studentInfo.FullName);
-                email_view.setText(studentInfo.Username);
-                address_view.setText(studentInfo.Address);
-                phone_view.setText(studentInfo.Phone);
+                name_view.setText( busInfo.FullName);
+                email_view.setText(busInfo.Username);
+                address_view.setText(busInfo.Address);
+                phone_view.setText(busInfo.Phone);
             }
 
             @Override
@@ -227,7 +229,7 @@ public class StudentEditProfileActivity extends AppCompatActivity implements Vie
 
 
     public void updateInfo(String filed , String child){
-        firebaseDatabase.child("Student").child(studentInfo.ID).child(child).setValue(filed);
+        firebaseDatabase.child("Bus").child(busInfo.ID).child(child).setValue(filed);
     }
 
     public void OpenEditNameDialog(){
@@ -264,7 +266,7 @@ public class StudentEditProfileActivity extends AppCompatActivity implements Vie
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.back_to_home_btn:{
-                Intent intent = new Intent(getApplicationContext(), SchoolProfileActivity.class);
+                Intent intent = new Intent(getApplicationContext(), BusProfileActivity.class);
                 startActivity(intent);
             }break;
 
@@ -294,9 +296,8 @@ public class StudentEditProfileActivity extends AppCompatActivity implements Vie
 
     @Override
     public void TransferNameText(String username) {
-        name_view.setText(username);
-        updateInfo(username,"FullName");
-
+      name_view.setText(username);
+      updateInfo(username,"FiiName");
     }
 
     @Override
