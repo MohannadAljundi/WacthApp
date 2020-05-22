@@ -8,17 +8,21 @@ import android.view.View;
 
 import com.example.watch.Bus.BusLoginActivity;
 import com.example.watch.School.SchoolLoginActivity;
-import com.example.watch.School.SchoolProfileActivity;
 import com.example.watch.Student.StudenLoginActivity;
-import com.example.watch.modes.SessionManager;
+import com.example.watch.models.SessionManager;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    SessionManager sessionManager ;
+    SessionManager session ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        session = new SessionManager(getApplicationContext());
+
+
+
         findViewById(R.id.all_user_student).setOnClickListener(this);
         findViewById(R.id.all_user_school).setOnClickListener(this);
         findViewById(R.id.all_user_bus).setOnClickListener(this);

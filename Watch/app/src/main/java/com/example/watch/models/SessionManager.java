@@ -1,9 +1,10 @@
-package com.example.watch.modes;
+package com.example.watch.models;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 
+import com.example.watch.MainActivity;
 import com.example.watch.School.SchoolLoginActivity;
 
 import java.util.HashMap;
@@ -108,7 +109,7 @@ public class SessionManager {
         editor.commit();
 
         // After logout redirect user to Loing Activity
-        Intent i = new Intent(_context, SchoolLoginActivity.class);
+        Intent i = new Intent(_context, MainActivity.class);
         // Closing all the Activities
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 

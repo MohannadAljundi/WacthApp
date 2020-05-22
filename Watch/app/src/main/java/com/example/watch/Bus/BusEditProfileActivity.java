@@ -19,12 +19,12 @@ import androidx.annotation.NonNull;
         import android.widget.Toast;
 
         import com.example.watch.R;
-        import com.example.watch.modes.EditAddressDialog;
-        import com.example.watch.modes.EditEmailDialog;
-        import com.example.watch.modes.EditNameDialog;
-        import com.example.watch.modes.EditPasswordDialog;
-        import com.example.watch.modes.EditPhoneDialog;
-        import com.example.watch.modes.SessionManager;
+        import com.example.watch.models.EditAddressDialog;
+        import com.example.watch.models.EditEmailDialog;
+        import com.example.watch.models.EditNameDialog;
+        import com.example.watch.models.EditPasswordDialog;
+        import com.example.watch.models.EditPhoneDialog;
+        import com.example.watch.models.SessionManager;
         import com.google.android.gms.tasks.OnFailureListener;
         import com.google.android.gms.tasks.OnSuccessListener;
         import com.google.firebase.database.DataSnapshot;
@@ -73,18 +73,23 @@ public class BusEditProfileActivity extends AppCompatActivity implements View.On
 
         session = new SessionManager(getApplicationContext());
 
-        name_view = findViewById(R.id.nameTextView);
-        email_view = findViewById(R.id.emailTextView);
-        address_view = findViewById(R.id.addressTextView);
-        phone_view = findViewById(R.id.phoneTextView);
-        email_headLine = findViewById(R.id.email_headline_edit);
-        name_headLine = findViewById(R.id.name_headline_edit);
+        name_view = findViewById(R.id.nameTextView_bus);
+        email_view = findViewById(R.id.emailTextView_bus);
+        address_view = findViewById(R.id.addressTextView_bus);
+        phone_view = findViewById(R.id.phoneTextView_bus);
+        email_headLine = findViewById(R.id.email_headline_edit_bus);
+        name_headLine = findViewById(R.id.name_headline_edit_bus);
 
-        findViewById(R.id.edit_name).setOnClickListener(this);
-        findViewById(R.id.edit_email).setOnClickListener(this);
-        findViewById(R.id.edit_address).setOnClickListener(this);
-        findViewById(R.id.edit_password).setOnClickListener(this);
-        findViewById(R.id.edit_phone).setOnClickListener(this);
+        findViewById(R.id.edit_name_bus).setOnClickListener(this);
+        findViewById(R.id.edit_email_bus).setOnClickListener(this);
+        findViewById(R.id.edit_address_bus).setOnClickListener(this);
+        findViewById(R.id.edit_password_bus).setOnClickListener(this);
+        findViewById(R.id.edit_phone_bus).setOnClickListener(this);
+        findViewById(R.id.back_to_home_btn_bus).setOnClickListener(this);
+
+        firebaseInstance = FirebaseDatabase.getInstance();
+        firebaseDatabase = firebaseInstance.getReference("BusInfo");
+        UserID = firebaseDatabase.push().getKey();
 
         session.checkLogin();
 
@@ -93,12 +98,10 @@ public class BusEditProfileActivity extends AppCompatActivity implements View.On
         name  = schoolUser.get(SessionManager.KEY_NAME);
         email = schoolUser.get(SessionManager.KEY_EMAIL);
 
-        name_headLine.setText(email);
-        email_headLine.setText(name);
+        name_headLine.setText(name);
+        email_headLine.setText(email);
 
-        firebaseInstance = FirebaseDatabase.getInstance();
-        firebaseDatabase = firebaseInstance.getReference("BusInfo");
-        UserID = firebaseDatabase.push().getKey();
+
 
         Email_Get_2  = getIntent().getStringExtra("email_2");
         Name_Get_2 = getIntent().getStringExtra("name_2");
@@ -107,9 +110,8 @@ public class BusEditProfileActivity extends AppCompatActivity implements View.On
 
         name_view.setText(busInfo.FullName);
 
-        profile_image = findViewById(R.id.profile_img);
 
-        profile_image = findViewById(R.id.profile_img);
+        profile_image = findViewById(R.id.profile_img_bus);
         profile_image.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP_MR1)
             @Override
@@ -197,11 +199,11 @@ public class BusEditProfileActivity extends AppCompatActivity implements View.On
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()){  // row read
                     for(DataSnapshot dataSnapshot2 : dataSnapshot1.getChildren()){ // column read
-                        if(email.equals(dataSnapshot2.child("Email").getValue(String.class))){
+                        if(email.equals(dataSnapshot2.child("Username").getValue(String.class))){
                             busInfo.ID = dataSnapshot2.child("ID").getValue(String.class);
                             busInfo.FullName = dataSnapshot2.child("FullName").getValue(String.class);
-                            busInfo.Username = dataSnapshot2.child("Email").getValue(String.class);
-                            busInfo.Phone = dataSnapshot2.child("Username").getValue(String.class);
+                            busInfo.Username = dataSnapshot2.child("Username").getValue(String.class);
+                            busInfo.Phone = dataSnapshot2.child("Phone").getValue(String.class);
                             busInfo.Address = dataSnapshot2.child("Address").getValue(String.class);
                         }
                         Log.d("Firebase State","Read Name Successful" +" >> " + busInfo.FullName );
@@ -265,28 +267,28 @@ public class BusEditProfileActivity extends AppCompatActivity implements View.On
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.back_to_home_btn:{
+            case R.id.back_to_home_btn_bus:{
                 Intent intent = new Intent(getApplicationContext(), BusProfileActivity.class);
                 startActivity(intent);
             }break;
 
-            case R.id.edit_name:{
+            case R.id.edit_name_bus:{
                 OpenEditNameDialog();
             }break;
 
-            case R.id.edit_email:{
+            case R.id.edit_email_bus:{
                 OpenEditEmailDialog();
             }break;
 
-            case R.id.edit_address:{
+            case R.id.edit_address_bus:{
                 OpenEditAddressDialog();
             }break;
 
-            case R.id.edit_phone:{
+            case R.id.edit_phone_bus:{
                 OpenEditPhoneDialog();
             }break;
 
-            case R.id.edit_password:{
+            case R.id.edit_password_bus:{
                 OpenEditPasswordDialog();
             }break;
 
@@ -297,7 +299,8 @@ public class BusEditProfileActivity extends AppCompatActivity implements View.On
     @Override
     public void TransferNameText(String username) {
       name_view.setText(username);
-      updateInfo(username,"FiiName");
+      name_headLine.setText(username);
+      updateInfo(username,"FullName");
     }
 
     @Override
@@ -309,6 +312,7 @@ public class BusEditProfileActivity extends AppCompatActivity implements View.On
     @Override
     public void TransferEmailText(String Email) {
         email_view.setText(Email);
+        email_headLine.setText(Email);
         updateInfo(Email,"Username");
     }
 

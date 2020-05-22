@@ -1,4 +1,4 @@
-package com.example.watch.modes;
+package com.example.watch.models;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -15,10 +15,10 @@ import androidx.appcompat.app.AppCompatDialogFragment;
 
 import com.example.watch.R;
 
-public class EditAddressDialog extends AppCompatDialogFragment {
+public class EditEmailDialog extends AppCompatDialogFragment {
 
-    private EditText address;
-    private EditAddressDialogListener listener;
+    private EditText email;
+    private EditEmailDialogListener listener;
 
 
     @NonNull
@@ -26,7 +26,7 @@ public class EditAddressDialog extends AppCompatDialogFragment {
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
-        View view = inflater.inflate(R.layout.dialog_edit_address,null);
+        View view = inflater.inflate(R.layout.dialog_edit_email,null);
 
         builder.setView(view)
 
@@ -39,12 +39,12 @@ public class EditAddressDialog extends AppCompatDialogFragment {
                 .setPositiveButton("Save", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        String Address = address.getText().toString();
-                        listener.TransferAddressText(Address);
+                        String Email = email.getText().toString();
+                        listener.TransferEmailText(Email);
                     }
                 });
 
-        address = view.findViewById(R.id.address_edit);
+        email = view.findViewById(R.id.email_edit);
 
         return builder.create();
     }
@@ -54,15 +54,15 @@ public class EditAddressDialog extends AppCompatDialogFragment {
         super.onAttach(context);
 
         try {
-            listener = (EditAddressDialogListener)context;
+            listener = (EditEmailDialogListener)context;
         } catch (ClassCastException e) {
             throw  new ClassCastException(context.toString() +
-                    "Must Implement EditAddressDialogListener");
+                    "Must Implement EditEmailDialogListener");
         }
     }
 
-    public interface EditAddressDialogListener{
-        void TransferAddressText(String address);
+    public interface EditEmailDialogListener{
+        void TransferEmailText(String Email);
     }
 
 

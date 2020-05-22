@@ -10,7 +10,7 @@ import android.widget.Button;
 
 import com.example.watch.LocationSetAutoActivity;
 import com.example.watch.R;
-import com.example.watch.modes.SessionManager;
+import com.example.watch.models.SessionManager;
 
 
 public class NavigateToStudentActivity  extends  AppCompatActivity implements View.OnClickListener {

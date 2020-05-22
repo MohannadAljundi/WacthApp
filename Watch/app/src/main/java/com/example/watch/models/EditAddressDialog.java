@@ -1,4 +1,4 @@
-package com.example.watch.modes;
+package com.example.watch.models;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,10 +15,10 @@ import androidx.appcompat.app.AppCompatDialogFragment;
 
 import com.example.watch.R;
 
-public class EditPasswordDialog extends AppCompatDialogFragment {
+public class EditAddressDialog extends AppCompatDialogFragment {
 
-    private EditText old_password , new_password , re_new_password;
-    private EditPasswordDialogListener listener;
+    private EditText address;
+    private EditAddressDialogListener listener;
 
 
     @NonNull
@@ -27,7 +26,7 @@ public class EditPasswordDialog extends AppCompatDialogFragment {
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
-        View view = inflater.inflate(R.layout.dialog_edit_password,null);
+        View view = inflater.inflate(R.layout.dialog_edit_address,null);
 
         builder.setView(view)
 
@@ -40,22 +39,12 @@ public class EditPasswordDialog extends AppCompatDialogFragment {
                 .setPositiveButton("Save", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        String Old_Password = old_password.getText().toString();
-                        String New_Password = new_password.getText().toString();
-                        String Re_New_Password = re_new_password.getText().toString();
-
-                        if(New_Password.equals(Re_New_Password)){
-                            listener.TransferPasswordText(Old_Password,New_Password);
-                        }else {
-                            Toast.makeText(getActivity(),"Password Not match",Toast.LENGTH_LONG).show();
-                        }
-
+                        String Address = address.getText().toString();
+                        listener.TransferAddressText(Address);
                     }
                 });
 
-        old_password = view.findViewById(R.id.old_password_edit);
-        new_password = view.findViewById(R.id.new_password_edit);
-        re_new_password = view.findViewById(R.id.re_new_password_edit);
+        address = view.findViewById(R.id.address_edit);
 
         return builder.create();
     }
@@ -65,15 +54,15 @@ public class EditPasswordDialog extends AppCompatDialogFragment {
         super.onAttach(context);
 
         try {
-            listener = (EditPasswordDialogListener)context;
+            listener = (EditAddressDialogListener)context;
         } catch (ClassCastException e) {
             throw  new ClassCastException(context.toString() +
-                    "Must Implement EditPasswordDialogListener");
+                    "Must Implement EditAddressDialogListener");
         }
     }
 
-    public interface EditPasswordDialogListener{
-        void TransferPasswordText(String Old_password , String New_Password);
+    public interface EditAddressDialogListener{
+        void TransferAddressText(String address);
     }
 
 

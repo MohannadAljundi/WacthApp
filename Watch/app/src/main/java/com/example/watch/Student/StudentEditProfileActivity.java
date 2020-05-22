@@ -19,14 +19,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.watch.R;
-import com.example.watch.School.SchoolInfo;
 import com.example.watch.School.SchoolProfileActivity;
-import com.example.watch.modes.EditAddressDialog;
-import com.example.watch.modes.EditEmailDialog;
-import com.example.watch.modes.EditNameDialog;
-import com.example.watch.modes.EditPasswordDialog;
-import com.example.watch.modes.EditPhoneDialog;
-import com.example.watch.modes.SessionManager;
+import com.example.watch.models.EditAddressDialog;
+import com.example.watch.models.EditEmailDialog;
+import com.example.watch.models.EditNameDialog;
+import com.example.watch.models.EditPasswordDialog;
+import com.example.watch.models.EditPhoneDialog;
+import com.example.watch.models.SessionManager;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
@@ -73,18 +72,24 @@ public class StudentEditProfileActivity extends AppCompatActivity implements Vie
 
         session = new SessionManager(getApplicationContext());
 
-        name_view = findViewById(R.id.nameTextView);
-        email_view = findViewById(R.id.emailTextView);
-        address_view = findViewById(R.id.addressTextView);
-        phone_view = findViewById(R.id.phoneTextView);
-        email_headLine = findViewById(R.id.email_headline_edit);
-        name_headLine = findViewById(R.id.name_headline_edit);
+        name_view = findViewById(R.id.nameTextView_student);
+        email_view = findViewById(R.id.emailTextView_student);
+        address_view = findViewById(R.id.addressTextView_student);
+        phone_view = findViewById(R.id.phoneTextView_student);
+        email_headLine = findViewById(R.id.email_headline_edit_student);
+        name_headLine = findViewById(R.id.name_headline_edit_student);
 
-        findViewById(R.id.edit_name).setOnClickListener(this);
-        findViewById(R.id.edit_email).setOnClickListener(this);
-        findViewById(R.id.edit_address).setOnClickListener(this);
-        findViewById(R.id.edit_password).setOnClickListener(this);
-        findViewById(R.id.edit_phone).setOnClickListener(this);
+        findViewById(R.id.edit_name_student).setOnClickListener(this);
+        findViewById(R.id.edit_email_student).setOnClickListener(this);
+        findViewById(R.id.edit_address_student).setOnClickListener(this);
+        findViewById(R.id.edit_password_student).setOnClickListener(this);
+        findViewById(R.id.edit_phone_student).setOnClickListener(this);
+        findViewById(R.id.back_to_home_btn_student).setOnClickListener(this);
+
+        firebaseInstance = FirebaseDatabase.getInstance();
+        firebaseDatabase = firebaseInstance.getReference("StudentInfo");
+        UserID = firebaseDatabase.push().getKey();
+        mStorageRef = FirebaseStorage.getInstance().getReference();
 
         session.checkLogin();
 
@@ -93,21 +98,18 @@ public class StudentEditProfileActivity extends AppCompatActivity implements Vie
          name  = schoolUser.get(SessionManager.KEY_NAME);
          email = schoolUser.get(SessionManager.KEY_EMAIL);
 
-        name_headLine.setText(email);
-        email_headLine.setText(name);
+        name_headLine.setText(name);
+        email_headLine.setText(email);
 
-        firebaseInstance = FirebaseDatabase.getInstance();
-        firebaseDatabase = firebaseInstance.getReference("StudentInfo");
-        UserID = firebaseDatabase.push().getKey();
+
 
         Email_Get_2  = getIntent().getStringExtra("email_2");
         Name_Get_2 = getIntent().getStringExtra("name_2");
 
         ReadNiceNameFromFirebase();
 
-        profile_image = findViewById(R.id.profile_img);
 
-        profile_image = findViewById(R.id.profile_img);
+        profile_image = findViewById(R.id.profile_img_edit_student);
         profile_image.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP_MR1)
             @Override
@@ -121,7 +123,7 @@ public class StudentEditProfileActivity extends AppCompatActivity implements Vie
         });
 
 
-        mStorageRef = FirebaseStorage.getInstance().getReference();
+
 
 
     }
@@ -263,28 +265,28 @@ public class StudentEditProfileActivity extends AppCompatActivity implements Vie
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.back_to_home_btn:{
+            case R.id.back_to_home_btn_student:{
                 Intent intent = new Intent(getApplicationContext(), SchoolProfileActivity.class);
                 startActivity(intent);
             }break;
 
-            case R.id.edit_name:{
+            case R.id.edit_name_student:{
                 OpenEditNameDialog();
             }break;
 
-            case R.id.edit_email:{
+            case R.id.edit_email_student:{
                 OpenEditEmailDialog();
             }break;
 
-            case R.id.edit_address:{
+            case R.id.edit_address_student:{
                 OpenEditAddressDialog();
             }break;
 
-            case R.id.edit_phone:{
+            case R.id.edit_phone_student:{
                 OpenEditPhoneDialog();
             }break;
 
-            case R.id.edit_password:{
+            case R.id.edit_password_student:{
                 OpenEditPasswordDialog();
             }break;
 
@@ -295,6 +297,7 @@ public class StudentEditProfileActivity extends AppCompatActivity implements Vie
     @Override
     public void TransferNameText(String username) {
         name_view.setText(username);
+        name_headLine.setText(username);
         updateInfo(username,"FullName");
 
     }
@@ -308,6 +311,7 @@ public class StudentEditProfileActivity extends AppCompatActivity implements Vie
     @Override
     public void TransferEmailText(String Email) {
         email_view.setText(Email);
+        email_headLine.setText(Email);
         updateInfo(Email,"Username");
     }
 

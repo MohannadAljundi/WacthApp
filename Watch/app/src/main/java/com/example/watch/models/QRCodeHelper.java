@@ -1,4 +1,4 @@
-package com.example.watch.modes;
+package com.example.watch.models;
 
 import android.content.Context;
 import android.graphics.Bitmap;

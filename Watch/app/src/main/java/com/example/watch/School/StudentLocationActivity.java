@@ -19,7 +19,7 @@ import android.location.Geocoder;
 import android.location.Location;
 
 import com.example.watch.R;
-import com.example.watch.modes.SessionManager;
+import com.example.watch.models.SessionManager;
 import com.google.android.gms.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Build;

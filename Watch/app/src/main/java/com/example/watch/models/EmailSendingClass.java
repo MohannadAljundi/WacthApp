@@ -1,4 +1,4 @@
-package com.example.watch.modes;
+package com.example.watch.models;
 
 import java.util.Properties;
 import java.util.logging.Level;

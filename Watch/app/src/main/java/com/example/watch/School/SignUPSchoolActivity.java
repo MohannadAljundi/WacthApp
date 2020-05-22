@@ -13,7 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.watch.modes.EmailSendingClass;
+import com.example.watch.models.EmailSendingClass;
 import com.example.watch.MainActivity;
 import com.example.watch.R;
 import com.google.android.gms.tasks.OnCompleteListener;

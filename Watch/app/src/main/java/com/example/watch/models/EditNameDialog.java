@@ -1,4 +1,4 @@
-package com.example.watch.modes;
+package com.example.watch.models;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -13,12 +13,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDialogFragment;
 
+
 import com.example.watch.R;
 
-public class EditPhoneDialog extends AppCompatDialogFragment {
+public class EditNameDialog extends AppCompatDialogFragment {
 
-    private EditText phone;
-    private EditPhoneDialogListener listener;
+    private EditText username;
+    private EditNameDialogListener listener;
 
 
     @NonNull
@@ -26,7 +27,7 @@ public class EditPhoneDialog extends AppCompatDialogFragment {
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
-        View view = inflater.inflate(R.layout.dialog_edit_phone,null);
+        View view = inflater.inflate(R.layout.dialog_edit_name,null);
 
         builder.setView(view)
 
@@ -39,12 +40,12 @@ public class EditPhoneDialog extends AppCompatDialogFragment {
                 .setPositiveButton("Save", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        String Phone = phone.getText().toString();
-                        listener.TransferPhoneText(Phone);
+                        String Username = username.getText().toString();
+                        listener.TransferNameText(Username);
                     }
                 });
 
-        phone = view.findViewById(R.id.phone_edit);
+        username = view.findViewById(R.id.username_edit);
 
         return builder.create();
     }
@@ -54,15 +55,15 @@ public class EditPhoneDialog extends AppCompatDialogFragment {
         super.onAttach(context);
 
         try {
-            listener = (EditPhoneDialogListener)context;
+            listener = (EditNameDialogListener)context;
         } catch (ClassCastException e) {
             throw  new ClassCastException(context.toString() +
-                    "Must Implement EditPhoneDialogListener");
+                    "Must Implement EditNameDialogListener");
         }
     }
 
-    public interface EditPhoneDialogListener{
-        void TransferPhoneText(String phone);
+    public interface EditNameDialogListener{
+        void TransferNameText(String username);
     }
 
 

@@ -14,7 +14,6 @@
             android:orientation="vertical"
             android:layout_marginTop="20dp"
             android:layout_marginLeft="20dp"
-
             android:layout_marginRight="20dp">
 
             <TextView
@@ -24,23 +23,23 @@
 
             <RelativeLayout style="@style/profileDetailsLayout">
                 <ImageView
-                    android:id="@+id/nameImageView"
+                    android:id="@+id/nameImageView_school"
                     android:src="@drawable/ic_person_24dp"
                     style="@style/profileDetailsImage" />
 
                 <TextView
                     android:text="Name"
-                    android:layout_toRightOf="@id/nameImageView"
+                    android:layout_toRightOf="@id/nameImageView_school"
                 style="@style/profileDetailsTextMain" />
 
                 <TextView
-                    android:id="@+id/nameTextView"
+                    android:id="@+id/nameTextView_school"
                     android:text="developer"
-                    android:layout_toRightOf="@id/nameImageView"
+                    android:layout_toRightOf="@id/nameImageView_school"
                     style="@style/profileDetailsMiniText" />
 
                 <ImageView
-                    android:id="@+id/edit_name"
+                    android:id="@+id/edit_name_school"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
@@ -54,23 +53,23 @@
             <View style="@style/proifleDetailsView" />
             <RelativeLayout style="@style/profileDetailsLayout">
                 <ImageView
-                    android:id="@+id/mobileImageView"
+                    android:id="@+id/mobileImageView_school"
                     android:src="@drawable/ic_phone_iphone_black_24dp"
                     style="@style/profileDetailsImage" />
 
                 <TextView
                     android:text="Mobile"
-                    android:layout_toRightOf="@id/mobileImageView"
+                    android:layout_toRightOf="@id/mobileImageView_school"
                     style="@style/profileDetailsTextMain"/>
 
                 <TextView
-                    android:id="@+id/phoneTextView"
+                    android:id="@+id/phoneTextView_school"
                     android:text="+91-8129999999"
-                    android:layout_toRightOf="@id/mobileImageView"
+                    android:layout_toRightOf="@id/mobileImageView_school"
                     style="@style/profileDetailsMiniText" />
 
                 <ImageView
-                    android:id="@+id/edit_phone"
+                    android:id="@+id/edit_phone_school"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
@@ -84,23 +83,23 @@
             <View style="@style/proifleDetailsView" />
             <RelativeLayout style="@style/profileDetailsLayout">
                 <ImageView
-                    android:id="@+id/emailImageView"
+                    android:id="@+id/emailImageView_school"
                     android:src="@drawable/ic_email_24dp"
                     style="@style/profileDetailsImage" />
 
                 <TextView
                     android:text="Email"
-                    android:layout_toRightOf="@id/emailImageView"
+                    android:layout_toRightOf="@id/emailImageView_school"
                     style="@style/profileDetailsTextMain" />
 
                 <TextView
-                    android:id="@+id/emailTextView"
+                    android:id="@+id/emailTextView_school"
                     android:text="developer@watch.com"
-                    android:layout_toRightOf="@id/emailImageView"
+                    android:layout_toRightOf="@id/emailImageView_school"
                     style="@style/profileDetailsMiniText" />
 
                 <ImageView
-                    android:id="@+id/edit_email"
+                    android:id="@+id/edit_email_school"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
@@ -114,23 +113,23 @@
             <View style="@style/proifleDetailsView" />
             <RelativeLayout style="@style/profileDetailsLayout">
                 <ImageView
-                    android:id="@+id/addressImageView"
+                    android:id="@+id/addressImageView_school"
                     android:src="@drawable/location_nav_to"
                     style="@style/profileDetailsImage" />
 
                 <TextView
                     android:text="Address"
-                    android:layout_toRightOf="@id/addressImageView"
+                    android:layout_toRightOf="@id/addressImageView_school"
                     style="@style/profileDetailsTextMain" />
 
                 <TextView
-                    android:id="@+id/addressTextView"
+                    android:id="@+id/addressTextView_school"
                     android:text="istanbul 2nd Street Irbid Jordan."
-                    android:layout_toRightOf="@id/addressImageView"
+                    android:layout_toRightOf="@id/addressImageView_school"
                     style="@style/profileDetailsMiniText" />
 
                 <ImageView
-                    android:id="@+id/edit_address"
+                    android:id="@+id/edit_address_school"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
@@ -144,23 +143,23 @@
             <View style="@style/proifleDetailsView" />
             <RelativeLayout style="@style/profileDetailsLayout">
                 <ImageView
-                    android:id="@+id/passwordImageView"
+                    android:id="@+id/passwordImageView_school"
                     android:src="@drawable/ic_lock_24dp"
                     style="@style/profileDetailsImage" />
 
                 <TextView
                     android:text="Password"
-                    android:layout_toRightOf="@id/passwordImageView"
+                    android:layout_toRightOf="@id/passwordImageView_school"
                     style="@style/profileDetailsTextMain" />
 
                 <TextView
-                    android:id="@+id/passwordTextView"
+                    android:id="@+id/passwordTextView_school"
                     android:text="**************"
-                    android:layout_toRightOf="@id/passwordImageView"
+                    android:layout_toRightOf="@id/passwordImageView_school"
                     style="@style/profileDetailsMiniText" />
 
                 <ImageView
-                    android:id="@+id/edit_password"
+                    android:id="@+id/edit_password_school"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"

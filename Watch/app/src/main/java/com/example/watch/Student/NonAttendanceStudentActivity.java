@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.example.watch.R;
-import com.example.watch.modes.SessionManager;
+import com.example.watch.models.SessionManager;
 
 public class NonAttendanceStudentActivity extends AppCompatActivity implements View.OnClickListener {
 

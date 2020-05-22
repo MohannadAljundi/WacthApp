@@ -15,7 +15,7 @@ import android.widget.Toast;
 
 import com.example.watch.Bus.BusInfo;
 import com.example.watch.R;
-import com.example.watch.modes.SessionManager;
+import com.example.watch.models.SessionManager;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -23,8 +23,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
-import java.util.HashMap;
 
 public class AddNewBusActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -46,6 +44,11 @@ public class AddNewBusActivity extends AppCompatActivity implements View.OnClick
 
         session = new SessionManager(getApplicationContext());
 
+        mAuth = FirebaseAuth.getInstance();
+        firebaseInstance = FirebaseDatabase.getInstance();
+        firebaseDatabase = firebaseInstance.getReference("BusInfo");
+        UserID = firebaseDatabase.push().getKey();
+
         findViewById(R.id.bktomain).setOnClickListener(this);
 
 
@@ -58,10 +61,6 @@ public class AddNewBusActivity extends AppCompatActivity implements View.OnClick
 
         session.checkLogin();
 
-
-        firebaseInstance = FirebaseDatabase.getInstance();
-        firebaseDatabase = firebaseInstance.getReference("BusInfo");
-        UserID = firebaseDatabase.push().getKey();
 
         btnConform.setOnClickListener(new View.OnClickListener() {
 
@@ -98,8 +97,8 @@ public class AddNewBusActivity extends AppCompatActivity implements View.OnClick
         Log.d("Password Value >> ",Password);
 
         busInfo = new BusInfo(UserID,Username,Password,Full_name,Bus_number,Plate_number,phone_str,age_str,"None");
-
         firebaseDatabase.child("Bus").child(UserID).setValue(busInfo);
+
         mAuth.createUserWithEmailAndPassword(Username, Password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {

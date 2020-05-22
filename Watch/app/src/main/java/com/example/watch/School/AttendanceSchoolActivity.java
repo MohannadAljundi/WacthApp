@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.example.watch.R;
-import com.example.watch.modes.SessionManager;
+import com.example.watch.models.SessionManager;
 
 public class AttendanceSchoolActivity extends AppCompatActivity {
 

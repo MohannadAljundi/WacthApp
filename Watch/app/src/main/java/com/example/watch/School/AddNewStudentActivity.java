@@ -12,10 +12,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.watch.modes.QRCodeHelper;
+import com.example.watch.models.QRCodeHelper;
 import com.example.watch.R;
 import com.example.watch.Student.StudentInfo;
-import com.example.watch.modes.SessionManager;
+import com.example.watch.models.SessionManager;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
