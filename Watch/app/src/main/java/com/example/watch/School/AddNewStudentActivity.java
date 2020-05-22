@@ -15,7 +15,7 @@ import android.widget.Toast;
 import com.example.watch.models.QRCodeHelper;
 import com.example.watch.R;
 import com.example.watch.Student.StudentInfo;
-import com.example.watch.models.SessionManager;
+import com.example.watch.models.SchoolSessionManager;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -26,7 +26,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class AddNewStudentActivity extends AppCompatActivity implements View.OnClickListener {
 
-    SessionManager session ;
+    SchoolSessionManager session ;
 
     private FirebaseDatabase firebaseInstance;
     private DatabaseReference firebaseDatabase;
@@ -44,7 +44,7 @@ public class AddNewStudentActivity extends AppCompatActivity implements View.OnC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_new_student);
 
-        session = new SessionManager(getApplicationContext());
+        session = new SchoolSessionManager(getApplicationContext());
 
         findViewById(R.id.bktomain).setOnClickListener(this);
         findViewById(R.id.QR_add_student).setOnClickListener(this);

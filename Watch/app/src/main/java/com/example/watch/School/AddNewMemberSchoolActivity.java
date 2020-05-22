@@ -7,11 +7,11 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.example.watch.R;
-import com.example.watch.models.SessionManager;
+import com.example.watch.models.SchoolSessionManager;
 
 public class AddNewMemberSchoolActivity extends AppCompatActivity implements View.OnClickListener {
 
-    SessionManager session ;
+    SchoolSessionManager session ;
 
 
 
@@ -20,7 +20,7 @@ public class AddNewMemberSchoolActivity extends AppCompatActivity implements Vie
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_new_member_school);
 
-        session = new SessionManager(getApplicationContext());
+        session = new SchoolSessionManager(getApplicationContext());
 
         //this.setTitle("Add New Member"); //change screen title.
         findViewById(R.id.User_button).setOnClickListener(this);

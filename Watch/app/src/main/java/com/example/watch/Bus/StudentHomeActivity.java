@@ -20,6 +20,7 @@ import androidx.annotation.NonNull;
 
 import com.example.watch.R;
 import com.example.watch.School.BusTrafficActivity;
+import com.example.watch.models.BusSessionManager;
 import com.google.android.gms.location.LocationListener;
         import android.location.LocationManager;
         import android.os.Build;
@@ -62,6 +63,7 @@ public class StudentHomeActivity extends AppCompatActivity implements
         LocationListener, View.OnClickListener {
 
 
+    BusSessionManager session ;
     private static final String TAG = BusTrafficActivity.class.getSimpleName();
 
     private static final int REQUEST_CHECK_SETTINGS = 1000;
@@ -86,6 +88,9 @@ public class StudentHomeActivity extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_home);
+
+        session = new BusSessionManager(getApplicationContext());
+        session.checkLogin();
 
         mapFragment = (MapFragment) getFragmentManager()
                 .findFragmentById( R.id.map );

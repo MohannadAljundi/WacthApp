@@ -4,11 +4,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -16,20 +14,20 @@ import android.widget.Toast;
 import com.example.watch.MainActivity;
 import com.example.watch.R;
 import com.example.watch.SettingsActivity;
-import com.example.watch.models.SessionManager;
+import com.example.watch.models.SchoolSessionManager;
+import com.example.watch.models.StudentSessionManager;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.StorageReference;
 
 import java.util.HashMap;
 
 public class StudentProfileActivity extends AppCompatActivity implements View.OnClickListener  {
 
-    SessionManager session ;
+    StudentSessionManager session ;
 
     private static final int PICK_IMAGE_REQUEST = 71 ;
     private ImageView profile_image ;
@@ -48,7 +46,7 @@ public class StudentProfileActivity extends AppCompatActivity implements View.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_studen_profile);
 
-        session = new SessionManager(getApplicationContext());
+        session = new StudentSessionManager(getApplicationContext());
 
         firebaseInstance = FirebaseDatabase.getInstance();
         firebaseDatabase = firebaseInstance.getReference("StudentInfo");
@@ -72,8 +70,8 @@ public class StudentProfileActivity extends AppCompatActivity implements View.On
 
         HashMap<String,String > schoolUser = session.getUserDetails();
 
-        name  = schoolUser.get(SessionManager.KEY_NAME);
-        email = schoolUser.get(SessionManager.KEY_EMAIL);
+        name  = schoolUser.get(SchoolSessionManager.KEY_NAME);
+        email = schoolUser.get(SchoolSessionManager.KEY_EMAIL);
 
         Name_View.setText(name);
         Email_View.setText(email);

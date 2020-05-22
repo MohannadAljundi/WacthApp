@@ -19,12 +19,13 @@ import androidx.annotation.NonNull;
         import android.widget.Toast;
 
         import com.example.watch.R;
+        import com.example.watch.models.BusSessionManager;
         import com.example.watch.models.EditAddressDialog;
         import com.example.watch.models.EditEmailDialog;
         import com.example.watch.models.EditNameDialog;
         import com.example.watch.models.EditPasswordDialog;
         import com.example.watch.models.EditPhoneDialog;
-        import com.example.watch.models.SessionManager;
+        import com.example.watch.models.SchoolSessionManager;
         import com.google.android.gms.tasks.OnFailureListener;
         import com.google.android.gms.tasks.OnSuccessListener;
         import com.google.firebase.database.DataSnapshot;
@@ -47,7 +48,7 @@ public class BusEditProfileActivity extends AppCompatActivity implements View.On
         EditEmailDialog.EditEmailDialogListener , EditPhoneDialog.EditPhoneDialogListener ,
         EditPasswordDialog.EditPasswordDialogListener {
 
-    SessionManager session ;
+    BusSessionManager session ;
 
     private TextView name_view , email_view , address_view , phone_view , email_headLine , name_headLine ;
     private FirebaseDatabase firebaseInstance;
@@ -71,7 +72,7 @@ public class BusEditProfileActivity extends AppCompatActivity implements View.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bus_edit_profile);
 
-        session = new SessionManager(getApplicationContext());
+        session = new BusSessionManager(getApplicationContext());
 
         name_view = findViewById(R.id.nameTextView_bus);
         email_view = findViewById(R.id.emailTextView_bus);
@@ -95,8 +96,8 @@ public class BusEditProfileActivity extends AppCompatActivity implements View.On
 
         HashMap<String,String > schoolUser = session.getUserDetails();
 
-        name  = schoolUser.get(SessionManager.KEY_NAME);
-        email = schoolUser.get(SessionManager.KEY_EMAIL);
+        name  = schoolUser.get(SchoolSessionManager.KEY_NAME);
+        email = schoolUser.get(SchoolSessionManager.KEY_EMAIL);
 
         name_headLine.setText(name);
         email_headLine.setText(email);
@@ -111,7 +112,7 @@ public class BusEditProfileActivity extends AppCompatActivity implements View.On
         name_view.setText(busInfo.FullName);
 
 
-        profile_image = findViewById(R.id.profile_img_bus);
+        profile_image = findViewById(R.id.profile_img_edit_bus);
         profile_image.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP_MR1)
             @Override

@@ -7,26 +7,33 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.example.watch.Bus.BusLoginActivity;
+import com.example.watch.Bus.BusProfileActivity;
 import com.example.watch.School.SchoolLoginActivity;
+import com.example.watch.School.SchoolProfileActivity;
 import com.example.watch.Student.StudenLoginActivity;
-import com.example.watch.models.SessionManager;
+import com.example.watch.Student.StudentProfileActivity;
+import com.example.watch.models.BusSessionManager;
+import com.example.watch.models.SchoolSessionManager;
+import com.example.watch.models.StudentSessionManager;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    SessionManager session ;
+    SchoolSessionManager session_school ;
+    StudentSessionManager session_student;
+    BusSessionManager session_bus;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        session = new SessionManager(getApplicationContext());
-
+        session_school = new SchoolSessionManager(getApplicationContext());
+        session_student = new StudentSessionManager(getApplicationContext());
+        session_bus = new BusSessionManager(getApplicationContext());
 
 
         findViewById(R.id.all_user_student).setOnClickListener(this);
         findViewById(R.id.all_user_school).setOnClickListener(this);
         findViewById(R.id.all_user_bus).setOnClickListener(this);
-
 
     }
 
@@ -36,18 +43,36 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.all_user_student:{
-                Intent i = new Intent(getApplicationContext(), StudenLoginActivity.class);
-                startActivity(i);
+                if(session_student.isLoggedIn()){
+                    Intent i = new Intent(getApplicationContext(), StudentProfileActivity.class);
+                    startActivity(i);
+                }else {
+                    Intent i = new Intent(getApplicationContext(), StudenLoginActivity.class);
+                    startActivity(i);
+                }
+
             }break;
 
             case R.id.all_user_school:{
-                Intent i2 = new Intent(getApplicationContext(), SchoolLoginActivity.class);
-                startActivity(i2);
+                if(session_school.isLoggedIn()){
+                    Intent i2 = new Intent(getApplicationContext(), SchoolProfileActivity.class);
+                    startActivity(i2);
+                }else {
+                    Intent i2 = new Intent(getApplicationContext(), SchoolLoginActivity.class);
+                    startActivity(i2);
+                }
+
             }break;
 
             case R.id.all_user_bus:{
-                Intent i2 = new Intent(getApplicationContext(), BusLoginActivity.class);
-                startActivity(i2);
+                if(session_bus.isLoggedIn()){
+                    Intent i2 = new Intent(getApplicationContext(), BusProfileActivity.class);
+                    startActivity(i2);
+                }else {
+                    Intent i2 = new Intent(getApplicationContext(), BusLoginActivity.class);
+                    startActivity(i2);
+                }
+
             }break;
         }
     }

@@ -25,7 +25,8 @@ import com.example.watch.models.EditEmailDialog;
 import com.example.watch.models.EditNameDialog;
 import com.example.watch.models.EditPasswordDialog;
 import com.example.watch.models.EditPhoneDialog;
-import com.example.watch.models.SessionManager;
+import com.example.watch.models.SchoolSessionManager;
+import com.example.watch.models.StudentSessionManager;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
@@ -47,7 +48,7 @@ public class StudentEditProfileActivity extends AppCompatActivity implements Vie
         EditEmailDialog.EditEmailDialogListener , EditPhoneDialog.EditPhoneDialogListener ,
         EditPasswordDialog.EditPasswordDialogListener {
 
-    SessionManager session ;
+    StudentSessionManager session ;
 
     private TextView name_view , email_view , address_view , phone_view , email_headLine , name_headLine ;
     private FirebaseDatabase firebaseInstance;
@@ -70,7 +71,7 @@ public class StudentEditProfileActivity extends AppCompatActivity implements Vie
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_edit_profile);
 
-        session = new SessionManager(getApplicationContext());
+        session = new StudentSessionManager(getApplicationContext());
 
         name_view = findViewById(R.id.nameTextView_student);
         email_view = findViewById(R.id.emailTextView_student);
@@ -95,8 +96,8 @@ public class StudentEditProfileActivity extends AppCompatActivity implements Vie
 
         HashMap<String,String > schoolUser = session.getUserDetails();
 
-         name  = schoolUser.get(SessionManager.KEY_NAME);
-         email = schoolUser.get(SessionManager.KEY_EMAIL);
+         name  = schoolUser.get(SchoolSessionManager.KEY_NAME);
+         email = schoolUser.get(SchoolSessionManager.KEY_EMAIL);
 
         name_headLine.setText(name);
         email_headLine.setText(email);
@@ -106,8 +107,13 @@ public class StudentEditProfileActivity extends AppCompatActivity implements Vie
         Email_Get_2  = getIntent().getStringExtra("email_2");
         Name_Get_2 = getIntent().getStringExtra("name_2");
 
-        ReadNiceNameFromFirebase();
 
+        try {
+            ReadNiceNameFromFirebase();
+            wait();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
         profile_image = findViewById(R.id.profile_img_edit_student);
         profile_image.setOnClickListener(new View.OnClickListener() {

@@ -15,7 +15,7 @@ import android.widget.Toast;
 
 import com.example.watch.Bus.BusInfo;
 import com.example.watch.R;
-import com.example.watch.models.SessionManager;
+import com.example.watch.models.SchoolSessionManager;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -26,7 +26,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class AddNewBusActivity extends AppCompatActivity implements View.OnClickListener {
 
-    SessionManager session ;
+    SchoolSessionManager session ;
 
     private FirebaseDatabase firebaseInstance;
     private DatabaseReference firebaseDatabase;
@@ -42,7 +42,7 @@ public class AddNewBusActivity extends AppCompatActivity implements View.OnClick
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_new_bus);
 
-        session = new SessionManager(getApplicationContext());
+        session = new SchoolSessionManager(getApplicationContext());
 
         mAuth = FirebaseAuth.getInstance();
         firebaseInstance = FirebaseDatabase.getInstance();

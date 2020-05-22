@@ -16,7 +16,7 @@ import android.widget.Toast;
 
 import com.example.watch.R;
 import com.example.watch.models.LoadingDialoge;
-import com.example.watch.models.SessionManager;
+import com.example.watch.models.SchoolSessionManager;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -29,7 +29,7 @@ import com.google.firebase.database.ValueEventListener;
 
 public class SchoolLoginActivity extends AppCompatActivity implements View.OnClickListener , DialogInterface {
 
-    SessionManager session ;
+    SchoolSessionManager session ;
     private FirebaseDatabase firebaseInstance;
     private DatabaseReference firebaseDatabase;
     private Button login;
@@ -49,7 +49,7 @@ public class SchoolLoginActivity extends AppCompatActivity implements View.OnCli
         setContentView(R.layout.activity_school_login);
         findViewById(R.id.buttonLogin).setOnClickListener(this);
 
-        session = new SessionManager(getApplicationContext());
+        session = new SchoolSessionManager(getApplicationContext());
 
         mAuth = FirebaseAuth.getInstance();
         Email = findViewById(R.id.txtEmail);

@@ -19,7 +19,7 @@ import android.location.Geocoder;
 import android.location.Location;
 
 import com.example.watch.R;
-import com.example.watch.models.SessionManager;
+import com.example.watch.models.SchoolSessionManager;
 import com.google.android.gms.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Build;
@@ -61,7 +61,7 @@ public class BusTrafficActivity extends AppCompatActivity implements
         GoogleApiClient.OnConnectionFailedListener,
         LocationListener , View.OnClickListener {
 
-    SessionManager session ;
+    SchoolSessionManager session ;
 
     private static final String TAG = BusTrafficActivity.class.getSimpleName();
 
@@ -88,7 +88,7 @@ public class BusTrafficActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bus_traffic);
 
-        session = new SessionManager(getApplicationContext());
+        session = new SchoolSessionManager(getApplicationContext());
 
         session.checkLogin();
 

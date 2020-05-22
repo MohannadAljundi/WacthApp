@@ -12,7 +12,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.watch.R;
-import com.example.watch.models.SessionManager;
+import com.example.watch.models.BusSessionManager;
+import com.example.watch.models.SchoolSessionManager;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -25,7 +26,7 @@ import com.google.firebase.database.ValueEventListener;
 
 public class BusLoginActivity extends AppCompatActivity implements View.OnClickListener  {
 
-    SessionManager session ;
+    BusSessionManager session ;
 
     private FirebaseDatabase firebaseInstance;
     private DatabaseReference firebaseDatabase;
@@ -43,7 +44,7 @@ public class BusLoginActivity extends AppCompatActivity implements View.OnClickL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bus_login);
 
-        session = new SessionManager(getApplicationContext());
+        session = new BusSessionManager(getApplicationContext());
 
 
         firebaseInstance = FirebaseDatabase.getInstance();

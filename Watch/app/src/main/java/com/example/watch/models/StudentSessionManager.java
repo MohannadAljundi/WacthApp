@@ -5,17 +5,17 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 
 import com.example.watch.MainActivity;
-import com.example.watch.School.SchoolLoginActivity;
+import com.example.watch.Student.StudenLoginActivity;
 
 import java.util.HashMap;
 
-public class SessionManager {
+public class StudentSessionManager {
 
     // Shared Preferences
-    SharedPreferences pref;
+    SharedPreferences pref_student;
 
     // Editor for Shared preferences
-    SharedPreferences.Editor editor;
+    SharedPreferences.Editor editor_student;
 
     // Context
     Context _context;
@@ -24,22 +24,23 @@ public class SessionManager {
     int PRIVATE_MODE = 0;
 
     // Sharedpref file name
-    private static final String PREF_NAME = "Pref";
+    private static final String PREF_NAME = "Pref_student";
 
     // All Shared Preferences Keys
-    private static final String IS_LOGIN = "IsLoggedIn";
+    private static final String IS_LOGIN = "IsLoggedIn_student";
 
     // User name (make variable public to access from outside)
-    public static final String KEY_NAME = "name";
+    public static final String KEY_NAME = "name_student";
 
     // Email address (make variable public to access from outside)
-    public static final String KEY_EMAIL = "email";
+    public static final String KEY_EMAIL = "email_student";
+
 
     // Constructor
-    public SessionManager(Context context){
+    public StudentSessionManager(Context context){
         this._context = context;
-        pref = _context.getSharedPreferences(PREF_NAME, PRIVATE_MODE);
-        editor = pref.edit();
+        pref_student = _context.getSharedPreferences(PREF_NAME, PRIVATE_MODE);
+        editor_student = pref_student.edit();
     }
 
 
@@ -49,16 +50,16 @@ public class SessionManager {
      * */
     public void createLoginSession(String name, String email){
         // Storing login value as TRUE
-        editor.putBoolean(IS_LOGIN, true);
+        editor_student.putBoolean(IS_LOGIN, true);
 
         // Storing name in pref
-        editor.putString(KEY_NAME, name);
+        editor_student.putString(KEY_NAME, name);
 
         // Storing email in pref
-        editor.putString(KEY_EMAIL, email);
+        editor_student.putString(KEY_EMAIL, email);
 
         // commit changes
-        editor.commit();
+        editor_student.commit();
     }
 
     /**
@@ -70,7 +71,7 @@ public class SessionManager {
         // Check login status
         if(!this.isLoggedIn()){
             // user is not logged in redirect him to Login Activity
-            Intent i = new Intent(_context, SchoolLoginActivity.class);
+            Intent i = new Intent(_context, StudenLoginActivity.class);
             // Closing all the Activities
             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
@@ -91,10 +92,10 @@ public class SessionManager {
     public HashMap<String, String> getUserDetails(){
         HashMap<String, String> user = new HashMap<String, String>();
         // user name
-        user.put(KEY_NAME, pref.getString(KEY_NAME, null));
+        user.put(KEY_NAME, pref_student.getString(KEY_NAME, null));
 
         // user email id
-        user.put(KEY_EMAIL, pref.getString(KEY_EMAIL, null));
+        user.put(KEY_EMAIL, pref_student.getString(KEY_EMAIL, null));
 
         // return user
         return user;
@@ -105,8 +106,8 @@ public class SessionManager {
      * */
     public void logoutUser(){
         // Clearing all data from Shared Preferences
-        editor.clear();
-        editor.commit();
+        editor_student.clear();
+        editor_student.commit();
 
         // After logout redirect user to Loing Activity
         Intent i = new Intent(_context, MainActivity.class);
@@ -125,6 +126,6 @@ public class SessionManager {
      * **/
     // Get Login State
     public boolean isLoggedIn(){
-        return pref.getBoolean(IS_LOGIN, false);
+        return pref_student.getBoolean(IS_LOGIN, false);
     }
 }

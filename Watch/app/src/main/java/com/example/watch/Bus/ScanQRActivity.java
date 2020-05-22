@@ -13,6 +13,8 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.example.watch.R;
+import com.example.watch.models.BusSessionManager;
+import com.example.watch.models.SchoolSessionManager;
 import com.google.android.gms.vision.CameraSource;
 import com.google.android.gms.vision.Detector;
 import com.google.android.gms.vision.barcode.Barcode;
@@ -22,18 +24,21 @@ import java.io.IOException;
 
 public class ScanQRActivity extends AppCompatActivity implements View.OnClickListener {
 
+    BusSessionManager session ;
     private SurfaceView surfaceView ;
     private CameraSource cameraSource;
     private BarcodeDetector barcodeDetector ;
     private TextView msj ;
 
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scan_q_r);
+
+        session = new BusSessionManager(getApplicationContext());
+        session.checkLogin();
+
         findViewById(R.id.back_to_bus_profile).setOnClickListener(this);
         surfaceView = findViewById(R.id.scan_qr);
         msj = findViewById(R.id.qr_msj);

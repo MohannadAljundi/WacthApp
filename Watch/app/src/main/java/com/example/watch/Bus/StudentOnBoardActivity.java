@@ -8,13 +8,21 @@ import android.view.View;
 
 import com.example.watch.Bus.BusProfileActivity;
 import com.example.watch.R;
+import com.example.watch.models.BusSessionManager;
 
 public class StudentOnBoardActivity extends AppCompatActivity implements View.OnClickListener {
+
+    BusSessionManager session ;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_on_board);
+
+        session = new BusSessionManager(getApplicationContext());
+        session.checkLogin();
+
         findViewById(R.id.back_to_bus_profile_bord2).setOnClickListener(this);
 
     }

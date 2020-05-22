@@ -7,11 +7,12 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.example.watch.R;
-import com.example.watch.models.SessionManager;
+import com.example.watch.models.SchoolSessionManager;
+import com.example.watch.models.StudentSessionManager;
 
 public class HealthyActivityStateStudent extends AppCompatActivity implements View.OnClickListener {
 
-    SessionManager session ;
+    StudentSessionManager session ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,7 +20,7 @@ public class HealthyActivityStateStudent extends AppCompatActivity implements Vi
         setContentView(R.layout.activity_healthy_state_schoole);
         findViewById(R.id.go_back_student_profile).setOnClickListener(this);
 
-        session = new SessionManager(getApplicationContext());
+        session = new StudentSessionManager(getApplicationContext());
         session.checkLogin();
 
     }

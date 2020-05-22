@@ -27,7 +27,7 @@ public class EditPasswordDialog extends AppCompatDialogFragment {
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
-        View view = inflater.inflate(R.layout.dialog_edit_password,null);
+        View view = inflater.inflate(R.layout.dialog_edit_password_old,null);
 
         builder.setView(view)
 
@@ -52,6 +52,8 @@ public class EditPasswordDialog extends AppCompatDialogFragment {
 
                     }
                 });
+
+
 
         old_password = view.findViewById(R.id.old_password_edit);
         new_password = view.findViewById(R.id.new_password_edit);

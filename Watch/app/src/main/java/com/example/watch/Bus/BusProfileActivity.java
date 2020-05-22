@@ -12,7 +12,8 @@ import android.widget.TextView;
 import com.example.watch.MainActivity;
 import com.example.watch.R;
 import com.example.watch.SettingsActivity;
-import com.example.watch.models.SessionManager;
+import com.example.watch.models.BusSessionManager;
+import com.example.watch.models.SchoolSessionManager;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -24,7 +25,7 @@ import java.util.HashMap;
 
 public class BusProfileActivity extends AppCompatActivity implements View.OnClickListener {
 
-    SessionManager session ;
+    BusSessionManager session ;
 
     private FirebaseDatabase firebaseInstance;
     private DatabaseReference firebaseDatabase;
@@ -39,7 +40,7 @@ public class BusProfileActivity extends AppCompatActivity implements View.OnClic
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bus_profile);
 
-        session = new SessionManager(getApplicationContext());
+        session = new BusSessionManager(getApplicationContext());
 
         firebaseInstance = FirebaseDatabase.getInstance();
         firebaseDatabase = firebaseInstance.getReference("BusInfo");
@@ -60,8 +61,8 @@ public class BusProfileActivity extends AppCompatActivity implements View.OnClic
 
         HashMap<String,String > schoolUser = session.getUserDetails();
 
-        name  = schoolUser.get(SessionManager.KEY_NAME);
-        email = schoolUser.get(SessionManager.KEY_EMAIL);
+        name  = schoolUser.get(SchoolSessionManager.KEY_NAME);
+        email = schoolUser.get(SchoolSessionManager.KEY_EMAIL);
 
         Name_View.setText(name);
         Email_View.setText(email);

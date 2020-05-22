@@ -13,7 +13,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.watch.R;
-import com.example.watch.models.SessionManager;
+import com.example.watch.models.SchoolSessionManager;
+import com.example.watch.models.StudentSessionManager;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -26,7 +27,7 @@ import com.google.firebase.database.ValueEventListener;
 
 public class StudenLoginActivity extends AppCompatActivity implements View.OnClickListener {
 
-    SessionManager session ;
+    StudentSessionManager session ;
     private Button login;
     private TextView Signup;
     private FirebaseAuth mAuth;
@@ -41,7 +42,7 @@ public class StudenLoginActivity extends AppCompatActivity implements View.OnCli
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_studen_login);
 
-        session = new SessionManager(getApplicationContext());
+        session = new StudentSessionManager(getApplicationContext());
 
         mAuth = FirebaseAuth.getInstance();
         firebaseInstance = FirebaseDatabase.getInstance();

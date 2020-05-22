@@ -1,7 +1,9 @@
 package com.example.watch.School;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
@@ -17,6 +19,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.preference.PreferenceManager;
 
 import com.example.watch.R;
 import com.example.watch.models.EditAddressDialog;
@@ -24,7 +27,7 @@ import com.example.watch.models.EditEmailDialog;
 import com.example.watch.models.EditNameDialog;
 import com.example.watch.models.EditPasswordDialog;
 import com.example.watch.models.EditPhoneDialog;
-import com.example.watch.models.SessionManager;
+import com.example.watch.models.SchoolSessionManager;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -49,7 +52,7 @@ public class SchoolEditProfileActivity extends AppCompatActivity implements View
         EditEmailDialog.EditEmailDialogListener , EditPhoneDialog.EditPhoneDialogListener ,
         EditPasswordDialog.EditPasswordDialogListener {
 
-    SessionManager session ;
+    SchoolSessionManager session ;
 
     private TextView name_view , email_view , address_view , phone_view , email_headLine , name_headLine ;
     private FirebaseDatabase firebaseInstance;
@@ -76,7 +79,7 @@ public class SchoolEditProfileActivity extends AppCompatActivity implements View
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_school_edit_profile);
 
-        session = new SessionManager(getApplicationContext());
+        session = new SchoolSessionManager(getApplicationContext());
 
         name_view = findViewById(R.id.nameTextView_school);
         email_view = findViewById(R.id.emailTextView_school);
@@ -101,8 +104,8 @@ public class SchoolEditProfileActivity extends AppCompatActivity implements View
 
         HashMap<String,String > schoolUser = session.getUserDetails();
 
-         name  = schoolUser.get(SessionManager.KEY_NAME);
-         email = schoolUser.get(SessionManager.KEY_EMAIL);
+         name  = schoolUser.get(SchoolSessionManager.KEY_NAME);
+         email = schoolUser.get(SchoolSessionManager.KEY_EMAIL);
 
         name_headLine.setText(name);
         email_headLine.setText(email);
@@ -225,8 +228,10 @@ public class SchoolEditProfileActivity extends AppCompatActivity implements View
                 && data != null && data.getData() != null){
             filePath = data.getData();
             try {
+
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),filePath);
                 profile_image.setImageBitmap(bitmap);
+
             }
             catch (IOException ex){
                 ex.printStackTrace();
@@ -370,17 +375,16 @@ public class SchoolEditProfileActivity extends AppCompatActivity implements View
 
     }
 
-    @Override
-    public void TransferPasswordText(String Old_password, String New_Password) {
-
+    private void ReadPasswordFromFirebase(){
         firebaseDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()){  // row read
                     for(DataSnapshot dataSnapshot2 : dataSnapshot1.getChildren()){ // column read
-                        old_pass = dataSnapshot2.child("Password").getValue(String.class);
+                        schoolInfo.Password = dataSnapshot2.child("Password").getValue(String.class);
                     }
                 }
+                Log.d("Firebase State","Read Password Successful" +" >> " + schoolInfo.Password );
             }
 
             @Override
@@ -389,11 +393,25 @@ public class SchoolEditProfileActivity extends AppCompatActivity implements View
                 Log.w("TAG", "Failed to read value.", error.toException());
             }
         });
+    }
 
-        if(old_pass.equals(Old_password)){
-            updateInfo(New_Password,"Password");
-        }else{
-            Toast.makeText(getApplicationContext(),"The Old Password is Wrong",Toast.LENGTH_LONG).show();
+    @SuppressLint("LongLogTag")
+    @Override
+    public void TransferPasswordText(String Old_password, String New_Password) {
+
+        ReadPasswordFromFirebase();
+
+        if(schoolInfo.Password != null) {
+            if (Old_password.equals(schoolInfo.Password)) {
+                updateInfo(New_Password, "Password");
+                Log.d("Password Change State : ", "Done, The New Password is : " + New_Password);
+            } else {
+                Toast.makeText(getApplicationContext(), "The Old Password is Wrong", Toast.LENGTH_LONG).show();
+                Log.d("Password Change State : ", "The Old Password is Wrong");
+            }
+        }else {
+            Log.d("Password Change State : ", "schoolInfo.Password is null");
         }
+
     }
 }

@@ -20,7 +20,8 @@ import android.location.Geocoder;
 import android.location.Location;
 //import android.location.LocationListener;
 import com.example.watch.R;
-import com.example.watch.models.SessionManager;
+import com.example.watch.models.SchoolSessionManager;
+import com.example.watch.models.StudentSessionManager;
 import com.google.android.gms.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Build;
@@ -68,7 +69,7 @@ public class ViewMapStudentActivity extends AppCompatActivity implements
         LocationListener , View.OnClickListener {
 
 
-    SessionManager session ;
+    StudentSessionManager session ;
 
     private FirebaseDatabase firebaseInstance;
     private DatabaseReference firebaseDatabase;
@@ -100,7 +101,7 @@ public class ViewMapStudentActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_map_student);
 
-        session = new SessionManager(getApplicationContext());
+        session = new StudentSessionManager(getApplicationContext());
         session.checkLogin();
 
         mapFragment = (MapFragment) getFragmentManager()

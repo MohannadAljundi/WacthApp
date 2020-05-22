@@ -2,13 +2,17 @@ package com.example.watch.School;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.preference.PreferenceManager;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,7 +20,7 @@ import com.example.watch.MainActivity;
 import com.example.watch.R;
 import com.example.watch.SettingsActivity;
 import com.example.watch.models.LoadingDialoge;
-import com.example.watch.models.SessionManager;
+import com.example.watch.models.SchoolSessionManager;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -33,9 +37,10 @@ public class SchoolProfileActivity extends AppCompatActivity implements View.OnC
     FirebaseUser firebaseUser;
     private FirebaseDatabase firebaseInstance;
     private DatabaseReference firebaseDatabase;
-    SessionManager session ;
+    SchoolSessionManager session ;
 
     private TextView Name_View , Email_View;
+    private ImageView profile_img;
 
     public String Email_Get , Name_Get ;
     String name , email ;
@@ -48,7 +53,7 @@ public class SchoolProfileActivity extends AppCompatActivity implements View.OnC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_school_profile);
 
-        session = new SessionManager(getApplicationContext());
+        session = new SchoolSessionManager(getApplicationContext());
 
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
@@ -71,6 +76,8 @@ public class SchoolProfileActivity extends AppCompatActivity implements View.OnC
 
         findViewById(R.id.btn_edit_profile_school).setOnClickListener(this);
 
+        profile_img = findViewById(R.id.profile_img_profile_school);
+
         firebaseInstance = FirebaseDatabase.getInstance();
         firebaseDatabase = firebaseInstance.getReference("SchoolInfo");
 
@@ -83,13 +90,14 @@ public class SchoolProfileActivity extends AppCompatActivity implements View.OnC
 
         HashMap<String,String > schoolUser = session.getUserDetails();
 
-        name  = schoolUser.get(SessionManager.KEY_NAME);
-        email = schoolUser.get(SessionManager.KEY_EMAIL);
+        name  = schoolUser.get(SchoolSessionManager.KEY_NAME);
+        email = schoolUser.get(SchoolSessionManager.KEY_EMAIL);
 
         Email_View.setText(email);
         Name_View.setText(name);
 
         ReadNiceNameFromFirebase();
+
 
     }
 
