@@ -70,13 +70,15 @@ public class StudentProfileActivity extends AppCompatActivity implements View.On
 
         HashMap<String,String > schoolUser = session.getUserDetails();
 
-        name  = schoolUser.get(SchoolSessionManager.KEY_NAME);
-        email = schoolUser.get(SchoolSessionManager.KEY_EMAIL);
+        name  = schoolUser.get(StudentSessionManager.KEY_NAME);
+        email = schoolUser.get(StudentSessionManager.KEY_EMAIL);
+
+        ReadNiceNameFromFirebase();
 
         Name_View.setText(name);
         Email_View.setText(email);
 
-        ReadNiceNameFromFirebase();
+
 
 
 

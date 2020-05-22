@@ -96,8 +96,8 @@ public class BusEditProfileActivity extends AppCompatActivity implements View.On
 
         HashMap<String,String > schoolUser = session.getUserDetails();
 
-        name  = schoolUser.get(SchoolSessionManager.KEY_NAME);
-        email = schoolUser.get(SchoolSessionManager.KEY_EMAIL);
+        name  = schoolUser.get(BusSessionManager.KEY_NAME);
+        email = schoolUser.get(BusSessionManager.KEY_EMAIL);
 
         name_headLine.setText(name);
         email_headLine.setText(email);

@@ -61,8 +61,8 @@ public class BusProfileActivity extends AppCompatActivity implements View.OnClic
 
         HashMap<String,String > schoolUser = session.getUserDetails();
 
-        name  = schoolUser.get(SchoolSessionManager.KEY_NAME);
-        email = schoolUser.get(SchoolSessionManager.KEY_EMAIL);
+        name  = schoolUser.get(BusSessionManager.KEY_NAME);
+        email = schoolUser.get(BusSessionManager.KEY_EMAIL);
 
         Name_View.setText(name);
         Email_View.setText(email);

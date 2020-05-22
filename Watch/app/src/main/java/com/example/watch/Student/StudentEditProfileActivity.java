@@ -96,8 +96,8 @@ public class StudentEditProfileActivity extends AppCompatActivity implements Vie
 
         HashMap<String,String > schoolUser = session.getUserDetails();
 
-         name  = schoolUser.get(SchoolSessionManager.KEY_NAME);
-         email = schoolUser.get(SchoolSessionManager.KEY_EMAIL);
+         name  = schoolUser.get(StudentSessionManager.KEY_NAME);
+         email = schoolUser.get(StudentSessionManager.KEY_EMAIL);
 
         name_headLine.setText(name);
         email_headLine.setText(email);
@@ -107,13 +107,8 @@ public class StudentEditProfileActivity extends AppCompatActivity implements Vie
         Email_Get_2  = getIntent().getStringExtra("email_2");
         Name_Get_2 = getIntent().getStringExtra("name_2");
 
+        ReadNiceNameFromFirebase();
 
-        try {
-            ReadNiceNameFromFirebase();
-            wait();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
 
         profile_image = findViewById(R.id.profile_img_edit_student);
         profile_image.setOnClickListener(new View.OnClickListener() {
