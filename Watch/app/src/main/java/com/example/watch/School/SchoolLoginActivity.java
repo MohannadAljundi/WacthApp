@@ -88,8 +88,8 @@ public class SchoolLoginActivity extends AppCompatActivity implements View.OnCli
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
+    protected void onDestroy() {
+        super.onDestroy();
         loadingDialoge.StartLoadingDialog();
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
@@ -99,6 +99,7 @@ public class SchoolLoginActivity extends AppCompatActivity implements View.OnCli
             }
         },6000);
     }
+
 
 
     void ReadNiceNameFromFirebase(){

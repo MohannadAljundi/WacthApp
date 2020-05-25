@@ -29,9 +29,10 @@
                     style="@style/profileDetailsImage" />
 
                 <TextView
-                    android:text="Name"
+                    android:id="@+id/stayle"
+                    style="@style/profileDetailsTextMain"
                     android:layout_toRightOf="@id/nameImageView_student"
-                style="@style/profileDetailsTextMain" />
+                    android:text="Name" />
 
                 <TextView
                     android:id="@+id/nameTextView_student"

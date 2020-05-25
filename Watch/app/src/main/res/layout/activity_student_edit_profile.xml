@@ -33,7 +33,7 @@
                 android:gravity="center_horizontal"
                 android:orientation="vertical"
                 android:id="@+id/linearLayout"
-                android:background="@drawable/back_eidt">
+                android:background="@drawable/back_edit_3">
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/profile_img_edit_student"
@@ -41,7 +41,7 @@
                     android:layout_height="115dp"
                     android:layout_margin="10dp"
                     app:civ_border_width="2dp"
-                    android:src="@drawable/person_icon" />
+                    android:src="@drawable/profile_edit_w" />
 
                 <TextView
                     android:id="@+id/name_headline_edit_student"
@@ -69,25 +69,23 @@
                     android:layout_marginTop="20dp"
                     >
 
-                    <View
-                        android:layout_alignParentTop="true"
-                        android:layout_width="match_parent"
-                        android:layout_height="30dp"
-                        android:background="@color/GreenBo"/>
-
-                    <TextView
-                        android:id="@+id/back_to_home_btn_student"
-                        android:text="Back to\nHome"
-                        style="@style/profileStyledBackButton" />
                 </RelativeLayout>
+
+                <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    app:layout_collapseMode="pin" />
 
             </LinearLayout>
 
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                app:layout_collapseMode="pin"/>
+            <ImageView
+                android:id="@+id/back_to_home_btn_student"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="10dp"
+                app:srcCompat="@drawable/back_to_home_button" />
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>

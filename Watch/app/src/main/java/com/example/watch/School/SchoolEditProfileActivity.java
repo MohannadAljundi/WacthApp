@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -41,6 +42,7 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
@@ -127,11 +129,7 @@ public class SchoolEditProfileActivity extends AppCompatActivity implements View
             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP_MR1)
             @Override
             public void onClick(View v) {
-               boolean wait = chooseImage();
-
-               if(wait){
-                   uploadImage();
-               }
+                chooseImage();
             }
         });
 
@@ -139,87 +137,16 @@ public class SchoolEditProfileActivity extends AppCompatActivity implements View
 
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP_MR1)
-    private boolean chooseImage(){
+    private void chooseImage(){
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(Intent.createChooser(intent,"Select Picture"), PICK_IMAGE_REQUEST);
-
-        return true;
-    }
-
-    private void uploadImage_2(){
-        File file = new File(String.valueOf(filePath));
-        FirebaseStorage storage = FirebaseStorage.getInstance();
-        StorageReference storageRef = storage.getReference().child("images");
-
-//        progressDialog.setTitle("Upload Image ...");
-//        progressDialog.show();
-
-        storageRef.child(file.getName()).putFile(filePath)
-                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-//                        progressDialog.dismiss();
-                        Toast.makeText(getApplicationContext(), "Image Uploaded Successfully", Toast.LENGTH_SHORT).show();
-                        Task<Uri> downloadUri = taskSnapshot.getStorage().getDownloadUrl();
-
-                        if(downloadUri.isSuccessful()){
-                            String generatedFilePath = downloadUri.getResult().toString();
-                            Toast.makeText(getApplicationContext(),"## Stored path is "+generatedFilePath,Toast.LENGTH_LONG).show();
-                            Log.d("## Stored path is ",generatedFilePath);
-                            URL = generatedFilePath;
-                        }}
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-//                        progressDialog.dismiss();
-                        Toast.makeText(getApplicationContext(),"Image not Uploaded",Toast.LENGTH_LONG).show();
-                    }
-                })
-                .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-                        double progress = (100.0 * taskSnapshot.getBytesTransferred()/taskSnapshot.getTotalByteCount() );
-//                        progressDialog.setMessage("Uploaded" + (int)progress + "%");
-                    }
-                });
-
     }
 
 
-    private void uploadImage(){
-        if(filePath != null){
-            final ProgressDialog progressDialog = new ProgressDialog(this);
-            progressDialog.setTitle("Upload Image ...");
-            progressDialog.show();
 
-            StorageReference ref = mStorageRef.child("image/"+ UUID.randomUUID().toString());
-            ref.putFile(filePath).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    progressDialog.dismiss();
-                    Toast.makeText(getApplicationContext(),"Image Uploaded",Toast.LENGTH_LONG).show();
 
-                }
-            })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            progressDialog.dismiss();
-                            Toast.makeText(getApplicationContext(),"Image not Uploaded",Toast.LENGTH_LONG).show();
-                        }
-                    })
-                    .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-                            double progress = (100.0 * taskSnapshot.getBytesTransferred()/taskSnapshot.getTotalByteCount() );
-                            progressDialog.setMessage("Uploaded" + (int)progress + "%");
-                        }
-                    });
-        }
-    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -231,6 +158,9 @@ public class SchoolEditProfileActivity extends AppCompatActivity implements View
 
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),filePath);
                 profile_image.setImageBitmap(bitmap);
+
+                String image_temp = SchoolSessionManager.encodeTobase64(bitmap);
+                session.createImageSession(image_temp,filePath.toString());
 
             }
             catch (IOException ex){

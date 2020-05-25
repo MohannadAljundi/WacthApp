@@ -68,7 +68,7 @@
                 android:layout_height="160dp"
                 android:orientation="horizontal">
 
-                <ImageView
+                <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/profile_img_profile_school"
                     android:layout_width="320dp"
                     android:layout_height="wrap_content"

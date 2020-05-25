@@ -267,7 +267,7 @@ public class StudentEditProfileActivity extends AppCompatActivity implements Vie
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.back_to_home_btn_student:{
-                Intent intent = new Intent(getApplicationContext(), SchoolProfileActivity.class);
+                Intent intent = new Intent(getApplicationContext(), StudentProfileActivity.class);
                 startActivity(intent);
             }break;
 

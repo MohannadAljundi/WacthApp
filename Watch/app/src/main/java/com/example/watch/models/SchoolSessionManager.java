@@ -4,11 +4,20 @@ package com.example.watch.models;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
+import android.util.Base64;
+import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
 
 
 import com.example.watch.MainActivity;
+import com.example.watch.R;
 import com.example.watch.School.SchoolLoginActivity;
 
+import java.io.ByteArrayOutputStream;
 import java.util.HashMap;
 
 public class SchoolSessionManager {
@@ -36,6 +45,12 @@ public class SchoolSessionManager {
 
     // Email address (make variable public to access from outside)
     public static final String KEY_EMAIL = "email_school";
+
+    // Profile Image (make variable public to access from outside)
+    public static  final String KEY_IMAGE = "Image_school";
+
+    // Image File Path (make variable public to access from outside)
+    public static final String KEY_FILE_PATH = "filePath_school";
 
 
     // Constructor
@@ -65,6 +80,23 @@ public class SchoolSessionManager {
     }
 
     /**
+     * Create Image session
+     * */
+    public void createImageSession(String image ,String filePath){
+        // Storing login value as TRUE
+        editor_school.putBoolean(IS_LOGIN, true);
+
+        // Storing image value in pref
+       editor_school.putString(KEY_IMAGE, image);
+
+       // Storing filePath value in pref
+       editor_school.putString(KEY_FILE_PATH,filePath);
+
+        // commit changes
+        editor_school.commit();
+    }
+
+    /**
      * Check login method wil check user login status
      * If false it will redirect user to login page
      * Else won't do anything
@@ -86,6 +118,24 @@ public class SchoolSessionManager {
 
     }
 
+    // method for bitmap to base64
+    public static String encodeTobase64(Bitmap image) {
+        Bitmap immage = image;
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        immage.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        byte[] b = baos.toByteArray();
+        String imageEncoded = Base64.encodeToString(b, Base64.DEFAULT);
+
+        Log.d("Image Log:", imageEncoded);
+        return imageEncoded;
+    }
+
+    // method for base64 to bitmap
+    public static Bitmap decodeBase64(String input) {
+        byte[] decodedByte = Base64.decode(input, 0);
+        return BitmapFactory
+                .decodeByteArray(decodedByte, 0, decodedByte.length);
+    }
 
 
     /**
@@ -98,6 +148,12 @@ public class SchoolSessionManager {
 
         // user email id
         user.put(KEY_EMAIL, pref_school.getString(KEY_EMAIL, null));
+
+        // user image
+        user.put(KEY_IMAGE,pref_school.getString(KEY_IMAGE,"null_value"));
+
+        //user image file path
+        user.put(KEY_FILE_PATH,pref_school.getString(KEY_FILE_PATH,null));
 
         // return user
         return user;

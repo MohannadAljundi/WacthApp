@@ -5,11 +5,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceManager;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -21,6 +26,8 @@ import com.example.watch.R;
 import com.example.watch.SettingsActivity;
 import com.example.watch.models.LoadingDialoge;
 import com.example.watch.models.SchoolSessionManager;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -28,8 +35,18 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.HashMap;
+import java.util.UUID;
 
 public class SchoolProfileActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -43,7 +60,11 @@ public class SchoolProfileActivity extends AppCompatActivity implements View.OnC
     private ImageView profile_img;
 
     public String Email_Get , Name_Get ;
-    String name , email ;
+    String name , email , image_str , filePath_str;
+    private StorageReference mStorageRef;
+
+    private FirebaseStorage storage;
+    private StorageReference storageRef;
 
     SchoolInfo schoolInfo = new SchoolInfo();
 
@@ -57,6 +78,13 @@ public class SchoolProfileActivity extends AppCompatActivity implements View.OnC
 
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
+
+        // upload
+        mStorageRef = FirebaseStorage.getInstance().getReference();
+
+        // download
+        storage = FirebaseStorage.getInstance();
+        storageRef = storage.getReference();
 
         findViewById(R.id.add_new_btn_school).setOnClickListener(this);
 
@@ -78,6 +106,7 @@ public class SchoolProfileActivity extends AppCompatActivity implements View.OnC
 
         profile_img = findViewById(R.id.profile_img_profile_school);
 
+
         firebaseInstance = FirebaseDatabase.getInstance();
         firebaseDatabase = firebaseInstance.getReference("SchoolInfo");
 
@@ -92,14 +121,81 @@ public class SchoolProfileActivity extends AppCompatActivity implements View.OnC
 
         name  = schoolUser.get(SchoolSessionManager.KEY_NAME);
         email = schoolUser.get(SchoolSessionManager.KEY_EMAIL);
+        image_str = schoolUser.get(SchoolSessionManager.KEY_IMAGE);
+        filePath_str = schoolUser.get(SchoolSessionManager.KEY_FILE_PATH);
 
         Email_View.setText(email);
         Name_View.setText(name);
 
-        ReadNiceNameFromFirebase();
+
+        if(!image_str.equals("null_value")){
+            Bitmap image_view_rec = SchoolSessionManager.decodeBase64(image_str);
+            profile_img.setImageBitmap(image_view_rec);
+            if(filePath_str != null){
+                uploadImage(Uri.parse(filePath_str));
+            }
+
+
+        }else {
+
+            storageRef.child("image/"+ name.toLowerCase()
+                    .replaceAll("'","").replaceAll(" ","_")+"_profile_img.png")
+                    .getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                @Override
+                public void onSuccess(Uri uri) {
+                    // Got the download URL for 'users/me/profile.png'
+                    Bitmap image = getImageBitmap(uri.toString());
+                    profile_img.setImageBitmap(image);
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception exception) {
+                    // Handle any errors
+                    Drawable myDrawable = getResources().getDrawable(R.drawable.school_icon);
+                    profile_img.setImageDrawable(myDrawable);
+                }
+            });
+
+        }
+
+
+
 
 
     }
+    private void uploadImage(Uri image_path){
+        if(image_path != null){
+            final ProgressDialog progressDialog = new ProgressDialog(this);
+            progressDialog.setTitle("Upload Image ...");
+            progressDialog.show();
+
+            StorageReference ref = mStorageRef.child("image/"+ name.toLowerCase()
+                    .replaceAll("'","").replaceAll(" ","_")+"_profile_img");
+            ref.putFile(image_path).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    progressDialog.dismiss();
+                    Toast.makeText(getApplicationContext(),"Image Uploaded",Toast.LENGTH_LONG).show();
+
+                }
+            })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            progressDialog.dismiss();
+                            Toast.makeText(getApplicationContext(),"Image not Uploaded",Toast.LENGTH_LONG).show();
+                        }
+                    })
+                    .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                            double progress = (100.0 * taskSnapshot.getBytesTransferred()/taskSnapshot.getTotalByteCount() );
+                            progressDialog.setMessage("Uploaded " + (int)progress + "%");
+                        }
+                    });
+        }
+    }
+
 
 
     void ReadNiceNameFromFirebase(){
@@ -126,6 +222,25 @@ public class SchoolProfileActivity extends AppCompatActivity implements View.OnC
         });
     }
 
+    private Bitmap getImageBitmap(String url) {
+        Bitmap bm = null;
+        try {
+            URL aURL = new URL(url);
+            URLConnection conn = aURL.openConnection();
+            conn.connect();
+            InputStream is = conn.getInputStream();
+            BufferedInputStream bis = new BufferedInputStream(is);
+            bm = BitmapFactory.decodeStream(bis);
+            bis.close();
+            is.close();
+        } catch (IOException e) {
+            Log.e("bitmap State", "Error getting bitmap", e);
+        }
+        return bm;
+    }
+
+
+
     @SuppressLint("SetTextI18n")
     @Override
     protected void onStart() {
@@ -133,8 +248,6 @@ public class SchoolProfileActivity extends AppCompatActivity implements View.OnC
 
          Email_Get = getIntent().getStringExtra("Email_Value");
          Name_Get = getIntent().getStringExtra("Name_Str_Value");
-
-
     }
 
     @Override
