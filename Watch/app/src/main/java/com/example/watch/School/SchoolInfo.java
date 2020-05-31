@@ -11,6 +11,7 @@ public class SchoolInfo {
     public String Password ;
     public String Address ;
     public boolean Locked ;
+    public String ImageProfileID;
 
 
 

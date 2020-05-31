@@ -37,6 +37,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
+import com.google.firebase.storage.StorageException;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
@@ -68,6 +69,9 @@ public class SchoolProfileActivity extends AppCompatActivity implements View.OnC
 
     SchoolInfo schoolInfo = new SchoolInfo();
 
+    boolean result ;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,9 +86,6 @@ public class SchoolProfileActivity extends AppCompatActivity implements View.OnC
         // upload
         mStorageRef = FirebaseStorage.getInstance().getReference();
 
-        // download
-        storage = FirebaseStorage.getInstance();
-        storageRef = storage.getReference();
 
         findViewById(R.id.add_new_btn_school).setOnClickListener(this);
 
@@ -127,42 +128,111 @@ public class SchoolProfileActivity extends AppCompatActivity implements View.OnC
         Email_View.setText(email);
         Name_View.setText(name);
 
+        schoolInfo.ImageProfileID = "image/"+ name.toLowerCase()
+                .replaceAll("'","").replaceAll(" ","_")+"_profile_img";
 
-        if(!image_str.equals("null_value")){
+
+        if(image_str == null) {
+//            if(CheckIfResourceIsExists()){
+//                getImageFromFirebase();
+//            }else{
+//                Drawable myDrawable = getResources().getDrawable(R.drawable.school_icon);
+//                profile_img.setImageDrawable(myDrawable);
+//            }
+            getImageFromFirebase();
+
+
+        }else {
             Bitmap image_view_rec = SchoolSessionManager.decodeBase64(image_str);
             profile_img.setImageBitmap(image_view_rec);
             if(filePath_str != null){
                 uploadImage(Uri.parse(filePath_str));
             }
-
-
-        }else {
-
-            storageRef.child("image/"+ name.toLowerCase()
-                    .replaceAll("'","").replaceAll(" ","_")+"_profile_img.png")
-                    .getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                @Override
-                public void onSuccess(Uri uri) {
-                    // Got the download URL for 'users/me/profile.png'
-                    Bitmap image = getImageBitmap(uri.toString());
-                    profile_img.setImageBitmap(image);
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception exception) {
-                    // Handle any errors
-                    Drawable myDrawable = getResources().getDrawable(R.drawable.school_icon);
-                    profile_img.setImageDrawable(myDrawable);
-                }
-            });
-
         }
 
 
 
+    }
+
+    private void getImageFromFirebase(){
+        // [START download_to_memory]
+        StorageReference islandRef = storageRef.child(schoolInfo.ImageProfileID);
+
+        final long ONE_MEGABYTE = 1024 * 1024;
+        islandRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+            @Override
+            public void onSuccess(byte[] bytes) {
+                // Data for "images/island.jpg" is returns, use this as needed
+                Bitmap image = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                profile_img.setImageBitmap(image);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle any errors
+                Drawable myDrawable = getResources().getDrawable(R.drawable.profile_edit_w);
+                profile_img.setImageDrawable(myDrawable);
+            }
+        });
+        // [END download_to_memory]
 
 
     }
+
+    private boolean CheckIfResourceIsExists(){
+
+        try {
+
+            final StorageReference storageReference = FirebaseStorage.getInstance().getReference().child(schoolInfo.ImageProfileID);
+            storageReference.getDownloadUrl()
+                    .addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @SuppressLint("LongLogTag")
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            result = true;
+                            Log.e("Check If Resource Is Exists State : ", String.valueOf(result));
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @SuppressLint("LongLogTag")
+                        @Override
+                        public void onFailure(@NonNull Exception exception) {
+                            result = false;
+                            Log.e("Check If Resource Is Exists State : ", String.valueOf(result));
+
+                        }
+                    });
+            /*
+            StorageReference islandRef = storageRef.child(schoolInfo.ImageProfileID);
+
+            final long ONE_MEGABYTE = 1024 * 1024;
+            islandRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                @SuppressLint("LongLogTag")
+                @Override
+                public void onSuccess(byte[] bytes) {
+                    // Data for "images/island.jpg" is returns, use this as needed
+                    result = true;
+                    Log.e("Check If Resource Is Exists State : ", String.valueOf(result));
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @SuppressLint("LongLogTag")
+                @Override
+                public void onFailure(@NonNull Exception exception) {
+                    // Handle any errors
+                    result = false;
+                    Log.e("Check If Resource Is Exists State : ", String.valueOf(result));
+                }
+            });
+            // [END download_to_memory]
+
+             */
+
+        } catch (Exception ignore) { }
+
+        return result;
+    }
+
+
     private void uploadImage(Uri image_path){
         if(image_path != null){
             final ProgressDialog progressDialog = new ProgressDialog(this);

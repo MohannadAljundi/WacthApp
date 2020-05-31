@@ -150,7 +150,7 @@ public class SchoolSessionManager {
         user.put(KEY_EMAIL, pref_school.getString(KEY_EMAIL, null));
 
         // user image
-        user.put(KEY_IMAGE,pref_school.getString(KEY_IMAGE,"null_value"));
+        user.put(KEY_IMAGE,pref_school.getString(KEY_IMAGE,null));
 
         //user image file path
         user.put(KEY_FILE_PATH,pref_school.getString(KEY_FILE_PATH,null));

@@ -1,15 +1,14 @@
 package com.example.watch.School;
 
 import android.annotation.SuppressLint;
-import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -20,7 +19,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.preference.PreferenceManager;
 
 import com.example.watch.R;
 import com.example.watch.models.EditAddressDialog;
@@ -31,22 +29,17 @@ import com.example.watch.models.EditPhoneDialog;
 import com.example.watch.models.SchoolSessionManager;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.UUID;
+
 
 
 public class SchoolEditProfileActivity extends AppCompatActivity implements View.OnClickListener
@@ -74,7 +67,10 @@ public class SchoolEditProfileActivity extends AppCompatActivity implements View
     private static final int CAMERA_REQUEST_CODE = 1 ;
     private ImageView profile_image;
 
-    String URL;
+    private StorageReference storageRef;
+
+    boolean result ;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,6 +92,7 @@ public class SchoolEditProfileActivity extends AppCompatActivity implements View
         findViewById(R.id.edit_password_school).setOnClickListener(this);
         findViewById(R.id.edit_phone_school).setOnClickListener(this);
         findViewById(R.id.back_to_home_btn_school).setOnClickListener(this);
+        profile_image = findViewById(R.id.profile_img_edit_school);
 
         firebaseInstance = FirebaseDatabase.getInstance();
         firebaseDatabase = firebaseInstance.getReference("SchoolInfo");
@@ -118,13 +115,10 @@ public class SchoolEditProfileActivity extends AppCompatActivity implements View
 
         ReadNiceNameFromFirebase();
 
-
-
         name_view.setText(schoolInfo.NiceName);
 
+        String image_str = schoolUser.get(SchoolSessionManager.KEY_IMAGE);
 
-
-        profile_image = findViewById(R.id.profile_img_edit_school);
         profile_image.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP_MR1)
             @Override
@@ -133,7 +127,81 @@ public class SchoolEditProfileActivity extends AppCompatActivity implements View
             }
         });
 
+        if(image_str == null) {
+            if(CheckIfResourceIsExists()){
+                getImageFromFirebase();
+            }else{
+                Drawable myDrawable = getResources().getDrawable(R.drawable.profile_edit_w);
+                profile_image.setImageDrawable(myDrawable);
+            }
+
+        }else {
+            Bitmap image_view_rec = SchoolSessionManager.decodeBase64(image_str);
+            profile_image.setImageBitmap(image_view_rec);
+        }
+
+
+
+
     }
+
+
+    private void getImageFromFirebase(){
+        // [START download_to_memory]
+        StorageReference islandRef = storageRef.child(schoolInfo.ImageProfileID);
+
+        final long ONE_MEGABYTE = 1024 * 1024;
+        islandRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+            @Override
+            public void onSuccess(byte[] bytes) {
+                // Data for "images/island.jpg" is returns, use this as needed
+                Bitmap image = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                profile_image.setImageBitmap(image);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle any errors
+                Drawable myDrawable = getResources().getDrawable(R.drawable.profile_edit_w);
+                profile_image.setImageDrawable(myDrawable);
+            }
+        });
+        // [END download_to_memory]
+
+
+    }
+
+    private boolean CheckIfResourceIsExists(){
+
+        try {
+            StorageReference islandRef = storageRef.child(schoolInfo.ImageProfileID);
+
+            final long ONE_MEGABYTE = 1024 * 1024;
+            islandRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                @SuppressLint("LongLogTag")
+                @Override
+                public void onSuccess(byte[] bytes) {
+                    // Data for "images/island.jpg" is returns, use this as needed
+                    result = true;
+                    Log.d("Check If Resource Is Exists State : ", String.valueOf(result));
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @SuppressLint("LongLogTag")
+                @Override
+                public void onFailure(@NonNull Exception exception) {
+                    // Handle any errors
+                    result = false;
+                    Log.e("Check If Resource Is Exists State : ", String.valueOf(result));
+
+                }
+            });
+            // [END download_to_memory]
+
+        } catch (Exception ignore) { }
+
+        return result;
+    }
+
 
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP_MR1)
