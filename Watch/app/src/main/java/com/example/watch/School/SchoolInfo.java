@@ -12,6 +12,8 @@ public class SchoolInfo {
     public String Address ;
     public boolean Locked ;
     public String ImageProfileID;
+    public boolean ImageState = false ;
+    public String ImageBitmapStringValue;
 
 
 

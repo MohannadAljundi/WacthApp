@@ -61,15 +61,15 @@ public class SchoolProfileActivity extends AppCompatActivity implements View.OnC
     private ImageView profile_img;
 
     public String Email_Get , Name_Get ;
-    String name , email , image_str , filePath_str;
+    String name , email , filePath_str;
     private StorageReference mStorageRef;
 
-    private FirebaseStorage storage;
+    private FirebaseStorage storage_d;
     private StorageReference storageRef;
+    private  StorageReference islandRef;
 
     SchoolInfo schoolInfo = new SchoolInfo();
 
-    boolean result ;
 
 
 
@@ -85,6 +85,11 @@ public class SchoolProfileActivity extends AppCompatActivity implements View.OnC
 
         // upload
         mStorageRef = FirebaseStorage.getInstance().getReference();
+
+        // download
+        storage_d = FirebaseStorage.getInstance();
+        // Create a storage reference from our app
+        storageRef = storage_d.getReference();
 
 
         findViewById(R.id.add_new_btn_school).setOnClickListener(this);
@@ -122,7 +127,7 @@ public class SchoolProfileActivity extends AppCompatActivity implements View.OnC
 
         name  = schoolUser.get(SchoolSessionManager.KEY_NAME);
         email = schoolUser.get(SchoolSessionManager.KEY_EMAIL);
-        image_str = schoolUser.get(SchoolSessionManager.KEY_IMAGE);
+        schoolInfo.ImageBitmapStringValue = schoolUser.get(SchoolSessionManager.KEY_IMAGE);
         filePath_str = schoolUser.get(SchoolSessionManager.KEY_FILE_PATH);
 
         Email_View.setText(email);
@@ -132,31 +137,26 @@ public class SchoolProfileActivity extends AppCompatActivity implements View.OnC
                 .replaceAll("'","").replaceAll(" ","_")+"_profile_img";
 
 
-        if(image_str == null) {
-//            if(CheckIfResourceIsExists()){
-//                getImageFromFirebase();
-//            }else{
-//                Drawable myDrawable = getResources().getDrawable(R.drawable.school_icon);
-//                profile_img.setImageDrawable(myDrawable);
-//            }
-            getImageFromFirebase();
-
+        if(schoolInfo.ImageBitmapStringValue == null) {
+            boolean ImageState_l = getImageFromFirebase();
+            if(!ImageState_l){
+                Drawable myDrawable = getResources().getDrawable(R.drawable.school_icon);
+                profile_img.setImageDrawable(myDrawable);
+            }
 
         }else {
-            Bitmap image_view_rec = SchoolSessionManager.decodeBase64(image_str);
+            Bitmap image_view_rec = SchoolSessionManager.decodeBase64(schoolInfo.ImageBitmapStringValue);
             profile_img.setImageBitmap(image_view_rec);
-            if(filePath_str != null){
-                uploadImage(Uri.parse(filePath_str));
-            }
+            Log.d("Image_str State : ",schoolInfo.ImageBitmapStringValue);
+//            if(filePath_str != null && !schoolInfo.ImageState){
+//                uploadImage(Uri.parse(filePath_str));
+//            }
         }
-
-
-
     }
 
-    private void getImageFromFirebase(){
+    private boolean getImageFromFirebase(){
         // [START download_to_memory]
-        StorageReference islandRef = storageRef.child(schoolInfo.ImageProfileID);
+        islandRef = storageRef.child(schoolInfo.ImageProfileID);
 
         final long ONE_MEGABYTE = 1024 * 1024;
         islandRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
@@ -164,72 +164,20 @@ public class SchoolProfileActivity extends AppCompatActivity implements View.OnC
             public void onSuccess(byte[] bytes) {
                 // Data for "images/island.jpg" is returns, use this as needed
                 Bitmap image = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                schoolInfo.ImageBitmapStringValue = image.toString();
                 profile_img.setImageBitmap(image);
+                schoolInfo.ImageState = true;
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception exception) {
                 // Handle any errors
-                Drawable myDrawable = getResources().getDrawable(R.drawable.profile_edit_w);
-                profile_img.setImageDrawable(myDrawable);
+                schoolInfo.ImageState = false;
+                Log.e("image_str Value State", String.valueOf(schoolInfo.ImageState));
             }
         });
+        return schoolInfo.ImageState;
         // [END download_to_memory]
-
-
-    }
-
-    private boolean CheckIfResourceIsExists(){
-
-        try {
-
-            final StorageReference storageReference = FirebaseStorage.getInstance().getReference().child(schoolInfo.ImageProfileID);
-            storageReference.getDownloadUrl()
-                    .addOnSuccessListener(new OnSuccessListener<Uri>() {
-                        @SuppressLint("LongLogTag")
-                        @Override
-                        public void onSuccess(Uri uri) {
-                            result = true;
-                            Log.e("Check If Resource Is Exists State : ", String.valueOf(result));
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @SuppressLint("LongLogTag")
-                        @Override
-                        public void onFailure(@NonNull Exception exception) {
-                            result = false;
-                            Log.e("Check If Resource Is Exists State : ", String.valueOf(result));
-
-                        }
-                    });
-            /*
-            StorageReference islandRef = storageRef.child(schoolInfo.ImageProfileID);
-
-            final long ONE_MEGABYTE = 1024 * 1024;
-            islandRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
-                @SuppressLint("LongLogTag")
-                @Override
-                public void onSuccess(byte[] bytes) {
-                    // Data for "images/island.jpg" is returns, use this as needed
-                    result = true;
-                    Log.e("Check If Resource Is Exists State : ", String.valueOf(result));
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @SuppressLint("LongLogTag")
-                @Override
-                public void onFailure(@NonNull Exception exception) {
-                    // Handle any errors
-                    result = false;
-                    Log.e("Check If Resource Is Exists State : ", String.valueOf(result));
-                }
-            });
-            // [END download_to_memory]
-
-             */
-
-        } catch (Exception ignore) { }
-
-        return result;
     }
 
 

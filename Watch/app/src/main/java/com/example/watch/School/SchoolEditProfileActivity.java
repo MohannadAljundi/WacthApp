@@ -69,7 +69,9 @@ public class SchoolEditProfileActivity extends AppCompatActivity implements View
 
     private StorageReference storageRef;
 
-    boolean result ;
+    private FirebaseStorage storage_d;
+    private StorageReference storageRef_d;
+    private  StorageReference islandRef;
 
 
     @Override
@@ -99,6 +101,11 @@ public class SchoolEditProfileActivity extends AppCompatActivity implements View
         UserID = firebaseDatabase.push().getKey();
         mStorageRef = FirebaseStorage.getInstance().getReference();
 
+        // download
+        storage_d = FirebaseStorage.getInstance();
+        // Create a storage reference from our app
+        storageRef = storage_d.getReference();
+
         session.checkLogin();
 
         HashMap<String,String > schoolUser = session.getUserDetails();
@@ -117,7 +124,10 @@ public class SchoolEditProfileActivity extends AppCompatActivity implements View
 
         name_view.setText(schoolInfo.NiceName);
 
-        String image_str = schoolUser.get(SchoolSessionManager.KEY_IMAGE);
+        schoolInfo.ImageBitmapStringValue = schoolUser.get(SchoolSessionManager.KEY_IMAGE);
+
+        schoolInfo.ImageProfileID = "image/"+ name.toLowerCase()
+                .replaceAll("'","").replaceAll(" ","_")+"_profile_img";
 
         profile_image.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP_MR1)
@@ -127,17 +137,17 @@ public class SchoolEditProfileActivity extends AppCompatActivity implements View
             }
         });
 
-        if(image_str == null) {
-            if(CheckIfResourceIsExists()){
-                getImageFromFirebase();
-            }else{
+        if(schoolInfo.ImageBitmapStringValue == null) {
+            boolean ImageState_l = getImageFromFirebase();
+            if(!ImageState_l){
                 Drawable myDrawable = getResources().getDrawable(R.drawable.profile_edit_w);
                 profile_image.setImageDrawable(myDrawable);
             }
-
         }else {
-            Bitmap image_view_rec = SchoolSessionManager.decodeBase64(image_str);
+            Bitmap image_view_rec = SchoolSessionManager.decodeBase64(schoolInfo.ImageBitmapStringValue);
             profile_image.setImageBitmap(image_view_rec);
+            Log.d("Image_str State : ",schoolInfo.ImageBitmapStringValue);
+
         }
 
 
@@ -145,10 +155,9 @@ public class SchoolEditProfileActivity extends AppCompatActivity implements View
 
     }
 
-
-    private void getImageFromFirebase(){
+    private boolean getImageFromFirebase(){
         // [START download_to_memory]
-        StorageReference islandRef = storageRef.child(schoolInfo.ImageProfileID);
+        islandRef = storageRef.child(schoolInfo.ImageProfileID);
 
         final long ONE_MEGABYTE = 1024 * 1024;
         islandRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
@@ -156,51 +165,23 @@ public class SchoolEditProfileActivity extends AppCompatActivity implements View
             public void onSuccess(byte[] bytes) {
                 // Data for "images/island.jpg" is returns, use this as needed
                 Bitmap image = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                schoolInfo.ImageBitmapStringValue = image.toString();
                 profile_image.setImageBitmap(image);
+                schoolInfo.ImageState = true;
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception exception) {
                 // Handle any errors
-                Drawable myDrawable = getResources().getDrawable(R.drawable.profile_edit_w);
-                profile_image.setImageDrawable(myDrawable);
+                schoolInfo.ImageState = false;
+                Log.e("image_str Value State", String.valueOf(schoolInfo.ImageState));
             }
         });
+        return schoolInfo.ImageState;
         // [END download_to_memory]
-
-
     }
 
-    private boolean CheckIfResourceIsExists(){
 
-        try {
-            StorageReference islandRef = storageRef.child(schoolInfo.ImageProfileID);
-
-            final long ONE_MEGABYTE = 1024 * 1024;
-            islandRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
-                @SuppressLint("LongLogTag")
-                @Override
-                public void onSuccess(byte[] bytes) {
-                    // Data for "images/island.jpg" is returns, use this as needed
-                    result = true;
-                    Log.d("Check If Resource Is Exists State : ", String.valueOf(result));
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @SuppressLint("LongLogTag")
-                @Override
-                public void onFailure(@NonNull Exception exception) {
-                    // Handle any errors
-                    result = false;
-                    Log.e("Check If Resource Is Exists State : ", String.valueOf(result));
-
-                }
-            });
-            // [END download_to_memory]
-
-        } catch (Exception ignore) { }
-
-        return result;
-    }
 
 
 
