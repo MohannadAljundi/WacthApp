@@ -1,6 +1,7 @@
 package com.example.watch.School;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -35,7 +36,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -182,9 +185,6 @@ public class SchoolEditProfileActivity extends AppCompatActivity implements View
     }
 
 
-
-
-
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP_MR1)
     private void chooseImage(){
         Intent intent = new Intent();
@@ -207,10 +207,9 @@ public class SchoolEditProfileActivity extends AppCompatActivity implements View
 
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),filePath);
                 profile_image.setImageBitmap(bitmap);
-
                 String image_temp = SchoolSessionManager.encodeTobase64(bitmap);
                 session.createImageSession(image_temp,filePath.toString());
-
+                uploadImage(filePath);
             }
             catch (IOException ex){
                 ex.printStackTrace();
@@ -222,7 +221,6 @@ public class SchoolEditProfileActivity extends AppCompatActivity implements View
 
 
     void ReadNiceNameFromFirebase(){
-
         firebaseDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -256,6 +254,40 @@ public class SchoolEditProfileActivity extends AppCompatActivity implements View
             }
         });
     }
+
+    private void uploadImage(Uri image_path){
+        if(image_path != null){
+            final ProgressDialog progressDialog = new ProgressDialog(this);
+            progressDialog.setTitle("Upload Image ...");
+            progressDialog.show();
+
+            StorageReference ref = mStorageRef.child("image/"+ name.toLowerCase()
+                    .replaceAll("'","").replaceAll(" ","_")+"_profile_img");
+            ref.putFile(image_path).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    progressDialog.dismiss();
+                    Toast.makeText(getApplicationContext(),"Image Uploaded",Toast.LENGTH_LONG).show();
+
+                }
+            })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            progressDialog.dismiss();
+                            Toast.makeText(getApplicationContext(),"Image not Uploaded",Toast.LENGTH_LONG).show();
+                        }
+                    })
+                    .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                            double progress = (100.0 * taskSnapshot.getBytesTransferred()/taskSnapshot.getTotalByteCount() );
+                            progressDialog.setMessage("Uploaded " + (int)progress + "%");
+                        }
+                    });
+        }
+    }
+
 
 
 

@@ -148,7 +148,7 @@ public class SchoolProfileActivity extends AppCompatActivity implements View.OnC
             Bitmap image_view_rec = SchoolSessionManager.decodeBase64(schoolInfo.ImageBitmapStringValue);
             profile_img.setImageBitmap(image_view_rec);
             Log.d("Image_str State : ",schoolInfo.ImageBitmapStringValue);
-//            if(filePath_str != null && !schoolInfo.ImageState){
+//            if(filePath_str != null){
 //                uploadImage(Uri.parse(filePath_str));
 //            }
         }
