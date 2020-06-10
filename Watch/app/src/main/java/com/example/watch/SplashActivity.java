@@ -34,8 +34,7 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         permissionGranted = false;
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         final Handler handler = new Handler();
@@ -49,7 +48,7 @@ public class SplashActivity extends AppCompatActivity {
         Thread background = new Thread(){
             public void run(){
                 try{
-                    sleep(4000);
+                    sleep(10);
                 }catch (InterruptedException e){
                     Toast.makeText(getApplicationContext(),"Try again, location permission denied",
                             Toast.LENGTH_SHORT).show();

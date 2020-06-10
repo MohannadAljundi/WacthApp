@@ -120,9 +120,6 @@ public class SchoolEditProfileActivity extends AppCompatActivity implements View
         email_headLine.setText(email);
 
 
-        Email_Get_2  = getIntent().getStringExtra("email_2");
-        Name_Get_2 = getIntent().getStringExtra("name_2");
-
         ReadNiceNameFromFirebase();
 
         name_view.setText(schoolInfo.NiceName);
@@ -152,8 +149,6 @@ public class SchoolEditProfileActivity extends AppCompatActivity implements View
             Log.d("Image_str State : ",schoolInfo.ImageBitmapStringValue);
 
         }
-
-
 
 
     }
@@ -192,33 +187,6 @@ public class SchoolEditProfileActivity extends AppCompatActivity implements View
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(Intent.createChooser(intent,"Select Picture"), PICK_IMAGE_REQUEST);
     }
-
-
-
-
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK
-                && data != null && data.getData() != null){
-            filePath = data.getData();
-            try {
-
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),filePath);
-                profile_image.setImageBitmap(bitmap);
-                String image_temp = SchoolSessionManager.encodeTobase64(bitmap);
-                session.createImageSession(image_temp,filePath.toString());
-                uploadImage(filePath);
-            }
-            catch (IOException ex){
-                ex.printStackTrace();
-            }
-
-        }
-
-    }
-
 
     void ReadNiceNameFromFirebase(){
         firebaseDatabase.addValueEventListener(new ValueEventListener() {
@@ -287,6 +255,33 @@ public class SchoolEditProfileActivity extends AppCompatActivity implements View
                     });
         }
     }
+
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK
+                && data != null && data.getData() != null){
+            filePath = data.getData();
+            try {
+
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),filePath);
+                profile_image.setImageBitmap(bitmap);
+                String image_temp = SchoolSessionManager.encodeTobase64(bitmap);
+                session.createImageSession(image_temp,filePath.toString());
+                uploadImage(filePath);
+            }
+            catch (IOException ex){
+                ex.printStackTrace();
+            }
+
+        }
+
+    }
+
+
+
 
 
 

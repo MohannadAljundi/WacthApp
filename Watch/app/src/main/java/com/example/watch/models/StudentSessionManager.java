@@ -3,10 +3,15 @@ package com.example.watch.models;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
+import android.util.Log;
 
 import com.example.watch.MainActivity;
 import com.example.watch.Student.StudenLoginActivity;
 
+import java.io.ByteArrayOutputStream;
 import java.util.HashMap;
 
 public class StudentSessionManager {
@@ -34,6 +39,12 @@ public class StudentSessionManager {
 
     // Email address (make variable public to access from outside)
     public static final String KEY_EMAIL = "email_student";
+
+    // Profile Image (make variable public to access from outside)
+    public static  final String KEY_IMAGE = "Image_school";
+
+    // Image File Path (make variable public to access from outside)
+    public static final String KEY_FILE_PATH = "filePath_school";
 
 
     // Constructor
@@ -63,6 +74,23 @@ public class StudentSessionManager {
     }
 
     /**
+     * Create Image session
+     * */
+    public void createImageSession(String image ,String filePath){
+        // Storing login value as TRUE
+        editor_student.putBoolean(IS_LOGIN, true);
+
+        // Storing image value in pref
+        editor_student.putString(KEY_IMAGE, image);
+
+        // Storing filePath value in pref
+        editor_student.putString(KEY_FILE_PATH,filePath);
+
+        // commit changes
+        editor_student.commit();
+    }
+
+    /**
      * Check login method wil check user login status
      * If false it will redirect user to login page
      * Else won't do anything
@@ -85,6 +113,25 @@ public class StudentSessionManager {
     }
 
 
+    // method for bitmap to base64
+    public static String encodeTobase64(Bitmap image) {
+        Bitmap immage = image;
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        immage.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        byte[] b = baos.toByteArray();
+        String imageEncoded = Base64.encodeToString(b, Base64.DEFAULT);
+
+        Log.d("Image Log:", imageEncoded);
+        return imageEncoded;
+    }
+
+    // method for base64 to bitmap
+    public static Bitmap decodeBase64(String input) {
+        byte[] decodedByte = Base64.decode(input, 0);
+        return BitmapFactory
+                .decodeByteArray(decodedByte, 0, decodedByte.length);
+    }
+
 
     /**
      * Get stored session data
@@ -96,6 +143,12 @@ public class StudentSessionManager {
 
         // user email id
         user.put(KEY_EMAIL, pref_student.getString(KEY_EMAIL, null));
+
+        // user image
+        user.put(KEY_IMAGE,pref_student.getString(KEY_IMAGE,null));
+
+        //user image file path
+        user.put(KEY_FILE_PATH,pref_student.getString(KEY_FILE_PATH,null));
 
         // return user
         return user;

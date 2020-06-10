@@ -16,10 +16,12 @@ public class StudentInfo {
     public Bitmap StudentQR;
     public String StudentQR_str;
     public String Content;
-    public List<Bitmap> StudentQR_List;
     public String Username;
     public String Password;
     public String Address;
+    public String ImageProfileID;
+    public String ImageBitmapStringValue;
+    public boolean ImageState = false;
 
     public StudentInfo(){
 

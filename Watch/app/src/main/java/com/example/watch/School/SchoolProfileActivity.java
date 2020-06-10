@@ -71,8 +71,6 @@ public class SchoolProfileActivity extends AppCompatActivity implements View.OnC
     SchoolInfo schoolInfo = new SchoolInfo();
 
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -148,9 +146,6 @@ public class SchoolProfileActivity extends AppCompatActivity implements View.OnC
             Bitmap image_view_rec = SchoolSessionManager.decodeBase64(schoolInfo.ImageBitmapStringValue);
             profile_img.setImageBitmap(image_view_rec);
             Log.d("Image_str State : ",schoolInfo.ImageBitmapStringValue);
-//            if(filePath_str != null){
-//                uploadImage(Uri.parse(filePath_str));
-//            }
         }
     }
 
@@ -258,15 +253,6 @@ public class SchoolProfileActivity extends AppCompatActivity implements View.OnC
     }
 
 
-
-    @SuppressLint("SetTextI18n")
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-         Email_Get = getIntent().getStringExtra("Email_Value");
-         Name_Get = getIntent().getStringExtra("Name_Str_Value");
-    }
 
     @Override
     public void onClick(View v) {
