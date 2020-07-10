@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.widget.Toast;
 
+import com.example.watch.Bluetooth.BluetoothActivity;
 import com.example.watch.Test.AddingInfoActivity;
 
 public class Splash extends AppCompatActivity {
@@ -31,7 +32,7 @@ public class Splash extends AppCompatActivity {
             @Override
             public void run() {
                 /* Create an Intent that will start the Menu-Activity. */
-                Intent mainIntent = new Intent(Splash.this, MainActivity.class);
+                Intent mainIntent = new Intent(Splash.this, BluetoothActivity.class);
                 Splash.this.startActivity(mainIntent);
                 Splash.this.finish();
             }

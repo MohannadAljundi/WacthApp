@@ -90,14 +90,6 @@ public class SchoolLoginActivity extends AppCompatActivity implements View.OnCli
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        loadingDialoge.StartLoadingDialog();
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                loadingDialoge.DismissDialog();
-            }
-        },6000);
     }
 
 
